@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  HR
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+}
+
+model About {
+  id      String @id @default(cuid())
+  heading String
+  content String
+  imageId String?
+  image   Asset? @relation("AboutImage", fields: [imageId], references: [id])
+  enabled Boolean @default(true)
+}
+
+model Service {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  enabled     Boolean @default(true)
+}
+
+model Project {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  imageId     String?
+  image       Asset? @relation("ProjectImage", fields: [imageId], references: [id])
+  enabled     Boolean @default(true)
+}
+
+model News {
+  id       String @id @default(cuid())
+  title    String
+  excerpt  String
+  content  String
+  imageId  String?
+  image    Asset? @relation("NewsImage", fields: [imageId], references: [id])
+  date     DateTime @default(now())
+  enabled  Boolean @default(true)
+}
+
+model Testimonial {
+  id     String @id @default(cuid())
+  author String
+  role   String?
+  quote  String
+  avatarId String?
+  avatar  Asset? @relation("TestimonialAvatar", fields: [avatarId], references: [id])
+  enabled Boolean @default(true)
+}
+
+model Job {
+  id          String @id @default(cuid())
+  title       String
+  location    String?
+  type        String?
+  description String
+  enabled     Boolean @default(true)
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  heading   String?
+  content   String?
+  imageId   String?
+  image     Asset?   @relation("SectionImage", fields: [imageId], references: [id])
+  enabled   Boolean  @default(true)
+  order     Int?
+}
+
+model Asset {
+  id        String   @id @default(cuid())
+  filename  String
+  mime      String
+  data      Bytes
+  createdAt DateTime @default(now())
+
+  abouts       About[]       @relation("AboutImage")
+  projects     Project[]     @relation("ProjectImage")
+  newsItems    News[]        @relation("NewsImage")
+  testimonials Testimonial[] @relation("TestimonialAvatar")
+  sections     Section[]     @relation("SectionImage")
+}

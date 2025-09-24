@@ -65,6 +65,12 @@ class MemoryDB {
     if (this.sections.length === 0) {
       this.sections.push(
         { id: uid(), key: 'hero', heading: 'Building clear, resilient products for modern companies', content: 'We partner with teams to design, build, and evolve software that ships value fast—without the clutter.', image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80', enabled: true, order: 1 },
+        { id: uid(), key: 'flowchart', heading: 'Capabilities', content: JSON.stringify([
+          { icon: 'target', label: 'Strategy', desc: 'Crisp systems that scale.' },
+          { icon: 'palette', label: 'Design', desc: 'Crisp systems that scale.' },
+          { icon: 'cpu', label: 'Engineering', desc: 'Crisp systems that scale.' },
+          { icon: 'bar-chart-3', label: 'Analytics', desc: 'Crisp systems that scale.' },
+        ]), enabled: true, order: 1 },
         { id: uid(), key: 'who', heading: 'Who We Are', content: 'A senior, cross‑functional team with a bias for clarity. We operate with lean process, bold typography, and a focus on measurable outcomes.', image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80', enabled: true, order: 2 },
         { id: uid(), key: 'services', heading: 'What We Do', content: null as any, image: null as any, enabled: true, order: 3 },
       );

@@ -71,18 +71,31 @@ export default function Index() {
           <div className="relative">
             <div className="aspect-square rounded-3xl glass-card border border-primary/20 p-8 flex items-center justify-center">
               <div className="grid grid-cols-2 gap-6 w-full">
-                {[
-                  { icon: Target, label: "Strategy" },
-                  { icon: Palette, label: "Design" },
-                  { icon: Cpu, label: "Engineering" },
-                  { icon: BarChart3, label: "Analytics" },
-                ].map((i, idx) => (
-                  <div key={idx} className="rounded-xl border border-primary/10 p-6 bg-transparent">
-                    <i.icon className="h-6 w-6 text-primary/100" />
-                    <div className="mt-4 font-semibold text-primary/100">{i.label}</div>
-                    <div className="text-sm text-primary/80">Crisp systems that scale.</div>
-                  </div>
-                ))}
+                {(() => {
+                  const iconMap: Record<string, any> = { 'target': Target, 'palette': Palette, 'cpu': Cpu, 'bar-chart-3': BarChart3 };
+                  let items: any[] = [];
+                  try {
+                    items = sections.flowchart?.content ? JSON.parse(sections.flowchart.content) : [];
+                  } catch { items = []; }
+                  if (!Array.isArray(items) || items.length === 0) {
+                    items = [
+                      { icon: 'target', label: 'Strategy', desc: 'Crisp systems that scale.' },
+                      { icon: 'palette', label: 'Design', desc: 'Crisp systems that scale.' },
+                      { icon: 'cpu', label: 'Engineering', desc: 'Crisp systems that scale.' },
+                      { icon: 'bar-chart-3', label: 'Analytics', desc: 'Crisp systems that scale.' },
+                    ];
+                  }
+                  return items.map((i, idx) => {
+                    const Icon = iconMap[i.icon] || Target;
+                    return (
+                      <div key={idx} className="rounded-xl border border-primary/10 p-6 bg-transparent">
+                        <Icon className="h-6 w-6 text-primary/100" />
+                        <div className="mt-4 font-semibold text-primary/100">{i.label}</div>
+                        <div className="text-sm text-primary/80">{i.desc}</div>
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             </div>
           </div>

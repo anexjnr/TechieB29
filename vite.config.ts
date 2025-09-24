@@ -37,8 +37,9 @@ function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
     apply: "serve",
-    configureServer(server) {
-      const app = createServer();
+    async configureServer(server) {
+      const mod = await import("./server/index.ts");
+      const app = mod.createServer();
       server.middlewares.use(app);
     },
   };

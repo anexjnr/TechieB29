@@ -17,23 +17,23 @@
     --foreground: 0 0% 96%; /* off-white */
 
     --card: 268 50% 18%;
-    --card-foreground: 269 100% 85%;
+    --card-foreground: 0 0% 96%;
 
     --popover: 268 50% 18%;
-    --popover-foreground: 269 100% 85%;
+    --popover-foreground: 0 0% 96%;
 
-    /* primary uses the light purple token */
+    /* primary used for backgrounds; keep purple. Text should be off-white */
     --primary: 269 100% 85%;
-    --primary-foreground: 268 50% 18%;
+    --primary-foreground: 0 0% 96%;
 
     --secondary: 268 40% 30%;
-    --secondary-foreground: 269 100% 85%;
+    --secondary-foreground: 0 0% 96%;
 
     --muted: 268 40% 28%;
-    --muted-foreground: 269 100% 85%;
+    --muted-foreground: 0 0% 96%;
 
     --accent: 269 100% 85%;
-    --accent-foreground: 268 50% 18%;
+    --accent-foreground: 0 0% 96%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -46,15 +46,15 @@
 
     --sidebar-background: 268 42% 20%;
 
-    --sidebar-foreground: 269 100% 85%;
+    --sidebar-foreground: 0 0% 96%;
 
     --sidebar-primary: 269 100% 85%;
 
-    --sidebar-primary-foreground: 268 50% 18%;
+    --sidebar-primary-foreground: 0 0% 96%;
 
     --sidebar-accent: 269 100% 85%;
 
-    --sidebar-accent-foreground: 268 50% 18%;
+    --sidebar-accent-foreground: 0 0% 96%;
 
     --sidebar-border: 268 40% 22%;
 
@@ -98,6 +98,16 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+}
+
+@layer utilities {
+  .text-primary { color: hsl(var(--foreground)) !important; }
+  .text-primary\/100 { color: hsl(var(--foreground)) !important; }
+  .text-primary\/95 { color: hsl(var(--foreground) / 0.95) !important; }
+  .text-primary\/90 { color: hsl(var(--foreground) / 0.9) !important; }
+  .text-primary\/85 { color: hsl(var(--foreground) / 0.85) !important; }
+  .text-primary\/80 { color: hsl(var(--foreground) / 0.8) !important; }
+  .hover\:text-primary:hover { color: hsl(var(--foreground)) !important; }
 }
 
 @layer base {

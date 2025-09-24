@@ -101,13 +101,27 @@
 }
 
 @layer utilities {
-  .text-primary { color: hsl(var(--foreground)) !important; }
-  .text-primary\/100 { color: hsl(var(--foreground)) !important; }
-  .text-primary\/95 { color: hsl(var(--foreground) / 0.95) !important; }
-  .text-primary\/90 { color: hsl(var(--foreground) / 0.9) !important; }
-  .text-primary\/85 { color: hsl(var(--foreground) / 0.85) !important; }
-  .text-primary\/80 { color: hsl(var(--foreground) / 0.8) !important; }
-  .hover\:text-primary:hover { color: hsl(var(--foreground)) !important; }
+  .text-primary {
+    color: hsl(var(--foreground)) !important;
+  }
+  .text-primary\/100 {
+    color: hsl(var(--foreground)) !important;
+  }
+  .text-primary\/95 {
+    color: hsl(var(--foreground) / 0.95) !important;
+  }
+  .text-primary\/90 {
+    color: hsl(var(--foreground) / 0.9) !important;
+  }
+  .text-primary\/85 {
+    color: hsl(var(--foreground) / 0.85) !important;
+  }
+  .text-primary\/80 {
+    color: hsl(var(--foreground) / 0.8) !important;
+  }
+  .hover\:text-primary:hover {
+    color: hsl(var(--foreground)) !important;
+  }
 }
 
 @layer base {
@@ -129,14 +143,28 @@
     background: linear-gradient(180deg, #7c3aed 0%, #a78bfa 100%);
     background-attachment: fixed;
     background-size: cover;
-    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family:
+      "Poppins",
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      Helvetica,
+      Arial,
+      "Apple Color Emoji",
+      "Segoe UI Emoji";
   }
 
   /* Glass card utility */
   .glass-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 6px 18px rgba(21,12,58,0.12);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.02)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 6px 18px rgba(21, 12, 58, 0.12);
     backdrop-filter: blur(8px);
   }
 }

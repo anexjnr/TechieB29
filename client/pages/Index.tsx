@@ -10,7 +10,7 @@ export async function loader() {
       fetch("/api/testimonials").then((r) => r.json()).catch(() => []),
     ]);
     const sectionsMap: Record<string, any> = {};
-    if (Array.isArray(s)) s.forEach((it: any) => { if (it && it.key) sectionsMap[it.key] = it; });
+    if (Array.isArray(s)) s.filter((it:any)=> it?.enabled !== false).forEach((it: any) => { if (it && it.key) sectionsMap[it.key] = it; });
 
     const newsRaw = Array.isArray(n) ? n.filter((x: any) => x?.enabled !== false).slice(0, 3) : [];
     const news = newsRaw.length ? newsRaw : [

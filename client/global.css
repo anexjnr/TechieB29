@@ -14,26 +14,26 @@
   :root {
     /* Brighter purple background + light purple foreground */
     --background: 268 60% 20%; /* used as base if needed */
-    --foreground: 269 100% 85%; /* light purple #d8b4ff */
+    --foreground: 0 0% 96%; /* off-white */
 
     --card: 268 50% 18%;
-    --card-foreground: 269 100% 85%;
+    --card-foreground: 0 0% 96%;
 
     --popover: 268 50% 18%;
-    --popover-foreground: 269 100% 85%;
+    --popover-foreground: 0 0% 96%;
 
-    /* primary uses the light purple token */
+    /* primary used for backgrounds; keep purple. Text should be off-white */
     --primary: 269 100% 85%;
-    --primary-foreground: 268 50% 18%;
+    --primary-foreground: 0 0% 96%;
 
     --secondary: 268 40% 30%;
-    --secondary-foreground: 269 100% 85%;
+    --secondary-foreground: 0 0% 96%;
 
     --muted: 268 40% 28%;
-    --muted-foreground: 269 100% 85%;
+    --muted-foreground: 0 0% 96%;
 
     --accent: 269 100% 85%;
-    --accent-foreground: 268 50% 18%;
+    --accent-foreground: 0 0% 96%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -46,15 +46,15 @@
 
     --sidebar-background: 268 42% 20%;
 
-    --sidebar-foreground: 269 100% 85%;
+    --sidebar-foreground: 0 0% 96%;
 
     --sidebar-primary: 269 100% 85%;
 
-    --sidebar-primary-foreground: 268 50% 18%;
+    --sidebar-primary-foreground: 0 0% 96%;
 
     --sidebar-accent: 269 100% 85%;
 
-    --sidebar-accent-foreground: 268 50% 18%;
+    --sidebar-accent-foreground: 0 0% 96%;
 
     --sidebar-border: 268 40% 22%;
 
@@ -100,6 +100,30 @@
   }
 }
 
+@layer utilities {
+  .text-primary {
+    color: hsl(var(--foreground)) !important;
+  }
+  .text-primary\/100 {
+    color: hsl(var(--foreground)) !important;
+  }
+  .text-primary\/95 {
+    color: hsl(var(--foreground) / 0.95) !important;
+  }
+  .text-primary\/90 {
+    color: hsl(var(--foreground) / 0.9) !important;
+  }
+  .text-primary\/85 {
+    color: hsl(var(--foreground) / 0.85) !important;
+  }
+  .text-primary\/80 {
+    color: hsl(var(--foreground) / 0.8) !important;
+  }
+  .hover\:text-primary:hover {
+    color: hsl(var(--foreground)) !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -119,14 +143,28 @@
     background: linear-gradient(180deg, #7c3aed 0%, #a78bfa 100%);
     background-attachment: fixed;
     background-size: cover;
-    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family:
+      "Poppins",
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      Helvetica,
+      Arial,
+      "Apple Color Emoji",
+      "Segoe UI Emoji";
   }
 
   /* Glass card utility */
   .glass-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 6px 18px rgba(21,12,58,0.12);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.02)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 6px 18px rgba(21, 12, 58, 0.12);
     backdrop-filter: blur(8px);
   }
 }

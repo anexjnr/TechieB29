@@ -14,7 +14,7 @@
   :root {
     /* Brighter purple background + light purple foreground */
     --background: 268 60% 20%; /* used as base if needed */
-    --foreground: 269 100% 85%; /* light purple #d8b4ff */
+    --foreground: 0 0% 96%; /* off-white */
 
     --card: 268 50% 18%;
     --card-foreground: 269 100% 85%;

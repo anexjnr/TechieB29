@@ -48,14 +48,15 @@ export default function Index() {
   return (
     <div>
       {/* Hero */}
+      {sections.hero ? (
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
-              {sections.hero?.heading || 'Building clear, resilient products for modern companies'}
+              {sections.hero?.heading}
             </h1>
             <p className="mt-6 text-lg text-foreground/90 max-w-xl">
-              {sections.hero?.content || 'We partner with teams to design, build, and evolve software that ships value fast—without the clutter.'}
+              {sections.hero?.content}
             </p>
             <div className="mt-8 flex items-center gap-4">
               <Link
@@ -87,6 +88,7 @@ export default function Index() {
           </div>
         </div>
       </Section>
+      ) : null}
 
       {/* Who We Are */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.1}>

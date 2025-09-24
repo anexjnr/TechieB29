@@ -60,9 +60,7 @@ router.get('/sections', async (_req, res) => {
     res.json(items);
   } catch (e) {
     console.warn('Prisma sections failed, using memory store', e.message || e);
-    // memoryDb doesn't have sections array, reuse serve array if present
-    // fall back to empty list
-    res.json([]);
+    res.json(memoryDb.sections || []);
   }
 });
 

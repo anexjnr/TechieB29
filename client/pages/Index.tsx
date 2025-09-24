@@ -1,56 +1,49 @@
 import { ArrowRight, Cpu, Palette, Target, BarChart3, Quote } from "lucide-react";
 import Section from "@/components/site/Section";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useLoaderData } from "react-router-dom";
+
+export async function loader() {
+  try {
+    const [s, n, t] = await Promise.all([
+      fetch("/api/sections").then((r) => r.json()).catch(() => []),
+      fetch("/api/news").then((r) => r.json()).catch(() => []),
+      fetch("/api/testimonials").then((r) => r.json()).catch(() => []),
+    ]);
+    const sectionsMap: Record<string, any> = {};
+    if (Array.isArray(s)) s.forEach((it: any) => { if (it && it.key) sectionsMap[it.key] = it; });
+
+    const newsRaw = Array.isArray(n) ? n.filter((x: any) => x?.enabled !== false).slice(0, 3) : [];
+    const news = newsRaw.length ? newsRaw : [
+      { id: 's1', title: 'Q4 Highlights', excerpt: 'Milestones across platform and growth.', image: 'https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80' },
+      { id: 's2', title: 'New Office', excerpt: 'We expanded to Berlin.', image: 'https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80' },
+      { id: 's3', title: 'Open Roles', excerpt: "We're hiring across the stack.", image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80' },
+    ];
+
+    const testiRaw = Array.isArray(t) ? t.filter((x: any) => x?.enabled !== false) : [];
+    const testimonials = testiRaw.length ? testiRaw : [
+      { id: 'tt1', author: 'Alex M.', role: 'CTO, Nimbus', quote: 'They move fast without breaking clarity.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80' },
+      { id: 'tt2', author: 'Priya S.', role: 'VP Eng, Northstar', quote: 'A true partner from strategy to delivery.', avatar: 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80' },
+    ];
+
+    return { sections: sectionsMap, news, testimonials };
+  } catch (e) {
+    return { sections: {}, news: [
+      { id: 's1', title: 'Q4 Highlights', excerpt: 'Milestones across platform and growth.', image: 'https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80' },
+      { id: 's2', title: 'New Office', excerpt: 'We expanded to Berlin.', image: 'https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80' },
+      { id: 's3', title: 'Open Roles', excerpt: "We're hiring across the stack.", image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80' },
+    ], testimonials: [
+      { id: 'tt1', author: 'Alex M.', role: 'CTO, Nimbus', quote: 'They move fast without breaking clarity.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80' },
+      { id: 'tt2', author: 'Priya S.', role: 'VP Eng, Northstar', quote: 'A true partner from strategy to delivery.', avatar: 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80' },
+    ] };
+  }
+}
 
 export default function Index() {
-  const [news, setNews] = useState<any[]>([]);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
-  const [sections, setSections] = useState<Record<string, any>>({});
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const s = await fetch('/api/sections').then(r => r.json());
-        const map: Record<string, any> = {};
-        if (Array.isArray(s)) s.forEach((it: any) => { if (it && it.key) map[it.key] = it; });
-        setSections(map);
-      } catch (e) { console.error(e); }
-
-      try {
-        const n = await fetch('/api/news').then((r) => r.json());
-        const fetchedNews = Array.isArray(n) ? n.filter((x:any)=> x.enabled !== false).slice(0,3) : [];
-        if (fetchedNews.length) setNews(fetchedNews);
-        else {
-          // fallback sample news with external images
-          setNews([
-            { id: 's1', title: 'Q4 Highlights', excerpt: 'Milestones across platform and growth.', image: 'https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80' },
-            { id: 's2', title: 'New Office', excerpt: 'We expanded to Berlin.', image: 'https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80' },
-            { id: 's3', title: 'Open Roles', excerpt: "We're hiring across the stack.", image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80' },
-          ]);
-        }
-      } catch (e) { console.error(e); setNews([
-        { id: 's1', title: 'Q4 Highlights', excerpt: 'Milestones across platform and growth.', image: 'https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80' },
-        { id: 's2', title: 'New Office', excerpt: 'We expanded to Berlin.', image: 'https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80' },
-        { id: 's3', title: 'Open Roles', excerpt: "We're hiring across the stack.", image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80' },
-      ]); }
-
-      try {
-        const t = await fetch('/api/testimonials').then((r) => r.json());
-        const fetchedT = Array.isArray(t) ? t.filter((x:any)=> x.enabled !== false) : [];
-        if (fetchedT.length) setTestimonials(fetchedT);
-        else {
-          setTestimonials([
-            { id: 'tt1', author: 'Alex M.', role: 'CTO, Nimbus', quote: 'They move fast without breaking clarity.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80' },
-            { id: 'tt2', author: 'Priya S.', role: 'VP Eng, Northstar', quote: 'A true partner from strategy to delivery.', avatar: 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80' },
-          ]);
-        }
-      } catch (e) { console.error(e); setTestimonials([
-        { id: 'tt1', author: 'Alex M.', role: 'CTO, Nimbus', quote: 'They move fast without breaking clarity.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80' },
-        { id: 'tt2', author: 'Priya S.', role: 'VP Eng, Northstar', quote: 'A true partner from strategy to delivery.', avatar: 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80' },
-      ]); }
-    })();
-  }, []);
+  const { sections, news, testimonials } = useLoaderData() as {
+    sections: Record<string, any>;
+    news: any[];
+    testimonials: any[];
+  };
 
   return (
     <div>
@@ -58,20 +51,20 @@ export default function Index() {
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-primary/100">
+            <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
               {sections.hero?.heading || 'Building clear, resilient products for modern companies'}
             </h1>
-            <p className="mt-6 text-lg text-primary/90 max-w-xl">
+            <p className="mt-6 text-lg text-foreground/90 max-w-xl">
               {sections.hero?.content || 'We partner with teams to design, build, and evolve software that ships value fast—without the clutter.'}
             </p>
             <div className="mt-8 flex items-center gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-primary/100 shadow-lg"
+                className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg"
               >
                 Start a project <ArrowRight className="ml-3 h-4 w-4" />
               </Link>
-              <Link to="/services" className="text-sm font-semibold text-primary/90 hover:text-primary/100">See services</Link>
+              <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">See services</Link>
             </div>
           </div>
           <div className="relative">
@@ -99,8 +92,8 @@ export default function Index() {
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.1}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-primary">{sections.who?.heading || 'Who We Are'}</h2>
-            <p className="mt-4 text-primary/85 max-w-prose">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">{sections.who?.heading || 'Who We Are'}</h2>
+            <p className="mt-4 text-foreground/85 max-w-prose">
               {sections.who?.content || 'A senior, cross‑functional team with a bias for clarity. We operate with lean process, bold typography, and a focus on measurable outcomes.'}
             </p>
           </div>
@@ -112,7 +105,7 @@ export default function Index() {
 
       {/* What We Do */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.15}>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-primary">What We Do</h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">What We Do</h2>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { icon: Target, title: "Strategy", desc: "From discovery to roadmap, aligning on outcomes." },
@@ -122,8 +115,8 @@ export default function Index() {
           ].map((c, idx) => (
             <div key={idx} className="rounded-2xl border border-primary/20 bg-black/10 p-6">
               <c.icon className="h-6 w-6" />
-              <div className="mt-4 font-semibold text-primary">{c.title}</div>
-              <p className="mt-2 text-sm text-primary/80">{c.desc}</p>
+              <div className="mt-4 font-semibold text-foreground">{c.title}</div>
+              <p className="mt-2 text-sm text-foreground/80">{c.desc}</p>
             </div>
           ))}
         </div>
@@ -155,18 +148,18 @@ export default function Index() {
 
       {/* Testimonials slider (simple auto scroll) */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.25}>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-primary/100">Testimonials</h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
         <div className="mt-8 overflow-hidden">
           <div className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform">
             {testimonials.length ? testimonials.map((t:any) => (
               <figure key={t.id} className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card">
-                <Quote className="h-5 w-5 text-primary/90" />
-                <blockquote className="mt-3 text-primary/100">{t.quote}</blockquote>
-                <figcaption className="mt-4 text-sm text-primary/90">{t.author} {t.role ? `, ${t.role}` : ''}</figcaption>
+                <Quote className="h-5 w-5 text-foreground/90" />
+                <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+                <figcaption className="mt-4 text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ''}</figcaption>
                 {t.avatar ? (typeof t.avatar === 'string' ? <img src={t.avatar} alt="avatar" className="mt-3 h-12 w-12 rounded-full object-cover" /> : (t.avatar.id ? <img src={`/api/assets/${t.avatar.id}`} alt="avatar" className="mt-3 h-12 w-12 rounded-full object-cover" /> : null)) : null}
               </figure>
             )) : (
-              <div className="text-primary/90">No testimonials yet</div>
+              <div className="text-foreground/90">No testimonials yet</div>
             )}
           </div>
         </div>
@@ -175,17 +168,17 @@ export default function Index() {
       {/* News */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.3}>
         <div className="flex items-end justify-between gap-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-primary/100">Latest News</h2>
-          <Link to="/insights" className="text-sm font-semibold text-primary/90 hover:text-primary/100">All insights</Link>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Latest News</h2>
+          <Link to="/insights" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All insights</Link>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {news.map((n:any) => (
             <article key={n.id} className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card">
               {n.image ? (typeof n.image === 'string' ? <img src={n.image} alt="" className="h-40 w-full object-cover border-b border-primary/10" /> : (n.image.id ? <img src={`/api/assets/${n.image.id}`} alt="" className="h-40 w-full object-cover border-b border-primary/10" /> : <img src="/placeholder.svg" alt="" className="h-40 w-full object-cover border-b border-primary/10" />)) : <img src="/placeholder.svg" alt="" className="h-40 w-full object-cover border-b border-primary/10" />}
               <div className="p-6">
-                <h3 className="font-semibold text-primary/100">{n.title}</h3>
-                <p className="mt-2 text-sm text-primary/90">{n.excerpt}</p>
-                <button className="mt-4 text-sm font-semibold text-primary/90 hover:text-primary/100">Read more →</button>
+                <h3 className="font-semibold text-foreground">{n.title}</h3>
+                <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
+                <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">Read more →</button>
               </div>
             </article>
           ))}

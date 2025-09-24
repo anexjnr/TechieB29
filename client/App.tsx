@@ -5,8 +5,8 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Index, { loader as indexLoader } from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Insights from "./pages/Insights";
@@ -34,45 +34,48 @@ import AssetsAdmin from "./pages/admin/AssetsAdmin";
 
 const queryClient = new QueryClient();
 
+const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      { path: "/", element: <Index />, loader: indexLoader },
+      { path: "/about", element: <About /> },
+      { path: "/services", element: <Services /> },
+      { path: "/insights", element: <Insights /> },
+      { path: "/careers", element: <Careers /> },
+      { path: "/contact", element: <Contact /> },
+      { path: "/legal/terms", element: <LegalTerms /> },
+      { path: "/legal/policy", element: <LegalPolicy /> },
+    ],
+  },
+  { path: "/admin/login", element: <AdminLogin /> },
+  {
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin", element: <AdminDashboard /> },
+      { path: "/admin/about", element: <AboutAdmin /> },
+      { path: "/admin/services", element: <ServicesAdmin /> },
+      { path: "/admin/projects", element: <ProjectsAdmin /> },
+      { path: "/admin/news", element: <NewsAdmin /> },
+      { path: "/admin/testimonials", element: <TestimonialsAdmin /> },
+      { path: "/admin/careers", element: <CareersAdmin /> },
+      { path: "/admin/home", element: <HomepageAdmin /> },
+      { path: "/admin/contact", element: <ContactAdmin /> },
+      { path: "/admin/policies", element: <PoliciesAdmin /> },
+      { path: "/admin/applications", element: <ApplicationsAdmin /> },
+      { path: "/admin/assets", element: <AssetsAdmin /> },
+      { path: "/admin/users", element: <UsersAdmin /> },
+    ],
+  },
+  { path: "*", element: <NotFound /> },
+]);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/insights" element={<Insights />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/legal/terms" element={<LegalTerms />} />
-            <Route path="/legal/policy" element={<LegalPolicy />} />
-          </Route>
-
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/about" element={<AboutAdmin />} />
-            <Route path="/admin/services" element={<ServicesAdmin />} />
-            <Route path="/admin/projects" element={<ProjectsAdmin />} />
-            <Route path="/admin/news" element={<NewsAdmin />} />
-            <Route path="/admin/testimonials" element={<TestimonialsAdmin />} />
-            <Route path="/admin/careers" element={<CareersAdmin />} />
-            <Route path="/admin/home" element={<HomepageAdmin />} />
-            <Route path="/admin/contact" element={<ContactAdmin />} />
-            <Route path="/admin/policies" element={<PoliciesAdmin />} />
-            <Route path="/admin/applications" element={<ApplicationsAdmin />} />
-            <Route path="/admin/assets" element={<AssetsAdmin />} />
-            <Route path="/admin/users" element={<UsersAdmin />} />
-          </Route>
-
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

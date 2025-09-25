@@ -167,4 +167,44 @@
     box-shadow: 0 6px 18px rgba(21, 12, 58, 0.12);
     backdrop-filter: blur(8px);
   }
+
+  /* Theme variants: applied via <html data-theme="..."> */
+  html[data-theme='black'] {
+    --background: 240 6% 6%;
+    --foreground: 0 0% 96%;
+    --card: 240 6% 8%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 6% 8%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 269 85% 60%;
+    --primary-foreground: 0 0% 96%;
+    --secondary: 240 5% 12%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 0 0% 85%;
+    --accent: 269 85% 60%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 5% 14%;
+    --input: 240 5% 14%;
+    --ring: 270 80% 60%;
+    --sidebar-background: 240 6% 6%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 269 85% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 12%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 240 5% 14%;
+    --sidebar-ring: 270 88% 62%;
+  }
+  html[data-theme='black'] body {
+    background: #0b0b0e;
+  }
+
+  html[data-theme='purplemix'] body {
+    background: linear-gradient(180deg, #0b0b0e 0%, #7c3aed 40%, #1a102e 70%, #000000 100%);
+    background-attachment: fixed;
+    background-size: cover;
+  }
 }

@@ -108,8 +108,16 @@ export default function SectionsAdmin(){
       <h1 className="text-2xl font-extrabold">Manage Sections</h1>
       <div className="mt-4 space-y-4">
         <div className="rounded-md border border-primary/20 p-4 bg-black/5">
-          <input value={key} onChange={(e)=>setKey(e.target.value)} placeholder="Key (unique)" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
-          <input value={heading} onChange={(e)=>setHeading(e.target.value)} placeholder="Heading" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <input value={key} onChange={(e)=>setKey(e.target.value)} placeholder="Key (unique)" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+              <input value={heading} onChange={(e)=>setHeading(e.target.value)} placeholder="Heading" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+            </div>
+            <div className="ml-4">
+              <button onClick={()=>{ setShowAddModal(true); setNewKey(''); setNewHeading(''); setNewContent(''); setNewFile(null); setNewImagePreview(null); setNewEnabled(true); }} className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">Add New Section</button>
+            </div>
+          </div>
+
           {/* If editing capabilities, show structured editor */}
           {(key === 'flowchart' || key === 'capabilities') ? (
             <div className="mb-2">
@@ -148,6 +156,63 @@ export default function SectionsAdmin(){
             {editingId && <button onClick={()=>{ setEditingId(null); setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); setCapabilities([]); }} className="ml-3 text-sm text-primary/80">Cancel</button>}
           </div>
         </div>
+
+        {/* Add Section Modal */}
+        {showAddModal && (
+          <div>
+            <div className="fixed inset-0 z-40 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/50" onClick={()=>setShowAddModal(false)} />
+              <div className="relative z-50 w-full max-w-2xl rounded-md bg-white/5 p-6">
+                <h2 className="text-lg font-semibold mb-3">Add New Section</h2>
+                <div className="space-y-3">
+                  <input value={newKey} onChange={(e)=>setNewKey(e.target.value)} placeholder="Key (unique)" className="w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+                  <input value={newHeading} onChange={(e)=>setNewHeading(e.target.value)} placeholder="Heading" className="w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+                  <RichTextEditor value={newContent} onChange={setNewContent} placeholder="Content" />
+                  <input type="file" accept="image/*" onChange={(e)=>{ const f = e.target.files?.[0] ?? null; setNewFile(f); if (f) setNewImagePreview(URL.createObjectURL(f)); else setNewImagePreview(null); }} className="text-sm text-primary/80" />
+                  {newImagePreview && <img src={newImagePreview} alt="Preview" className="max-h-48 object-contain rounded-md border border-primary/20" />}
+                  <label className="inline-flex items-center gap-2">
+                    <input type="checkbox" checked={newEnabled} onChange={(e)=>setNewEnabled(e.target.checked)} />
+                    <span className="text-sm text-primary/80">Enabled</span>
+                  </label>
+                </div>
+                <div className="mt-4 flex justify-end gap-2">
+                  <button onClick={()=>{ setShowAddModal(false); }} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Cancel</button>
+                  <button onClick={async ()=>{ try {
+                      let uploaded: any = null;
+                      if (newFile) {
+                        const fd = new FormData(); fd.append('file', newFile);
+                        const res = await fetch('/api/admin/upload', { method: 'POST', body: fd, headers: token ? { Authorization: `Bearer ${token}` } : {} });
+                        uploaded = await (await import('@/lib/fetchUtils')).parseResponse(res);
+                      }
+                      const payload: any = { key: newKey, heading: newHeading, content: newContent, enabled: newEnabled };
+                      if (uploaded?.id) payload.imageId = uploaded.id;
+                      const res = await fetch('/api/admin/sections', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(token?{ Authorization: `Bearer ${token}` }: {}) }, body: JSON.stringify(payload) });
+                      if (res.ok) {
+                        setShowAddModal(false);
+                        setNewKey(''); setNewHeading(''); setNewContent(''); setNewFile(null); setNewImagePreview(null); setNewEnabled(true);
+                        fetchItems();
+                      }
+                    } catch (e) { console.error(e); } }} className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">Add Section</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Confirm Delete Modal */}
+        {confirmDeleteId && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/50" onClick={()=>setConfirmDeleteId(null)} />
+            <div className="relative z-50 w-full max-w-md rounded-md bg-white/5 p-6">
+              <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+              <p className="mt-2 text-sm text-primary/80">Are you sure you want to delete this section? This action cannot be undone.</p>
+              <div className="mt-4 flex justify-end gap-2">
+                <button onClick={()=>setConfirmDeleteId(null)} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Cancel</button>
+                <button onClick={async ()=>{ try { const res = await fetch(`/api/admin/sections/${confirmDeleteId}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} }); if (res.ok) fetchItems(); setConfirmDeleteId(null); } catch (e) { console.error(e); setConfirmDeleteId(null); } }} className="rounded-md bg-red-600 px-3 py-2 text-sm text-white">Delete</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div>
           <ul className="space-y-3">

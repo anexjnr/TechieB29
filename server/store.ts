@@ -126,24 +126,32 @@ class MemoryDB {
           title: "Strategy",
           description: "From discovery to roadmap, we align teams on outcomes.",
           icon: "target",
+          image: null as any,
+          order: 0,
         },
         {
           id: uid(),
           title: "Design",
           description: "Accessible, modern interfaces with purpose.",
           icon: "palette",
+          image: null as any,
+          order: 1,
         },
         {
           id: uid(),
           title: "Engineering",
           description: "Robust web apps, APIs, and infra.",
           icon: "cpu",
+          image: null as any,
+          order: 2,
         },
         {
           id: uid(),
           title: "Analytics",
           description: "Ship, learn, iterate with data.",
           icon: "bar-chart-3",
+          image: null as any,
+          order: 3,
         },
       );
     }

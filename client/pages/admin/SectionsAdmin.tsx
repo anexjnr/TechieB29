@@ -260,7 +260,7 @@ export default function SectionsAdmin(){
                     <span className="text-sm text-primary/80">Enabled</span>
                   </label>
                   <button onClick={()=>startEdit(it)} className="text-sm text-primary/80 hover:text-primary">Edit</button>
-                  <button onClick={()=>remove(it.id)} className="text-sm text-red-300">Delete</button>
+                  <button onClick={()=>setConfirmDeleteId(it.id)} className="text-sm text-red-300">Delete</button>
                 </div>
               </li>
             ))}

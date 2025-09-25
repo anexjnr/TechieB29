@@ -6,7 +6,11 @@ import {
   BarChart3,
   Quote,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import Section from "@/components/site/Section";
+import AnimatedTitle from "@/components/site/AnimatedTitle";
+import CapabilitiesShowcase from "@/components/site/CapabilitiesShowcase";
+import HowWeServe from "@/components/site/HowWeServe";
 import { Link, useLoaderData } from "react-router-dom";
 
 export async function loader() {
@@ -144,9 +148,10 @@ export default function Index() {
         <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
-                {sections.hero?.heading}
-              </h1>
+              <AnimatedTitle
+                text={sections.hero?.heading || "Building clear, resilient products for modern companies"}
+                className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
+              />
               <p className="mt-6 text-lg text-foreground/90 max-w-xl">
                 {sections.hero?.content}
               </p>
@@ -265,44 +270,18 @@ export default function Index() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
           What We Do
         </h2>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              icon: Target,
-              title: "Strategy",
-              desc: "From discovery to roadmap, aligning on outcomes.",
-            },
-            {
-              icon: Palette,
-              title: "Design",
-              desc: "Accessible, modern interfaces with purpose.",
-            },
-            {
-              icon: Cpu,
-              title: "Engineering",
-              desc: "Robust web apps, APIs, and infra.",
-            },
-            {
-              icon: BarChart3,
-              title: "Analytics",
-              desc: "Ship, learn, iterate with data.",
-            },
-          ].map((c, idx) => (
-            <div
-              key={idx}
-              className="rounded-2xl border border-primary/20 bg-black/10 p-6"
-            >
-              <c.icon className="h-6 w-6" />
-              <div className="mt-4 font-semibold text-foreground">
-                {c.title}
-              </div>
-              <p className="mt-2 text-sm text-foreground/80">{c.desc}</p>
-            </div>
-          ))}
-        </div>
+        <CapabilitiesShowcase
+          className="mt-8"
+          items={[
+            { icon: Target, title: "Strategy", desc: "From discovery to roadmap, aligning on outcomes." },
+            { icon: Palette, title: "Design", desc: "Accessible, modern interfaces with purpose." },
+            { icon: Cpu, title: "Engineering", desc: "Robust web apps, APIs, and infra." },
+            { icon: BarChart3, title: "Analytics", desc: "Ship, learn, iterate with data." },
+          ]}
+        />
       </Section>
 
-      {/* How We Serve - timeline */}
+      {/* How We Serve - improved spacing */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
         delay={0.2}
@@ -310,25 +289,15 @@ export default function Index() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-primary">
           How We Serve
         </h2>
-        <div className="mt-8 relative pl-6">
-          <div className="absolute left-0 top-0 bottom-0 w-px bg-primary/30" />
-          <ol className="space-y-8">
-            {[
-              { t: "Discover", d: "Define goals, constraints, and success." },
-              { t: "Design", d: "Prototype, test, refine with users." },
-              { t: "Build", d: "Ship iteratively with quality gates." },
-              { t: "Evolve", d: "Measure outcomes and iterate." },
-            ].map((s, i) => (
-              <li key={i} className="relative">
-                <div className="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full bg-primary" />
-                <div className="ml-4">
-                  <div className="font-semibold">{s.t}</div>
-                  <div className="text-sm text-primary/80">{s.d}</div>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <HowWeServe
+          className="mt-8"
+          steps={[
+            { t: "Discover", d: "Define goals, constraints, and success." },
+            { t: "Design", d: "Prototype, test, refine with users." },
+            { t: "Build", d: "Ship iteratively with quality gates." },
+            { t: "Evolve", d: "Measure outcomes and iterate." },
+          ]}
+        />
       </Section>
 
       {/* Testimonials slider (simple auto scroll) */}
@@ -340,41 +309,51 @@ export default function Index() {
           Testimonials
         </h2>
         <div className="mt-8 overflow-hidden">
-          <div className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+            className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform"
+          >
             {testimonials.length ? (
               testimonials.map((t: any) => (
-                <figure
+                <motion.figure
                   key={t.id}
+                  variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                  whileHover={{ y: -6, scale: 1.02 }}
                   className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card"
                 >
                   <Quote className="h-5 w-5 text-foreground/90" />
-                  <blockquote className="mt-3 text-foreground">
-                    {t.quote}
-                  </blockquote>
+                  <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
                   <figcaption className="mt-4 text-sm text-foreground/90">
                     {t.author} {t.role ? `, ${t.role}` : ""}
                   </figcaption>
                   {t.avatar ? (
                     typeof t.avatar === "string" ? (
-                      <img
+                      <motion.img
                         src={t.avatar}
                         alt="avatar"
                         className="mt-3 h-12 w-12 rounded-full object-cover"
+                        animate={{ y: [0, -2, 0] }}
+                        transition={{ duration: 3, repeat: Infinity }}
                       />
                     ) : t.avatar.id ? (
-                      <img
+                      <motion.img
                         src={`/api/assets/${t.avatar.id}`}
                         alt="avatar"
                         className="mt-3 h-12 w-12 rounded-full object-cover"
+                        animate={{ y: [0, -2, 0] }}
+                        transition={{ duration: 3, repeat: Infinity }}
                       />
                     ) : null
                   ) : null}
-                </figure>
+                </motion.figure>
               ))
             ) : (
               <div className="text-foreground/90">No testimonials yet</div>
             )}
-          </div>
+          </motion.div>
         </div>
       </Section>
 

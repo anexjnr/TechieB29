@@ -17,6 +17,15 @@ export default function SectionsAdmin(){
   const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  useEffect(() => {
+    // revoke object URL when component unmounts or when preview changes
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        try { URL.revokeObjectURL(imagePreview); } catch (e) { /* ignore */ }
+      }
+    };
+  }, [imagePreview]);
+
   const fetchItems = async () => {
     try {
       const res = await fetch('/api/admin/sections', { headers: token ? { Authorization: `Bearer ${token}` } : {} });

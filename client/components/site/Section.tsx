@@ -1,5 +1,5 @@
-import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
 
 export default function Section({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement | null>(null);

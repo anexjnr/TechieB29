@@ -11,6 +11,7 @@ import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import CapabilitiesShowcase from "@/components/site/CapabilitiesShowcase";
 import HowWeServe from "@/components/site/HowWeServe";
+import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
 import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
 
@@ -294,13 +295,13 @@ export default function Index() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-primary">
           How We Serve
         </h2>
-        <HowWeServe
+        <HowWeServeInfographic
           className="mt-8"
-          steps={[
-            { t: "Discover", d: "Define goals, constraints, and success." },
-            { t: "Design", d: "Prototype, test, refine with users." },
-            { t: "Build", d: "Ship iteratively with quality gates." },
-            { t: "Evolve", d: "Measure outcomes and iterate." },
+          items={[
+            { title: "Discover", desc: "Define goals, constraints, and success.", icon: Target },
+            { title: "Design", desc: "Prototype, test, refine with users.", icon: Palette },
+            { title: "Build", desc: "Ship iteratively with quality gates.", icon: Cpu },
+            { title: "Evolve", desc: "Measure outcomes and iterate.", icon: BarChart3 },
           ]}
         />
       </Section>

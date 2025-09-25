@@ -140,8 +140,9 @@ export default function SectionsAdmin(){
               <input value={key} onChange={(e)=>setKey(e.target.value)} placeholder="Key (unique)" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
               <input value={heading} onChange={(e)=>setHeading(e.target.value)} placeholder="Heading" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
             </div>
-            <div className="ml-4">
+            <div className="ml-4 flex flex-col gap-2">
               <button onClick={()=>{ setShowAddModal(true); setNewKey(''); setNewHeading(''); setNewContent(''); setNewFile(null); setNewImagePreview(null); setNewEnabled(true); }} className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">Add New Section</button>
+              <button onClick={()=>{ if (originalItems) setItems(originalItems); }} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Reset Sections</button>
             </div>
           </div>
 

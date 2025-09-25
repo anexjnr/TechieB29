@@ -1,9 +1,5 @@
 import {
   ArrowRight,
-  Cpu,
-  Palette,
-  Target,
-  BarChart3,
   Quote,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,6 +10,8 @@ import HowWeServe from "@/components/site/HowWeServe";
 import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
 import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
+import { getIconByName } from "@/lib/iconMap";
+import { Target } from "lucide-react";
 
 export async function loader() {
   try {

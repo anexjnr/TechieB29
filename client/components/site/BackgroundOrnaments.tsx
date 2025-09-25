@@ -5,14 +5,14 @@ export default function BackgroundOrnaments() {
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Bubble 1 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-45"
+        className="absolute block rounded-full blur-2xl opacity-55"
         style={{
           left: "10%",
           top: "12%",
-          width: 360,
-          height: 360,
+          width: 420,
+          height: 420,
           background:
-            "radial-gradient(closest-side, hsl(var(--primary) / 0.36) 0%, transparent 70%)",
+            "radial-gradient(closest-side, hsl(var(--primary) / 0.48) 0%, transparent 65%)",
           animation: "drift 28s ease-in-out infinite",
         }}
       />

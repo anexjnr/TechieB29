@@ -135,11 +135,43 @@ export default function SectionsAdmin(){
 
         <div>
           <ul className="space-y-3">
-            {items.map(it => (
-              <li key={it.id} className="rounded-md border border-primary/20 p-3 flex items-start justify-between bg-black/5">
-                <div>
-                  <div className="font-semibold text-primary">{it.key} {it.heading ? `- ${it.heading}` : ''}</div>
-                  <div className="text-sm text-primary/80">{typeof it.content === 'string' && it.content.length > 100 ? it.content.slice(0,100)+'...' : it.content}</div>
+            {items.map((it, idx) => (
+              <li
+                key={it.id}
+                draggable
+                onDragStart={(e) => { e.dataTransfer?.setData('text/plain', String(idx)); setDraggingIndex(idx); }}
+                onDragOver={(e) => { e.preventDefault(); setDragOverIndex(idx); }}
+                onDrop={async (e) => {
+                  e.preventDefault();
+                  const from = Number(e.dataTransfer?.getData('text/plain'));
+                  const to = idx;
+                  setDraggingIndex(null);
+                  setDragOverIndex(null);
+                  if (isNaN(from)) return;
+                  if (from === to) return;
+                  const newItems = [...items];
+                  const [moved] = newItems.splice(from, 1);
+                  newItems.splice(to, 0, moved);
+                  // update local order
+                  setItems(newItems);
+                  // persist orders
+                  try {
+                    await Promise.all(newItems.map((item, i) => fetch(`/api/admin/sections/${item.id}`, {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+                      body: JSON.stringify({ order: i }),
+                    })));
+                    fetchItems();
+                  } catch (e) { console.error(e); }
+                }}
+                className={`rounded-md border ${dragOverIndex === idx ? 'border-primary/40' : 'border-primary/20'} p-3 flex items-start justify-between bg-black/5`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="cursor-grab px-2 py-1 rounded bg-primary/5 text-primary/70">≡</div>
+                  <div>
+                    <div className="font-semibold text-primary">{it.key} {it.heading ? `- ${it.heading}` : ''}</div>
+                    <div className="text-sm text-primary/80">{typeof it.content === 'string' && it.content.length > 100 ? it.content.slice(0,100)+'...' : it.content}</div>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <label className="inline-flex items-center gap-2">

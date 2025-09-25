@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import TiltCard from "@/components/site/TiltCard";
 import type { LucideIcon } from "lucide-react";
 
 export type Capability = {
@@ -40,40 +41,13 @@ export default function CapabilitiesShowcase({
       className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch", className)}
     >
       {items.map((c, idx) => (
-        <motion.div
-          key={`${c.title}-${idx}`}
-          variants={card}
-          whileHover={{ y: -6, rotate: [-0.2, 0.2, 0], transition: { duration: 0.4 } }}
-          whileTap={{ scale: 0.98 }}
-          onMouseMove={(e) => {
-            const el = e.currentTarget as HTMLDivElement;
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            el.style.setProperty("--x", `${x}px`);
-            el.style.setProperty("--y", `${y}px`);
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLDivElement;
-            el.style.removeProperty("--x");
-            el.style.removeProperty("--y");
-          }}
-          className="relative rounded-2xl border border-primary/20 bg-black/10 p-6 overflow-hidden group h-full min-h-[160px]"
-        >
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"
-            style={{
-              background:
-                "radial-gradient(600px circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.06), transparent 40%)",
-            }}
-          />
-          <div className="relative z-[1]">
+        <TiltCard key={`${c.title}-${idx}`}>
+          <div className="relative z-[1] h-full min-h-[160px]">
             <c.icon className="h-7 w-7" />
             <div className="mt-4 font-semibold text-foreground">{c.title}</div>
             <p className="mt-2 text-sm text-foreground/85">{c.desc}</p>
           </div>
-        </motion.div>
+        </TiltCard>
       ))}
     </motion.div>
   );

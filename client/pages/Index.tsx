@@ -11,6 +11,7 @@ import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import CapabilitiesShowcase from "@/components/site/CapabilitiesShowcase";
 import HowWeServe from "@/components/site/HowWeServe";
+import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
 
 export async function loader() {
@@ -224,16 +225,12 @@ export default function Index() {
                         <motion.div
                           key={idx}
                           variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
-                          whileHover={{ y: -4 }}
-                          className="rounded-xl border border-primary/10 p-6 bg-transparent h-full"
                         >
-                          <Icon className="h-6 w-6 text-primary/100" />
-                          <div className="mt-4 font-semibold text-primary/100">
-                            {i.label}
-                          </div>
-                          <div className="text-sm text-primary/80">
-                            {i.desc}
-                          </div>
+                          <TiltCard className="h-full min-h-[160px]">
+                            <Icon className="h-6 w-6 text-primary/100" />
+                            <div className="mt-4 font-semibold text-primary/100">{i.label}</div>
+                            <div className="text-sm text-primary/80">{i.desc}</div>
+                          </TiltCard>
                         </motion.div>
                       );
                     });

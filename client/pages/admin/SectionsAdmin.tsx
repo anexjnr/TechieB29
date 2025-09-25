@@ -18,6 +18,7 @@ export default function SectionsAdmin(){
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [originalItems, setOriginalItems] = useState<any[] | null>(null);
 
   // modal states
   const [showAddModal, setShowAddModal] = useState(false);

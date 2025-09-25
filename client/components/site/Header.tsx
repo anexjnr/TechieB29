@@ -34,6 +34,9 @@ export default function Header() {
               </NavLink>
             ))}
           </nav>
+          <div className="hidden md:flex items-center">
+            <ThemeToggle />
+          </div>
           <div className="md:hidden">
             <button
               aria-label="Menu"

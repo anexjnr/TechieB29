@@ -47,7 +47,9 @@ export default function SectionsAdmin(){
     try {
       const res = await fetch('/api/admin/sections', { headers: token ? { Authorization: `Bearer ${token}` } : {} });
       const data = await (await import('@/lib/fetchUtils')).parseResponse(res);
-      setItems(Array.isArray(data)?data:[]);
+      const arr = Array.isArray(data)?data:[];
+      setItems(arr);
+      setOriginalItems(arr);
     } catch(e){ console.error(e); }
   };
 

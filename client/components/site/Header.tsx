@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "@/components/site/ThemeToggle";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -17,7 +18,10 @@ export default function Header() {
     <header className="sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md">
+          <Link
+            to="/"
+            className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md"
+          >
             AUIO
           </Link>
           <nav className="hidden md:flex items-center gap-8">
@@ -33,6 +37,9 @@ export default function Header() {
               </NavLink>
             ))}
           </nav>
+          <div className="hidden md:flex items-center">
+            <ThemeToggle />
+          </div>
           <div className="md:hidden">
             <button
               aria-label="Menu"

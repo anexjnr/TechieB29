@@ -357,11 +357,13 @@ router.get('/:section', async (req, res) => {
   if (section === 'news') include.image = true;
   if (section === 'projects') include.image = true;
   if (section === 'about') include.image = true;
+  if (section === 'services') include.image = true;
   if (section === 'testimonials') include.avatar = true;
 
   // Choose sensible ordering per model
   let orderBy: any = undefined;
   if (section === 'news') orderBy = { date: 'desc' };
+  else if (section === 'services') orderBy = { order: 'asc' };
   else orderBy = { id: 'desc' };
 
   try {

@@ -168,6 +168,18 @@
     backdrop-filter: blur(8px);
   }
 
+  /* Background bubble animations */
+  @keyframes drift {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(24px, -16px, 0) scale(1.06); }
+    100% { transform: translate3d(0, 0, 0) scale(1); }
+  }
+  @keyframes floaty {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-20px, 18px, 0) scale(0.96); }
+    100% { transform: translate3d(0, 0, 0) scale(1); }
+  }
+
   /* Theme variants: applied via <html data-theme="..."> */
   html[data-theme='black'] {
     --background: 240 6% 5%;

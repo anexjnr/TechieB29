@@ -35,6 +35,9 @@ model Service {
   title       String
   description String
   icon        String?
+  imageId     String?
+  image       Asset? @relation("ServiceImage", fields: [imageId], references: [id])
+  order       Int?
   enabled     Boolean @default(true)
 }
 

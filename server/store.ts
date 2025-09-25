@@ -224,6 +224,22 @@ class MemoryDB {
           enabled: true,
           order: 3,
         },
+        // default editable navigation
+        {
+          id: uid(),
+          key: "nav",
+          heading: "Navigation",
+          content: JSON.stringify([
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About" },
+            { to: "/services", label: "Services" },
+            { to: "/insights", label: "Insights" },
+            { to: "/careers", label: "Careers" },
+            { to: "/contact", label: "Contact" },
+          ]),
+          enabled: true,
+          order: 0,
+        },
       );
     }
 

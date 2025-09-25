@@ -9,7 +9,7 @@ export default function About() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('/api/about');
+        const res = await fetch("/api/about");
         const data = await res.json();
         if (Array.isArray(data) && data.length) setAbout(data[0]);
       } catch (e) {
@@ -22,26 +22,65 @@ export default function About() {
 
   const renderImage = () => {
     const img = about?.image;
-    if (!img) return <img src="/placeholder.svg" alt="Team" className="rounded-2xl border border-primary/20 bg-black/10" />;
-    if (typeof img === 'string') return <img src={img} alt="Team" className="rounded-2xl border border-primary/20 bg-black/10" />;
-    if (img.id) return <img src={`/api/assets/${img.id}`} alt="Team" className="rounded-2xl border border-primary/20 bg-black/10" />;
-    return <img src="/placeholder.svg" alt="Team" className="rounded-2xl border border-primary/20 bg-black/10" />;
+    if (!img)
+      return (
+        <img
+          src="/placeholder.svg"
+          alt="Team"
+          className="rounded-2xl border border-primary/20 bg-black/10"
+        />
+      );
+    if (typeof img === "string")
+      return (
+        <img
+          src={img}
+          alt="Team"
+          className="rounded-2xl border border-primary/20 bg-black/10"
+        />
+      );
+    if (img.id)
+      return (
+        <img
+          src={`/api/assets/${img.id}`}
+          alt="Team"
+          className="rounded-2xl border border-primary/20 bg-black/10"
+        />
+      );
+    return (
+      <img
+        src="/placeholder.svg"
+        alt="Team"
+        className="rounded-2xl border border-primary/20 bg-black/10"
+      />
+    );
   };
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
       <Section>
-        <AnimatedTitle text={loading ? 'About' : (about?.heading || 'About')} className="text-4xl sm:text-5xl font-extrabold text-foreground" />
+        <AnimatedTitle
+          text={loading ? "About" : about?.heading || "About"}
+          className="text-4xl sm:text-5xl font-extrabold text-foreground"
+        />
         <p className="mt-4 max-w-prose text-foreground/85">
-          {loading ? 'Loading...' : (about?.heading || 'We are a compact team focused on clarity, velocity, and outcomes.')}
+          {loading
+            ? "Loading..."
+            : about?.heading ||
+              "We are a compact team focused on clarity, velocity, and outcomes."}
         </p>
       </Section>
 
-      <Section className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" delay={0.1}>
+      <Section
+        className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
+        delay={0.1}
+      >
         <div>
           <h2 className="text-2xl font-bold text-foreground">Who We Are</h2>
           <p className="mt-4 text-foreground/85 max-w-prose">
-            {loading ? '' : (about?.content || 'Senior engineers and designers working as one unit. Fewer handoffs, more accountability. We operate with lean process and a bias for action.')}
+            {loading
+              ? ""
+              : about?.content ||
+                "Senior engineers and designers working as one unit. Fewer handoffs, more accountability. We operate with lean process and a bias for action."}
           </p>
         </div>
         {renderImage()}
@@ -52,9 +91,18 @@ export default function About() {
         <ol className="mt-6 space-y-6 relative pl-6">
           <div className="absolute left-0 top-0 bottom-0 w-px bg-primary/30" />
           {[
-            { t: "Discover", d: "Align on goals, constraints, and success metrics." },
-            { t: "Design", d: "Prototype, test, refine with users and stakeholders." },
-            { t: "Build", d: "Implement iteratively with quality gates and CI." },
+            {
+              t: "Discover",
+              d: "Align on goals, constraints, and success metrics.",
+            },
+            {
+              t: "Design",
+              d: "Prototype, test, refine with users and stakeholders.",
+            },
+            {
+              t: "Build",
+              d: "Implement iteratively with quality gates and CI.",
+            },
             { t: "Evolve", d: "Measure outcomes, learn, and iterate." },
           ].map((s, i) => (
             <li key={i} className="relative">

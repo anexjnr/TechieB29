@@ -8,11 +8,14 @@ export default function TestimonialsAdmin() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [enabled, setEnabled] = useState<boolean>(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/admin/testimonials", { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+      const res = await fetch("/api/admin/testimonials", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       const data = await (await import("@/lib/fetchUtils")).parseResponse(res);
       setItems(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -134,7 +137,11 @@ export default function TestimonialsAdmin() {
             className="mt-2 text-sm text-primary/80"
           />
           <label className="inline-flex items-center gap-2 mt-2">
-            <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
+            <input
+              type="checkbox"
+              checked={enabled}
+              onChange={(e) => setEnabled(e.target.checked)}
+            />
             <span className="text-sm text-primary/80">Enabled</span>
           </label>
           <div className="mt-3 flex gap-2">
@@ -171,9 +178,17 @@ export default function TestimonialsAdmin() {
                 className="rounded-md border border-primary/20 p-3 flex items-start justify-between bg-black/5"
               >
                 <div className="flex items-center gap-3">
-                  {it.avatar && <img src={it.avatar} alt="avatar" className="h-12 w-12 rounded-full object-cover" />}
+                  {it.avatar && (
+                    <img
+                      src={it.avatar}
+                      alt="avatar"
+                      className="h-12 w-12 rounded-full object-cover"
+                    />
+                  )}
                   <div>
-                    <div className="font-semibold text-primary">{it.author}</div>
+                    <div className="font-semibold text-primary">
+                      {it.author}
+                    </div>
                     <div className="text-sm text-primary/80">{it.quote}</div>
                   </div>
                 </div>
@@ -184,14 +199,19 @@ export default function TestimonialsAdmin() {
                       checked={!!it.enabled}
                       onChange={async () => {
                         try {
-                          const res = await fetch(`/api/admin/testimonials/${it.id}`, {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                          const res = await fetch(
+                            `/api/admin/testimonials/${it.id}`,
+                            {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                                ...(token
+                                  ? { Authorization: `Bearer ${token}` }
+                                  : {}),
+                              },
+                              body: JSON.stringify({ enabled: !it.enabled }),
                             },
-                            body: JSON.stringify({ enabled: !it.enabled }),
-                          });
+                          );
                           if (res.ok) fetchItems();
                         } catch (e) {
                           console.error(e);
@@ -200,10 +220,16 @@ export default function TestimonialsAdmin() {
                     />
                     <span className="text-sm text-primary/80">Enabled</span>
                   </label>
-                  <button onClick={() => startEdit(it)} className="text-sm text-primary/80 hover:text-primary">
+                  <button
+                    onClick={() => startEdit(it)}
+                    className="text-sm text-primary/80 hover:text-primary"
+                  >
                     Edit
                   </button>
-                  <button onClick={() => remove(it.id)} className="text-sm text-red-300">
+                  <button
+                    onClick={() => remove(it.id)}
+                    className="text-sm text-red-300"
+                  >
                     Delete
                   </button>
                 </div>

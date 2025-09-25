@@ -297,20 +297,42 @@ export default function Index() {
         {(() => {
           let items = [] as any[];
           try {
-            items = sections.flowchart?.content ? JSON.parse(sections.flowchart.content) : [];
+            items = sections.flowchart?.content
+              ? JSON.parse(sections.flowchart.content)
+              : [];
           } catch (e) {
             items = [];
           }
           if (!Array.isArray(items) || items.length === 0) {
             items = [
-              { icon: 'target', title: 'Strategy', desc: 'From discovery to roadmap, aligning on outcomes.' },
-              { icon: 'palette', title: 'Design', desc: 'Accessible, modern interfaces with purpose.' },
-              { icon: 'cpu', title: 'Engineering', desc: 'Robust web apps, APIs, and infra.' },
-              { icon: 'bar-chart-3', title: 'Analytics', desc: 'Ship, learn, iterate with data.' },
+              {
+                icon: "target",
+                title: "Strategy",
+                desc: "From discovery to roadmap, aligning on outcomes.",
+              },
+              {
+                icon: "palette",
+                title: "Design",
+                desc: "Accessible, modern interfaces with purpose.",
+              },
+              {
+                icon: "cpu",
+                title: "Engineering",
+                desc: "Robust web apps, APIs, and infra.",
+              },
+              {
+                icon: "bar-chart-3",
+                title: "Analytics",
+                desc: "Ship, learn, iterate with data.",
+              },
             ];
           }
           // map icon strings to components
-          const mapped = items.map((it) => ({ icon: (getIconByName(it.icon) || Target) as any, title: it.label || it.title || 'Item', desc: it.desc || it.description || '' }));
+          const mapped = items.map((it) => ({
+            icon: (getIconByName(it.icon) || Target) as any,
+            title: it.label || it.title || "Item",
+            desc: it.desc || it.description || "",
+          }));
           return <CapabilitiesShowcase className="mt-8" items={mapped} />;
         })()}
       </Section>

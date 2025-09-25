@@ -38,7 +38,11 @@ export default function AnimatedTitle({
       viewport={{ once: true, margin: "-100px" }}
     >
       {words.map((w, i) => (
-        <motion.span key={`${w}-${i}`} variants={child} className="inline-block mr-2">
+        <motion.span
+          key={`${w}-${i}`}
+          variants={child}
+          className="inline-block mr-2"
+        >
           {w}
         </motion.span>
       ))}

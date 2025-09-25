@@ -23,12 +23,20 @@ export default function Header() {
         if (!res.ok) return;
         const data = await res.json();
         if (!Array.isArray(data)) return;
-        const navSection = data.find((s: any) => s.key === "nav" || s.key === "navigation");
+        const navSection = data.find(
+          (s: any) => s.key === "nav" || s.key === "navigation",
+        );
         if (!navSection || !navSection.content) return;
         try {
-          const parsed = typeof navSection.content === "string" ? JSON.parse(navSection.content) : navSection.content;
+          const parsed =
+            typeof navSection.content === "string"
+              ? JSON.parse(navSection.content)
+              : navSection.content;
           if (Array.isArray(parsed)) {
-            const mapped = parsed.map((i: any) => ({ to: i.to || i.href || "/", label: i.label || i.title || "Item" }));
+            const mapped = parsed.map((i: any) => ({
+              to: i.to || i.href || "/",
+              label: i.label || i.title || "Item",
+            }));
             setNav(mapped);
           }
         } catch (e) {
@@ -44,7 +52,10 @@ export default function Header() {
     <header className="sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md">
+          <Link
+            to="/"
+            className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md"
+          >
             AUIO
           </Link>
           <nav className="hidden md:flex items-center gap-8">
@@ -83,7 +94,9 @@ export default function Header() {
                 key={n.to + n.label}
                 to={n.to}
                 onClick={() => setOpen(false)}
-                className={({ isActive }) => `py-2 text-sm font-semibold ${isActive ? "text-primary" : "text-primary/80"}`}
+                className={({ isActive }) =>
+                  `py-2 text-sm font-semibold ${isActive ? "text-primary" : "text-primary/80"}`
+                }
               >
                 {n.label}
               </NavLink>

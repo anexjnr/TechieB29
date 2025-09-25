@@ -11,7 +11,8 @@ export default function SectionsAdmin(){
   const [editingId, setEditingId] = useState<string | null>(null);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
+  import IconPicker from '@/components/admin/IconPicker';
+const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
 
   const fetchItems = async () => {
     try {

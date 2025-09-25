@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import IconPicker from '@/components/admin/IconPicker';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 
 export default function SectionsAdmin(){
   const [items, setItems] = useState<any[]>([]);
@@ -14,6 +15,7 @@ export default function SectionsAdmin(){
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const fetchItems = async () => {
     try {
@@ -67,6 +69,7 @@ export default function SectionsAdmin(){
       if (Array.isArray(parsed)) setCapabilities(parsed);
       else setCapabilities([]);
     } catch(e) { setCapabilities([]); }
+    if (it.imageId) { setImagePreview(`/api/admin/assets/${it.imageId}`); } else { setImagePreview(null); }
   };
 
   const remove = async (id:string) => { try { const res = await fetch(`/api/admin/sections/${id}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} }); if (res.ok) fetchItems(); } catch(e){ console.error(e); } };
@@ -101,10 +104,15 @@ export default function SectionsAdmin(){
               </div>
             </div>
           ) : (
-            <textarea value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Content" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+            <RichTextEditor value={content} onChange={setContent} placeholder="Content" />
           )}
 
-          <input type="file" accept="image/*" onChange={(e)=>setFile(e.target.files?.[0] ?? null)} className="mt-2 text-sm text-primary/80" />
+          <input type="file" accept="image/*" onChange={(e)=>{ const f = e.target.files?.[0] ?? null; setFile(f); if (f) setImagePreview(URL.createObjectURL(f)); else setImagePreview(null); }} className="mt-2 text-sm text-primary/80" />
+          {imagePreview && (
+            <div className="mt-2">
+              <img src={imagePreview} alt="Preview" className="max-h-48 object-contain rounded-md border border-primary/20" />
+            </div>
+          )}
           <input value={order ?? ''} onChange={(e)=>setOrder(e.target.value?parseInt(e.target.value,10):undefined)} placeholder="Order (number)" className="w-full mt-2 mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
           <label className="inline-flex items-center gap-2 mt-2">
             <input type="checkbox" checked={enabled} onChange={(e)=>setEnabled(e.target.checked)} />

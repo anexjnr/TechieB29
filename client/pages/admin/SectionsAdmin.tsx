@@ -91,7 +91,7 @@ const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string
               <div className="mt-2 space-y-2">
                 {capabilities.map((c, i) => (
                   <div key={i} className="rounded-md border border-primary/20 p-2 bg-black/5 flex items-start gap-2">
-                    <input value={c.icon || ''} onChange={(e)=>updateCapability(i,'icon',e.target.value)} placeholder="icon" className="w-24 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    <IconPicker value={c.icon || null} onChange={(v)=>updateCapability(i,'icon',v||'')} />
                     <input value={c.label || ''} onChange={(e)=>updateCapability(i,'label',e.target.value)} placeholder="label" className="w-36 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
                     <input value={c.desc || ''} onChange={(e)=>updateCapability(i,'desc',e.target.value)} placeholder="desc" className="flex-1 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
                     <button onClick={()=>removeCapability(i)} className="text-sm text-red-300">Delete</button>

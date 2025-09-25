@@ -50,6 +50,30 @@ export default function SectionsAdmin(){
     } catch(e){ console.error(e); }
   };
 
+  // Navigation editor state
+  const [navRows, setNavRows] = useState<{ label: string; link: string }[]>([]);
+  const [navSectionId, setNavSectionId] = useState<string | null>(null);
+  const [navOriginalRows, setNavOriginalRows] = useState<{ label: string; link: string }[]>([]);
+
+  // derive navRows from items when items change
+  useEffect(() => {
+    const nav = items.find(it => it.key === 'nav' || it.key === 'navigation');
+    if (nav) {
+      setNavSectionId(nav.id);
+      try {
+        const parsed = typeof nav.content === 'string' ? JSON.parse(nav.content) : nav.content;
+        if (Array.isArray(parsed)) {
+          setNavRows(parsed);
+          setNavOriginalRows(parsed);
+        } else {
+          setNavRows([]); setNavOriginalRows([]);
+        }
+      } catch (e) { setNavRows([]); setNavOriginalRows([]); }
+    } else {
+      setNavSectionId(null); setNavRows([]); setNavOriginalRows([]);
+    }
+  }, [items]);
+
   useEffect(()=>{ fetchItems(); }, []);
 
   const uploadFile = async (f: File) => {

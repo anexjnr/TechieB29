@@ -14,7 +14,8 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     const saved = (localStorage.getItem(STORAGE_KEY) as Variant | null) ?? null;
-    const initial: Variant = saved === "black" || saved === "purplemix" ? saved : "purplemix";
+    const initial: Variant =
+      saved === "black" || saved === "purplemix" ? saved : "purplemix";
     setVariant(initial);
     applyVariant(initial);
   }, []);

@@ -170,28 +170,52 @@
 
   /* Background bubble animations */
   @keyframes drift {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(100px, -80px, 0) scale(1.12); }
-    100% { transform: translate3d(0, 0, 0) scale(1); }
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(100px, -80px, 0) scale(1.12);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
   }
   @keyframes floaty {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(-90px, 70px, 0) scale(0.92); }
-    100% { transform: translate3d(0, 0, 0) scale(1); }
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-90px, 70px, 0) scale(0.92);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
   }
   @keyframes sway {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(14px, -10px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(14px, -10px, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
   }
   @keyframes sway2 {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(-12px, 12px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(-12px, 12px, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
   }
 
   /* Theme variants: applied via <html data-theme="..."> */
-  html[data-theme='black'] {
+  html[data-theme="black"] {
     --background: 240 6% 5%;
     --foreground: 0 0% 96%;
     --card: 240 6% 9%;
@@ -220,12 +244,18 @@
     --sidebar-border: 240 5% 14%;
     --sidebar-ring: 268 92% 64%;
   }
-  html[data-theme='black'] body {
+  html[data-theme="black"] body {
     background: #0a0a0b;
   }
 
-  html[data-theme='purplemix'] body {
-    background: linear-gradient(180deg, #0a0a0b 0%, #6d28d9 35%, #1a102e 75%, #000000 100%);
+  html[data-theme="purplemix"] body {
+    background: linear-gradient(
+      180deg,
+      #0a0a0b 0%,
+      #6d28d9 35%,
+      #1a102e 75%,
+      #000000 100%
+    );
     background-attachment: fixed;
     background-size: cover;
   }

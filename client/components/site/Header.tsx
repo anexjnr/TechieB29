@@ -18,7 +18,10 @@ export default function Header() {
     <header className="sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md">
+          <Link
+            to="/"
+            className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md"
+          >
             AUIO
           </Link>
           <nav className="hidden md:flex items-center gap-8">

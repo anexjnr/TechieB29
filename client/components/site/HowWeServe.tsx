@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import TiltCard from "@/components/site/TiltCard";
 
 export type Step = { t: string; d: string };
 
@@ -25,22 +26,31 @@ export default function HowWeServe({
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-120px" }}
-        className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6"
+        className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch"
       >
         {steps.map((s, i) => (
           <motion.li
             key={`${s.t}-${i}`}
             variants={item}
-            className="lg:col-start-2 lg:col-span-4 rounded-2xl border border-primary/20 glass-card p-6 relative"
+            className="lg:col-start-2 lg:col-span-4 relative"
           >
             <div className="absolute -left-3 top-6 h-2 w-2 rounded-full bg-primary" />
-            <div className="flex items-start gap-4">
-              <div className="text-sm font-semibold text-foreground/80 pt-0.5">{String(i + 1).padStart(2, "0")}</div>
-              <div>
-                <div className="font-semibold text-foreground text-lg">{s.t}</div>
-                <div className="text-sm text-foreground/85 mt-1">{s.d}</div>
+            <TiltCard className="glass-card border border-primary/20 p-6">
+              <div className="flex items-start gap-6">
+                <div className="hidden sm:block shrink-0">
+                  <span
+                    className="font-semibold text-foreground/90 tracking-wider"
+                    style={{ writingMode: "vertical-rl", textOrientation: "mixed" as any }}
+                  >
+                    {s.t}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-foreground/80">{String(i + 1).padStart(2, "0")}</div>
+                  <div className="text-sm text-foreground/85 mt-1 max-w-prose">{s.d}</div>
+                </div>
               </div>
-            </div>
+            </TiltCard>
           </motion.li>
         ))}
       </motion.ol>

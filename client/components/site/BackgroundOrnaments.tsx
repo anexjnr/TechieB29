@@ -17,7 +17,7 @@ export default function BackgroundOrnaments() {
   ];
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-10 overflow-hidden">
       {/* Bubble 1 */}
       <span
         className="absolute block rounded-full blur-2xl opacity-55"

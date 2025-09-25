@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { useEffect, useState } from 'react';
 import IconPicker from '@/components/admin/IconPicker';
 
 export default function SectionsAdmin(){

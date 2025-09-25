@@ -56,11 +56,25 @@ export default function AssetsAdmin(){
             <div className="text-xs text-primary/80 mt-2">{a.createdAt}</div>
             <div className="mt-3 flex items-center justify-center gap-2">
               <a href={`/api/admin/assets/${a.id}`} target="_blank" rel="noreferrer" className="text-sm text-primary/80">View</a>
-              <button onClick={()=>remove(a.id)} className="text-sm text-red-300">Delete</button>
+              <button onClick={()=>setConfirmDeleteId(a.id)} className="text-sm text-red-300">Delete</button>
             </div>
           </div>
         ))}
       </div>
+
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50" onClick={()=>setConfirmDeleteId(null)} />
+          <div className="relative z-50 w-full max-w-md rounded-md bg-white/5 p-6">
+            <h3 className="text-lg font-semibold">Confirm Delete</h3>
+            <p className="mt-2 text-sm text-primary/80">Are you sure you want to delete this asset? This action cannot be undone.</p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={()=>setConfirmDeleteId(null)} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Cancel</button>
+              <button onClick={async ()=>{ try{ await remove(confirmDeleteId!); setConfirmDeleteId(null);}catch(e){console.error(e); setConfirmDeleteId(null);} }} className="rounded-md bg-red-600 px-3 py-2 text-sm text-white">Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

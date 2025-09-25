@@ -1,43 +1,7 @@
 import { useEffect, useState } from "react";
 import Section from "@/components/site/Section";
-import { Target, Palette, Cpu, BarChart3, Zap, Code, Award } from "lucide-react";
-
-const ICONS: Record<string, any> = {
-  "target": Target,
-  "palette": Palette,
-  "cpu": Cpu,
-  "bar-chart-3": BarChart3,
-  "zap": Zap,
-  "code": Code,
-  "award": Award,
-};
-
-function IconPicker({ value, onChange }: { value?: string | null; onChange: (v: string | null) => void }) {
-  const [open, setOpen] = useState(false);
-  const keys = Object.keys(ICONS);
-  const Selected = value ? ICONS[value] : null;
-  return (
-    <div className="relative">
-      <button type="button" onClick={() => setOpen(!open)} className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-transparent px-3 py-2 text-sm text-primary">
-        {Selected ? <Selected className="h-4 w-4" /> : <span className="text-sm text-primary/80">Icon</span>}
-        <span className="text-xs text-primary/80">Choose</span>
-      </button>
-      {open && (
-        <div className="absolute mt-2 right-0 w-48 rounded-md border border-primary/20 bg-black/5 p-2 grid grid-cols-4 gap-2 z-30">
-          {keys.map((k) => {
-            const C = ICONS[k];
-            return (
-              <button key={k} onClick={() => { onChange(k); setOpen(false); }} className="p-1 rounded-md hover:bg-primary/10">
-                <C className="h-4 w-4 text-primary/100" />
-              </button>
-            );
-          })}
-          <div className="col-span-4 text-xs text-primary/80 mt-1">Selected: {value || 'none'}</div>
-        </div>
-      )}
-    </div>
-  );
-}
+import IconPicker from "@/components/admin/IconPicker";
+import { getIconByName } from "@/lib/iconMap";
 
 export default function ServicesAdmin() {
   const [items, setItems] = useState<any[]>([]);

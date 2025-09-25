@@ -239,6 +239,50 @@ export default function SectionsAdmin(){
         )}
 
         <div>
+          <h2 className="text-lg font-semibold">Navigation</h2>
+          <div className="mt-2 rounded-md border border-primary/20 p-3 bg-black/5">
+            <table className="w-full table-fixed">
+              <thead>
+                <tr className="text-left text-sm text-primary/80">
+                  <th className="w-1/3">Label</th>
+                  <th className="w-2/3">Link</th>
+                  <th className="w-24">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {navRows.map((r, i) => (
+                  <tr key={i} className="border-t border-primary/10">
+                    <td className="py-2">
+                      <input value={r.label} onChange={(e)=>setNavRows(prev=>prev.map((x,idx)=>idx===i?{...x,label:e.target.value}:x))} className="w-full rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    </td>
+                    <td className="py-2">
+                      <input value={r.link} onChange={(e)=>setNavRows(prev=>prev.map((x,idx)=>idx===i?{...x,link:e.target.value}:x))} className="w-full rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    </td>
+                    <td className="py-2">
+                      <button onClick={()=>setNavRows(prev=>prev.filter((_,idx)=>idx!==i))} className="text-sm text-red-300">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="mt-3 flex items-center gap-2">
+              <button onClick={()=>setNavRows(prev=>[...prev,{label:'New',link:'/'}])} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Add Row</button>
+              <button onClick={async ()=>{
+                try {
+                  const payload = { key: navSectionId ? undefined : 'nav', heading: 'Navigation', content: JSON.stringify(navRows), enabled: true } as any;
+                  if (navSectionId) {
+                    await fetch(`/api/admin/sections/${navSectionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...(token?{ Authorization: `Bearer ${token}` }: {}) }, body: JSON.stringify({ content: JSON.stringify(navRows) }) });
+                  } else {
+                    await fetch('/api/admin/sections', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(token?{ Authorization: `Bearer ${token}` }: {}) }, body: JSON.stringify({ key: 'nav', heading: 'Navigation', content: JSON.stringify(navRows), enabled: true }) });
+                  }
+                  fetchItems();
+                } catch (e) { console.error(e); }
+              }} className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white">Save</button>
+              <button onClick={()=>setNavRows(navOriginalRows)} className="rounded-md border border-primary/30 px-3 py-2 text-sm">Reset</button>
+            </div>
+          </div>
+
+          <h2 className="mt-4 text-lg font-semibold">Sections</h2>
           <ul className="space-y-3">
             {items.map((it, idx) => (
               <li

@@ -17,6 +17,8 @@ export default function AssetsAdmin(){
 
   useEffect(()=>{fetchAssets()},[]);
 
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+
   const remove = async (id:string)=>{ try{ const res = await fetch(`/api/admin/assets/${id}`, { method: 'DELETE', headers: token?{ Authorization: `Bearer ${token}` }:{}}); if(res.ok) fetchAssets(); }catch(e){console.error(e)} };
 
   const upload = async () => {

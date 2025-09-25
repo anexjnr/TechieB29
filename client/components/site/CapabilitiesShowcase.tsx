@@ -37,7 +37,7 @@ export default function CapabilitiesShowcase({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6", className)}
+      className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch", className)}
     >
       {items.map((c, idx) => (
         <motion.div
@@ -45,7 +45,20 @@ export default function CapabilitiesShowcase({
           variants={card}
           whileHover={{ y: -6, rotate: [-0.2, 0.2, 0], transition: { duration: 0.4 } }}
           whileTap={{ scale: 0.98 }}
-          className="relative rounded-2xl border border-primary/20 bg-black/10 p-6 overflow-hidden group"
+          onMouseMove={(e) => {
+            const el = e.currentTarget as HTMLDivElement;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            el.style.setProperty("--x", `${x}px`);
+            el.style.setProperty("--y", `${y}px`);
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLDivElement;
+            el.style.removeProperty("--x");
+            el.style.removeProperty("--y");
+          }}
+          className="relative rounded-2xl border border-primary/20 bg-black/10 p-6 overflow-hidden group h-full min-h-[160px]"
         >
           <motion.div
             aria-hidden

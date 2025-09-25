@@ -16,6 +16,8 @@ export default function SectionsAdmin(){
 
   const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     // revoke object URL when component unmounts or when preview changes

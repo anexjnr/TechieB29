@@ -110,7 +110,7 @@ export default function ServicesAdmin() {
           ) : (
             <ul className="space-y-3">
               {items.map((it) => {
-                const Icon = it.icon ? (ICONS[it.icon] || null) : null;
+                const Icon = it.icon ? getIconByName(it.icon) : null;
                 return (
                   <li key={it.id} className="rounded-md border border-primary/20 p-3 flex items-start justify-between bg-black/5">
                     <div className="flex items-start gap-3">

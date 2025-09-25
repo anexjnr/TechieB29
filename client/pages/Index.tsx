@@ -1,7 +1,7 @@
 import {
   ArrowRight,
-  Cpu,
   Palette,
+  Cpu,
   Target,
   BarChart3,
   Quote,
@@ -14,6 +14,7 @@ import HowWeServe from "@/components/site/HowWeServe";
 import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
 import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
+import { getIconByName } from "@/lib/iconMap";
 
 export async function loader() {
   try {
@@ -293,31 +294,47 @@ export default function Index() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
           What We Do
         </h2>
-        <CapabilitiesShowcase
-          className="mt-8"
-          items={[
-            {
-              icon: Target,
-              title: "Strategy",
-              desc: "From discovery to roadmap, aligning on outcomes.",
-            },
-            {
-              icon: Palette,
-              title: "Design",
-              desc: "Accessible, modern interfaces with purpose.",
-            },
-            {
-              icon: Cpu,
-              title: "Engineering",
-              desc: "Robust web apps, APIs, and infra.",
-            },
-            {
-              icon: BarChart3,
-              title: "Analytics",
-              desc: "Ship, learn, iterate with data.",
-            },
-          ]}
-        />
+        {(() => {
+          let items = [] as any[];
+          try {
+            items = sections.flowchart?.content
+              ? JSON.parse(sections.flowchart.content)
+              : [];
+          } catch (e) {
+            items = [];
+          }
+          if (!Array.isArray(items) || items.length === 0) {
+            items = [
+              {
+                icon: "target",
+                title: "Strategy",
+                desc: "From discovery to roadmap, aligning on outcomes.",
+              },
+              {
+                icon: "palette",
+                title: "Design",
+                desc: "Accessible, modern interfaces with purpose.",
+              },
+              {
+                icon: "cpu",
+                title: "Engineering",
+                desc: "Robust web apps, APIs, and infra.",
+              },
+              {
+                icon: "bar-chart-3",
+                title: "Analytics",
+                desc: "Ship, learn, iterate with data.",
+              },
+            ];
+          }
+          // map icon strings to components
+          const mapped = items.map((it) => ({
+            icon: (getIconByName(it.icon) || Target) as any,
+            title: it.label || it.title || "Item",
+            desc: it.desc || it.description || "",
+          }));
+          return <CapabilitiesShowcase className="mt-8" items={mapped} />;
+        })()}
       </Section>
 
       {/* How We Serve - improved spacing */}

@@ -1,7 +1,15 @@
-import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
 
-export default function Section({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+export default function Section({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const controls = useAnimation();
@@ -18,7 +26,11 @@ export default function Section({ children, className = "", delay = 0 }: { child
       animate={controls}
       variants={{
         hidden: { opacity: 0, y: 24 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut", delay } },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.6, ease: "easeOut", delay },
+        },
       }}
     >
       {children}

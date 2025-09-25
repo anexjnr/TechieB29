@@ -14,6 +14,8 @@ export interface ServiceItem {
   title: string;
   description: string;
   icon?: string;
+  image?: string;
+  order?: number;
 }
 export interface ProjectItem {
   id: ID;
@@ -124,24 +126,32 @@ class MemoryDB {
           title: "Strategy",
           description: "From discovery to roadmap, we align teams on outcomes.",
           icon: "target",
+          image: null as any,
+          order: 0,
         },
         {
           id: uid(),
           title: "Design",
           description: "Accessible, modern interfaces with purpose.",
           icon: "palette",
+          image: null as any,
+          order: 1,
         },
         {
           id: uid(),
           title: "Engineering",
           description: "Robust web apps, APIs, and infra.",
           icon: "cpu",
+          image: null as any,
+          order: 2,
         },
         {
           id: uid(),
           title: "Analytics",
           description: "Ship, learn, iterate with data.",
           icon: "bar-chart-3",
+          image: null as any,
+          order: 3,
         },
       );
     }
@@ -223,6 +233,22 @@ class MemoryDB {
           image: null as any,
           enabled: true,
           order: 3,
+        },
+        // default editable navigation
+        {
+          id: uid(),
+          key: "nav",
+          heading: "Navigation",
+          content: JSON.stringify([
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About" },
+            { to: "/services", label: "Services" },
+            { to: "/insights", label: "Insights" },
+            { to: "/careers", label: "Careers" },
+            { to: "/contact", label: "Contact" },
+          ]),
+          enabled: true,
+          order: 0,
         },
       );
     }

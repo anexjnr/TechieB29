@@ -1,6 +1,7 @@
-import Section from "@/components/site/Section";
 import { Quote } from "lucide-react";
 import { useEffect, useState } from "react";
+import Section from "@/components/site/Section";
+import AnimatedTitle from "@/components/site/AnimatedTitle";
 
 export default function Insights() {
   const [news, setNews] = useState<any[]>([]);
@@ -16,29 +17,29 @@ export default function Insights() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
       <Section>
-        <h1 className="text-4xl sm:text-5xl font-extrabold">Insights</h1>
-        <p className="mt-4 max-w-prose text-primary/85">News, updates, and voices from our partners.</p>
+        <AnimatedTitle text="Insights" className="text-4xl sm:text-5xl font-extrabold text-foreground" />
+        <p className="mt-4 max-w-prose text-foreground/85">News, updates, and voices from our partners.</p>
       </Section>
       <Section className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6" delay={0.1}>
         {news.map(n => (
           <article key={n.id} className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card">
             {n.image ? (typeof n.image === 'string' ? <img src={n.image} alt="" className="h-40 w-full object-cover border-b border-primary/10" /> : (n.image.id ? <img src={`/api/assets/${n.image.id}`} alt="" className="h-40 w-full object-cover border-b border-primary/10" /> : <img src="/placeholder.svg" alt="" className="h-40 w-full object-cover border-b border-primary/10" />)) : <img src="/placeholder.svg" alt="" className="h-40 w-full object-cover border-b border-primary/10" />}
             <div className="p-6">
-              <h3 className="font-semibold text-primary/100">{n.title}</h3>
-              <p className="mt-2 text-sm text-primary/90">{n.excerpt}</p>
-              <button className="mt-4 text-sm font-semibold text-primary/90 hover:text-primary/100">Read more →</button>
+              <h3 className="font-semibold text-foreground">{n.title}</h3>
+              <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
+              <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">Read more →</button>
             </div>
           </article>
         ))}
       </Section>
       <Section className="mt-16" delay={0.15}>
-        <h2 className="text-2xl font-bold">Testimonials</h2>
+        <h2 className="text-2xl font-bold text-foreground">Testimonials</h2>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map(t => (
             <figure key={t.id} className="rounded-2xl border border-primary/20 p-6 glass-card">
-              <Quote className="h-5 w-5 text-primary/90" />
-              <blockquote className="mt-3 text-primary/100">{t.quote}</blockquote>
-              <figcaption className="mt-4 text-sm text-primary/90">{t.author}{t.role?`, ${t.role}`:''}</figcaption>
+              <Quote className="h-5 w-5 text-foreground/90" />
+              <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+              <figcaption className="mt-4 text-sm text-foreground/90">{t.author}{t.role?`, ${t.role}`:''}</figcaption>
               {t.avatar ? (typeof t.avatar === 'string' ? <img src={t.avatar} alt="avatar" className="mt-3 h-12 w-12 rounded-full object-cover" /> : (t.avatar.id ? <img src={`/api/assets/${t.avatar.id}`} alt="avatar" className="mt-3 h-12 w-12 rounded-full object-cover" /> : null)) : null}
             </figure>
           ))}

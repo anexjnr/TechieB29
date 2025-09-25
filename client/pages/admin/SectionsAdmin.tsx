@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { useEffect, useState } from 'react';
+import IconPicker from '@/components/admin/IconPicker';
+
 export default function SectionsAdmin(){
   const [items, setItems] = useState<any[]>([]);
   const [key, setKey] = useState("");
@@ -11,8 +14,7 @@ export default function SectionsAdmin(){
   const [editingId, setEditingId] = useState<string | null>(null);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  import IconPicker from '@/components/admin/IconPicker';
-const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
+  const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
 
   const fetchItems = async () => {
     try {

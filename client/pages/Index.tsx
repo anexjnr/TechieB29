@@ -172,7 +172,13 @@ export default function Index() {
             </div>
             <div className="relative">
               <div className="aspect-square rounded-3xl glass-card border border-primary/20 p-8 flex items-center justify-center">
-                <div className="grid grid-cols-2 gap-6 w-full">
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-120px" }}
+                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+                  className="grid grid-cols-2 gap-6 w-full"
+                >
                   {(() => {
                     const iconMap: Record<string, any> = {
                       target: Target,
@@ -215,8 +221,10 @@ export default function Index() {
                     return items.map((i, idx) => {
                       const Icon = iconMap[i.icon] || Target;
                       return (
-                        <div
+                        <motion.div
                           key={idx}
+                          variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                          whileHover={{ y: -4 }}
                           className="rounded-xl border border-primary/10 p-6 bg-transparent"
                         >
                           <Icon className="h-6 w-6 text-primary/100" />
@@ -226,11 +234,11 @@ export default function Index() {
                           <div className="text-sm text-primary/80">
                             {i.desc}
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     });
                   })()}
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>

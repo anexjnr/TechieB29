@@ -44,14 +44,14 @@ export default function BackgroundOrnaments() {
       />
       {/* Bubble 4 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-40"
+        className="absolute block rounded-full blur-2xl opacity-48"
         style={{
           right: "14%",
           bottom: "10%",
-          width: 380,
-          height: 380,
+          width: 460,
+          height: 460,
           background:
-            "radial-gradient(closest-side, hsl(var(--primary) / 0.3) 0%, transparent 70%)",
+            "radial-gradient(closest-side, hsl(var(--primary) / 0.38) 0%, transparent 60%)",
           animation: "floaty 30s ease-in-out infinite",
         }}
       />

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 
 export default function AssetsAdmin(){
   const [assets, setAssets] = useState<any[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const fetchAssets = async ()=>{
@@ -16,10 +19,34 @@ export default function AssetsAdmin(){
 
   const remove = async (id:string)=>{ try{ const res = await fetch(`/api/admin/assets/${id}`, { method: 'DELETE', headers: token?{ Authorization: `Bearer ${token}` }:{}}); if(res.ok) fetchAssets(); }catch(e){console.error(e)} };
 
+  const upload = async () => {
+    if (!file) return;
+    setUploading(true);
+    try{
+      const fd = new FormData(); fd.append('file', file);
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd, headers: token?{ Authorization: `Bearer ${token}` }:{} });
+      const data = await (await import('@/lib/fetchUtils')).parseResponse(res);
+      if (data?.url) {
+        setPreviewUrl(data.url);
+        fetchAssets();
+      }
+    }catch(e){ console.error(e); }
+    setUploading(false);
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-extrabold">Assets / Media</h1>
       <p className="text-sm text-primary/80 mt-2">List uploaded images and files. You can delete unused assets here.</p>
+
+      <div className="mt-4 rounded-md border border-primary/20 p-4 bg-black/5">
+        <div className="flex items-center gap-4">
+          <input type="file" accept="image/*" onChange={(e)=>{ setFile(e.target.files?.[0] ?? null); setPreviewUrl(null); }} />
+          <button onClick={upload} disabled={uploading || !file} className="inline-flex items-center rounded-md border border-primary/30 bg-transparent px-3 py-2 text-sm font-semibold text-primary">{uploading? 'Uploading...' : 'Upload'}</button>
+          {previewUrl && <a href={previewUrl} target="_blank" rel="noreferrer" className="text-sm text-primary/80">Preview</a>}
+        </div>
+      </div>
+
       <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
         {assets.map(a=> (
           <div key={a.id} className="rounded-md border border-primary/20 p-3 bg-black/5 text-center">

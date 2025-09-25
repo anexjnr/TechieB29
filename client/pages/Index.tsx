@@ -151,7 +151,10 @@ export default function Index() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <AnimatedTitle
-                text={sections.hero?.heading || "Building clear, resilient products for modern companies"}
+                text={
+                  sections.hero?.heading ||
+                  "Building clear, resilient products for modern companies"
+                }
                 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
               />
               <p className="mt-6 text-lg text-foreground/90 max-w-xl">
@@ -178,7 +181,10 @@ export default function Index() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-120px" }}
-                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.08 } },
+                  }}
                   className="grid grid-cols-2 gap-4 sm:gap-6 w-full items-stretch"
                 >
                   {(() => {
@@ -225,12 +231,23 @@ export default function Index() {
                       return (
                         <motion.div
                           key={idx}
-                          variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                          variants={{
+                            hidden: { opacity: 0, y: 18 },
+                            visible: {
+                              opacity: 1,
+                              y: 0,
+                              transition: { duration: 0.45 },
+                            },
+                          }}
                         >
                           <TiltCard className="h-full min-h-[160px]">
                             <Icon className="h-6 w-6 text-primary/100" />
-                            <div className="mt-4 font-semibold text-primary/100">{i.label}</div>
-                            <div className="text-sm text-primary/80">{i.desc}</div>
+                            <div className="mt-4 font-semibold text-primary/100">
+                              {i.label}
+                            </div>
+                            <div className="text-sm text-primary/80">
+                              {i.desc}
+                            </div>
                           </TiltCard>
                         </motion.div>
                       );
@@ -279,10 +296,26 @@ export default function Index() {
         <CapabilitiesShowcase
           className="mt-8"
           items={[
-            { icon: Target, title: "Strategy", desc: "From discovery to roadmap, aligning on outcomes." },
-            { icon: Palette, title: "Design", desc: "Accessible, modern interfaces with purpose." },
-            { icon: Cpu, title: "Engineering", desc: "Robust web apps, APIs, and infra." },
-            { icon: BarChart3, title: "Analytics", desc: "Ship, learn, iterate with data." },
+            {
+              icon: Target,
+              title: "Strategy",
+              desc: "From discovery to roadmap, aligning on outcomes.",
+            },
+            {
+              icon: Palette,
+              title: "Design",
+              desc: "Accessible, modern interfaces with purpose.",
+            },
+            {
+              icon: Cpu,
+              title: "Engineering",
+              desc: "Robust web apps, APIs, and infra.",
+            },
+            {
+              icon: BarChart3,
+              title: "Analytics",
+              desc: "Ship, learn, iterate with data.",
+            },
           ]}
         />
       </Section>
@@ -298,10 +331,26 @@ export default function Index() {
         <HowWeServeInfographic
           className="mt-8"
           items={[
-            { title: "Discover", desc: "Define goals, constraints, and success.", icon: Target },
-            { title: "Design", desc: "Prototype, test, refine with users.", icon: Palette },
-            { title: "Build", desc: "Ship iteratively with quality gates.", icon: Cpu },
-            { title: "Evolve", desc: "Measure outcomes and iterate.", icon: BarChart3 },
+            {
+              title: "Discover",
+              desc: "Define goals, constraints, and success.",
+              icon: Target,
+            },
+            {
+              title: "Design",
+              desc: "Prototype, test, refine with users.",
+              icon: Palette,
+            },
+            {
+              title: "Build",
+              desc: "Ship iteratively with quality gates.",
+              icon: Cpu,
+            },
+            {
+              title: "Evolve",
+              desc: "Measure outcomes and iterate.",
+              icon: BarChart3,
+            },
           ]}
         />
       </Section>
@@ -319,19 +368,31 @@ export default function Index() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-120px" }}
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } },
+            }}
             className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform"
           >
             {testimonials.length ? (
               testimonials.map((t: any) => (
                 <motion.figure
                   key={t.id}
-                  variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                  variants={{
+                    hidden: { opacity: 0, y: 18 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5 },
+                    },
+                  }}
                   whileHover={{ y: -6, scale: 1.02 }}
                   className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card"
                 >
                   <Quote className="h-5 w-5 text-foreground/90" />
-                  <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+                  <blockquote className="mt-3 text-foreground">
+                    {t.quote}
+                  </blockquote>
                   <figcaption className="mt-4 text-sm text-foreground/90">
                     {t.author} {t.role ? `, ${t.role}` : ""}
                   </figcaption>

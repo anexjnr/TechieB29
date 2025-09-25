@@ -38,7 +38,10 @@ export default function CapabilitiesShowcase({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch", className)}
+      className={cn(
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch",
+        className,
+      )}
     >
       {items.map((c, idx) => (
         <TiltCard key={`${c.title}-${idx}`}>

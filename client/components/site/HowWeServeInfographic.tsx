@@ -22,9 +22,18 @@ export default function HowWeServeInfographic({
   });
 
   return (
-    <div className={cn("relative mx-auto max-w-5xl min-h-[420px] hidden sm:block", className)}>
+    <div
+      className={cn(
+        "relative mx-auto max-w-5xl min-h-[420px] hidden sm:block",
+        className,
+      )}
+    >
       {/* lines */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <svg
+        className="absolute inset-0 w-full h-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
         {nodes.map((n, i) => (
           <motion.line
             key={`line-${i}`}
@@ -42,7 +51,15 @@ export default function HowWeServeInfographic({
             strokeLinecap="round"
           />
         ))}
-        <circle cx={50} cy={50} r={radius} className="text-primary/15" stroke="currentColor" strokeWidth={0.3} fill="none" />
+        <circle
+          cx={50}
+          cy={50}
+          r={radius}
+          className="text-primary/15"
+          stroke="currentColor"
+          strokeWidth={0.3}
+          fill="none"
+        />
       </svg>
 
       {/* center hub */}
@@ -55,7 +72,9 @@ export default function HowWeServeInfographic({
       >
         <TiltCard className="px-8 py-6">
           <div className="text-lg font-semibold">Process</div>
-          <div className="text-sm text-foreground/85">Discover • Design • Build • Evolve</div>
+          <div className="text-sm text-foreground/85">
+            Discover • Design • Build • Evolve
+          </div>
         </TiltCard>
       </motion.div>
 
@@ -64,7 +83,11 @@ export default function HowWeServeInfographic({
         <motion.div
           key={`node-${i}`}
           className="absolute"
-          style={{ left: `${n.x}%`, top: `${n.y}%`, transform: "translate(-50%, -50%)" }}
+          style={{
+            left: `${n.x}%`,
+            top: `${n.y}%`,
+            transform: "translate(-50%, -50%)",
+          }}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

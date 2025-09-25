@@ -25,7 +25,11 @@ export default function TiltCard({
     <motion.div
       onMouseMove={handleMove}
       onMouseLeave={reset}
-      whileHover={{ scale: 1.05, y: -6, boxShadow: "0 24px 72px rgba(17, 12, 46, 0.5)" }}
+      whileHover={{
+        scale: 1.05,
+        y: -6,
+        boxShadow: "0 24px 72px rgba(17, 12, 46, 0.5)",
+      }}
       transition={{ type: "spring", stiffness: 240, damping: 20, mass: 0.6 }}
       className={cn(
         "relative rounded-2xl border border-primary/20 bg-black/10 p-6 overflow-hidden group",
@@ -36,12 +40,14 @@ export default function TiltCard({
         className,
       )}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-2xl" style={{
-        background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-      }} />
-      <div className="relative z-[1]">
-        {children}
-      </div>
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+        }}
+      />
+      <div className="relative z-[1]">{children}</div>
     </motion.div>
   );
 }

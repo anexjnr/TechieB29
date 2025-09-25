@@ -17,7 +17,11 @@ export default function HowWeServe({
   };
   const item = {
     hidden: { opacity: 0, x: 24 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
   };
   return (
     <div className={cn("lg:pl-24", className)}>
@@ -40,14 +44,21 @@ export default function HowWeServe({
                 <div className="hidden sm:block shrink-0">
                   <span
                     className="font-semibold text-foreground/90 tracking-wider"
-                    style={{ writingMode: "vertical-rl", textOrientation: "mixed" as any }}
+                    style={{
+                      writingMode: "vertical-rl",
+                      textOrientation: "mixed" as any,
+                    }}
                   >
                     {s.t}
                   </span>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-foreground/80">{String(i + 1).padStart(2, "0")}</div>
-                  <div className="text-sm text-foreground/85 mt-1 max-w-prose">{s.d}</div>
+                  <div className="text-sm font-semibold text-foreground/80">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-foreground/85 mt-1 max-w-prose">
+                    {s.d}
+                  </div>
                 </div>
               </div>
             </TiltCard>

@@ -19,14 +19,28 @@ export default function SectionsAdmin(){
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
+  // modal states
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newKey, setNewKey] = useState('');
+  const [newHeading, setNewHeading] = useState('');
+  const [newContent, setNewContent] = useState('');
+  const [newFile, setNewFile] = useState<File | null>(null);
+  const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
+  const [newEnabled, setNewEnabled] = useState(true);
+
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+
   useEffect(() => {
     // revoke object URL when component unmounts or when preview changes
     return () => {
       if (imagePreview && imagePreview.startsWith('blob:')) {
         try { URL.revokeObjectURL(imagePreview); } catch (e) { /* ignore */ }
       }
+      if (newImagePreview && newImagePreview.startsWith('blob:')) {
+        try { URL.revokeObjectURL(newImagePreview); } catch (e) { /* ignore */ }
+      }
     };
-  }, [imagePreview]);
+  }, [imagePreview, newImagePreview]);
 
   const fetchItems = async () => {
     try {

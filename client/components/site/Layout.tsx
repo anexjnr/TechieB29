@@ -8,11 +8,13 @@ export default function Layout() {
   return (
     <div className="min-h-screen text-primary relative">
       <BackgroundOrnaments />
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <div className="relative z-10">
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

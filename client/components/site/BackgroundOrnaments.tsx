@@ -2,16 +2,16 @@ import React from "react";
 
 export default function BackgroundOrnaments() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Bubble 1 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-30"
+        className="absolute block rounded-full blur-3xl opacity-35"
         style={{
           left: "10%",
           top: "12%",
-          width: 220,
-          height: 220,
-          color: "hsl(var(--primary) / 0.25)",
+          width: 280,
+          height: 280,
+          color: "hsl(var(--primary) / 0.28)",
           background:
             "radial-gradient(closest-side, currentColor 0%, transparent 70%)",
           animation: "drift 28s ease-in-out infinite",
@@ -19,13 +19,13 @@ export default function BackgroundOrnaments() {
       />
       {/* Bubble 2 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-25"
+        className="absolute block rounded-full blur-3xl opacity-30"
         style={{
           right: "8%",
           top: "18%",
-          width: 280,
-          height: 280,
-          color: "hsl(var(--accent) / 0.22)",
+          width: 340,
+          height: 340,
+          color: "hsl(var(--accent) / 0.26)",
           background:
             "radial-gradient(closest-side, currentColor 0%, transparent 70%)",
           animation: "floaty 34s ease-in-out infinite",
@@ -33,13 +33,13 @@ export default function BackgroundOrnaments() {
       />
       {/* Bubble 3 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-20"
+        className="absolute block rounded-full blur-3xl opacity-28"
         style={{
           left: "18%",
           bottom: "15%",
-          width: 300,
-          height: 300,
-          color: "hsl(var(--primary) / 0.2)",
+          width: 360,
+          height: 360,
+          color: "hsl(var(--primary) / 0.24)",
           background:
             "radial-gradient(closest-side, currentColor 0%, transparent 70%)",
           animation: "drift 36s ease-in-out infinite",
@@ -47,13 +47,13 @@ export default function BackgroundOrnaments() {
       />
       {/* Bubble 4 */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-25"
+        className="absolute block rounded-full blur-3xl opacity-30"
         style={{
           right: "14%",
           bottom: "10%",
-          width: 240,
-          height: 240,
-          color: "hsl(var(--primary) / 0.18)",
+          width: 300,
+          height: 300,
+          color: "hsl(var(--primary) / 0.22)",
           background:
             "radial-gradient(closest-side, currentColor 0%, transparent 70%)",
           animation: "floaty 30s ease-in-out infinite",
@@ -61,13 +61,13 @@ export default function BackgroundOrnaments() {
       />
       {/* Bubble 5 (center subtle) */}
       <span
-        className="absolute block rounded-full blur-3xl opacity-15"
+        className="absolute block rounded-full blur-3xl opacity-20"
         style={{
           left: "45%",
           top: "40%",
-          width: 260,
-          height: 260,
-          color: "hsl(var(--ring) / 0.2)",
+          width: 320,
+          height: 320,
+          color: "hsl(var(--ring) / 0.24)",
           background:
             "radial-gradient(closest-side, currentColor 0%, transparent 70%)",
           animation: "drift 40s ease-in-out infinite",

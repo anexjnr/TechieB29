@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SectionsAdmin(){
   const [items, setItems] = useState<any[]>([]);
@@ -10,6 +10,8 @@ export default function SectionsAdmin(){
   const [enabled, setEnabled] = useState<boolean>(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+  const [capabilities, setCapabilities] = useState<{ icon?: string; label?: string; desc?: string }[]>([]);
 
   const fetchItems = async () => {
     try {
@@ -35,18 +37,41 @@ export default function SectionsAdmin(){
       if (order !== undefined) payload.order = order;
       if (uploaded?.id) payload.imageId = uploaded.id;
 
+      // if capabilities present and key indicates flowchart, stringify
+      if (key === 'flowchart' || key === 'capabilities') {
+        payload.content = JSON.stringify(capabilities);
+      }
+
       if (editingId){
         const res = await fetch(`/api/admin/sections/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...(token?{ Authorization: `Bearer ${token}` }: {}) }, body: JSON.stringify(payload) });
-        if (res.ok){ setEditingId(null); setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); fetchItems(); }
+        if (res.ok){ setEditingId(null); setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); setCapabilities([]); fetchItems(); }
       } else {
         const res = await fetch('/api/admin/sections', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(token?{ Authorization: `Bearer ${token}` }: {}) }, body: JSON.stringify(payload) });
-        if (res.ok){ setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); fetchItems(); }
+        if (res.ok){ setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); setCapabilities([]); fetchItems(); }
       }
     } catch(e){ console.error(e); }
   };
 
-  const startEdit = (it:any) => { setEditingId(it.id); setKey(it.key||''); setHeading(it.heading||''); setContent(it.content||''); setOrder(it.order); setEnabled(!!it.enabled); };
+  const startEdit = (it:any) => {
+    setEditingId(it.id);
+    setKey(it.key||'');
+    setHeading(it.heading||'');
+    setContent(it.content||'');
+    setOrder(it.order);
+    setEnabled(!!it.enabled);
+    // if content is JSON array, load capabilities
+    try {
+      const parsed = typeof it.content === 'string' ? JSON.parse(it.content) : it.content;
+      if (Array.isArray(parsed)) setCapabilities(parsed);
+      else setCapabilities([]);
+    } catch(e) { setCapabilities([]); }
+  };
+
   const remove = async (id:string) => { try { const res = await fetch(`/api/admin/sections/${id}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} }); if (res.ok) fetchItems(); } catch(e){ console.error(e); } };
+
+  const addCapability = () => setCapabilities(prev => [...prev, { icon: 'target', label: 'New', desc: '' }]);
+  const updateCapability = (i:number, field:string, val:string) => setCapabilities(prev => prev.map((c,idx) => idx===i?{...c,[field]:val}:c));
+  const removeCapability = (i:number) => setCapabilities(prev => prev.filter((_,idx)=>idx!==i));
 
   return (
     <div>
@@ -55,7 +80,28 @@ export default function SectionsAdmin(){
         <div className="rounded-md border border-primary/20 p-4 bg-black/5">
           <input value={key} onChange={(e)=>setKey(e.target.value)} placeholder="Key (unique)" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
           <input value={heading} onChange={(e)=>setHeading(e.target.value)} placeholder="Heading" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
-          <textarea value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Content" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+          {/* If editing capabilities, show structured editor */}
+          {(key === 'flowchart' || key === 'capabilities') ? (
+            <div className="mb-2">
+              <div className="flex items-center justify-between">
+                <div className="text-sm font-semibold text-primary/90">Capabilities</div>
+                <button onClick={addCapability} className="text-sm text-primary/80">Add</button>
+              </div>
+              <div className="mt-2 space-y-2">
+                {capabilities.map((c, i) => (
+                  <div key={i} className="rounded-md border border-primary/20 p-2 bg-black/5 flex items-start gap-2">
+                    <input value={c.icon || ''} onChange={(e)=>updateCapability(i,'icon',e.target.value)} placeholder="icon" className="w-24 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    <input value={c.label || ''} onChange={(e)=>updateCapability(i,'label',e.target.value)} placeholder="label" className="w-36 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    <input value={c.desc || ''} onChange={(e)=>updateCapability(i,'desc',e.target.value)} placeholder="desc" className="flex-1 rounded-md bg-transparent border border-primary/30 px-2 py-1 text-primary" />
+                    <button onClick={()=>removeCapability(i)} className="text-sm text-red-300">Delete</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <textarea value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Content" className="w-full mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
+          )}
+
           <input type="file" accept="image/*" onChange={(e)=>setFile(e.target.files?.[0] ?? null)} className="mt-2 text-sm text-primary/80" />
           <input value={order ?? ''} onChange={(e)=>setOrder(e.target.value?parseInt(e.target.value,10):undefined)} placeholder="Order (number)" className="w-full mt-2 mb-2 rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary" />
           <label className="inline-flex items-center gap-2 mt-2">
@@ -64,7 +110,7 @@ export default function SectionsAdmin(){
           </label>
           <div className="mt-3">
             <button onClick={createOrUpdate} className="inline-flex items-center rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary">{editingId? 'Update' : 'Create'}</button>
-            {editingId && <button onClick={()=>{ setEditingId(null); setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); }} className="ml-3 text-sm text-primary/80">Cancel</button>}
+            {editingId && <button onClick={()=>{ setEditingId(null); setKey(''); setHeading(''); setContent(''); setFile(null); setOrder(undefined); setEnabled(true); setCapabilities([]); }} className="ml-3 text-sm text-primary/80">Cancel</button>}
           </div>
         </div>
 
@@ -74,7 +120,7 @@ export default function SectionsAdmin(){
               <li key={it.id} className="rounded-md border border-primary/20 p-3 flex items-start justify-between bg-black/5">
                 <div>
                   <div className="font-semibold text-primary">{it.key} {it.heading ? `- ${it.heading}` : ''}</div>
-                  <div className="text-sm text-primary/80">{it.content}</div>
+                  <div className="text-sm text-primary/80">{typeof it.content === 'string' && it.content.length > 100 ? it.content.slice(0,100)+'...' : it.content}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <label className="inline-flex items-center gap-2">

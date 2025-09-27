@@ -517,6 +517,8 @@ export default function Index() {
                   src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=400&q=80"
                   alt="Nimbus case study"
                   className="h-24 w-24 rounded-md object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="flex-1">
                   <div className="font-semibold text-foreground">

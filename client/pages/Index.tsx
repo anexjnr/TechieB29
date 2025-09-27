@@ -448,7 +448,7 @@ export default function Index() {
                   <div className="font-semibold text-foreground">Design system for Northstar</div>
                   <div className="text-sm text-foreground/80 mt-1">A shared component library enabling faster launches across teams.</div>
                   <div className="mt-3">
-                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study ��</Link>
+                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study →</Link>
                   </div>
                 </div>
               </article>
@@ -489,25 +489,23 @@ export default function Index() {
                 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
               ];
-              const avatarUrl = t.avatar
-                ? (typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null)
-                : fallbacks[idx % fallbacks.length];
 
-              const isAlex = t.id === 'tt_extra' || (typeof t.author === 'string' && t.author.toLowerCase().includes('alex johnson'));
+              // resolve avatar url for any testimonial
+              let avatarUrl = null as string | null;
+              if (t && t.avatar) {
+                avatarUrl = typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null;
+              }
+              if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
 
-              // ensure Priya S has an avatar if missing
-              let resolvedAvatar = avatarUrl;
-              if ((!resolvedAvatar || resolvedAvatar.indexOf('placeholder') !== -1) && typeof t.author === 'string' && t.author.toLowerCase().includes('priya')) {
-                resolvedAvatar = 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80';
+              // ensure Priya S has a known avatar
+              if (typeof t.author === 'string' && t.author.toLowerCase().includes('priya')) {
+                avatarUrl = 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80';
               }
 
-              const figureClasses = isAlex
-                ? 'min-w-[220px] sm:min-w-[260px] rounded-2xl border border-primary/20 bg-transparent p-3 glass-card flex flex-col justify-between'
-                : 'min-w-[240px] sm:min-w-[300px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between';
-
-              const quoteClass = isAlex ? 'mt-2 text-foreground text-xs leading-snug' : 'mt-2 text-foreground text-sm leading-relaxed';
-
-              const avatarSizeClass = isAlex ? 'h-8 w-8' : 'h-10 w-10';
+              // uniform sizing for all cards so they align
+              const figureClasses = 'w-[300px] sm:w-[340px] h-[200px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between';
+              const quoteClass = 'mt-2 text-foreground text-sm leading-relaxed overflow-hidden';
+              const avatarSizeClass = 'h-10 w-10';
 
               return (
                 <motion.figure
@@ -532,10 +530,10 @@ export default function Index() {
                     <div>
                       <div className="text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ''}</div>
                     </div>
-                    {resolvedAvatar ? (
+                    {avatarUrl ? (
                       <motion.img
-                        src={resolvedAvatar}
-                        alt="avatar"
+                        src={avatarUrl}
+                        alt={`${t.author} avatar`}
                         className={`${avatarSizeClass} rounded-full object-cover`}
                         animate={{ y: [0, -2, 0] }}
                         transition={{ duration: 3, repeat: Infinity }}

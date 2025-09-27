@@ -504,16 +504,23 @@ export default function Index() {
 
               // resolve avatar url for any testimonial
               let avatarUrl: string | null = null;
-              if (t && t.avatar) {
-                avatarUrl = typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null;
-              }
 
               const authorKey = typeof t.author === 'string' ? t.author.toLowerCase().trim() : '';
+              // prefer explicit mapping for known authors
               if (authorKey && authorAvatars[authorKey]) {
                 avatarUrl = authorAvatars[authorKey];
               }
 
+              // if not resolved, try t.avatar as string or object with url or id
+              if (!avatarUrl && t && t.avatar) {
+                if (typeof t.avatar === 'string') avatarUrl = t.avatar;
+                else if (t.avatar.url) avatarUrl = t.avatar.url;
+                else if (t.avatar.id) avatarUrl = `/api/assets/${t.avatar.id}`;
+              }
+
               if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
+
+              // ensure full url (avoid relative API asset issues) - leave as-is otherwise
 
               return (
                 <motion.article

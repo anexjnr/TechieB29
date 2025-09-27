@@ -2,6 +2,7 @@ import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { lazy, Suspense } from "react";
+import LoadingScreen from "./components/site/LoadingScreen";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -76,14 +77,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={
-        <div>
-          {(() => {
-            const Comp = require("./components/site/LoadingScreen").default;
-            return <Comp />;
-          })()}
-        </div>
-      }>
+      <Suspense fallback={<LoadingScreen />}>
         <RouterProvider router={router} />
       </Suspense>
     </TooltipProvider>

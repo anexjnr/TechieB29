@@ -457,7 +457,7 @@ export default function Index() {
         </div>
       </Section>
 
-      {/* Testimonials slider (simple auto scroll) */}
+      {/* Testimonials - infographic style */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
         delay={0.25}
@@ -466,16 +466,14 @@ export default function Index() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
           <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
         </div>
+
         <div className="mt-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-120px" }}
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.1 } },
-            }}
-            className="flex gap-6 justify-center flex-wrap will-change-transform"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {([...(testimonials || []), {
               id: 'tt_extra',
@@ -489,7 +487,7 @@ export default function Index() {
               role: 'Product Lead, Gamma',
               quote: 'A focused team that delivers measurable outcomes.',
               avatar: 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
-            }]).map((t: any, idx: number) => {
+            }]).slice(0,4).map((t: any, idx: number) => {
               const fallbacks = [
                 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
                 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
@@ -497,7 +495,7 @@ export default function Index() {
               ];
 
               // resolve avatar url for any testimonial
-              let avatarUrl = null as string | null;
+              let avatarUrl: string | null = null;
               if (t && t.avatar) {
                 avatarUrl = typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null;
               }
@@ -508,45 +506,31 @@ export default function Index() {
                 avatarUrl = 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80';
               }
 
-              // uniform sizing for all cards so they align
-              const figureClasses = 'w-[300px] sm:w-[340px] h-[200px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between snap-start';
-              const quoteClass = 'mt-2 text-foreground text-sm leading-relaxed overflow-hidden';
-              const avatarSizeClass = 'h-10 w-10';
-
               return (
-                <motion.figure
+                <motion.article
                   key={t.id}
-                  variants={{
-                    hidden: { opacity: 0, y: 12 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.45 },
-                    },
-                  }}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  className={figureClasses}
+                  variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                  className="relative rounded-2xl border border-primary/20 bg-gradient-to-br from-indigo-900/30 to-purple-900/20 p-6 overflow-hidden glass-card"
                 >
-                  <div>
-                    <Quote className="h-5 w-5 text-foreground/90" />
-                    <blockquote className={quoteClass}>{t.quote}</blockquote>
-                  </div>
+                  <div className="absolute -top-6 left-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-primary/90 font-bold">{idx+1}</div>
 
-                  <div className="flex items-center justify-between mt-4">
+                  <div className="flex flex-col h-full justify-between">
                     <div>
-                      <div className="text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ''}</div>
+                      <Quote className="h-6 w-6 text-primary/80" />
+                      <p className="mt-3 text-foreground/90 text-sm leading-relaxed">{t.quote}</p>
                     </div>
-                    {avatarUrl ? (
-                      <motion.img
-                        src={avatarUrl}
-                        alt={`${t.author} avatar`}
-                        className={`${avatarSizeClass} rounded-full object-cover`}
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                      />
-                    ) : null}
+
+                    <div className="flex items-center justify-between mt-6">
+                      <div>
+                        <div className="text-sm font-semibold text-foreground">{t.author}</div>
+                        <div className="text-xs text-foreground/80">{t.role}</div>
+                      </div>
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt={`${t.author} avatar`} className="h-12 w-12 rounded-full object-cover border-2 border-white/10" />
+                      ) : null}
+                    </div>
                   </div>
-                </motion.figure>
+                </motion.article>
               );
             })}
           </motion.div>

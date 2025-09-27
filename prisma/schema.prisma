@@ -103,4 +103,5 @@ model Asset {
   newsItems    News[]        @relation("NewsImage")
   testimonials Testimonial[] @relation("TestimonialAvatar")
   sections     Section[]     @relation("SectionImage")
+  services     Service[]     @relation("ServiceImage")
 }

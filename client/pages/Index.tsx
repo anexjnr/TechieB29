@@ -14,23 +14,48 @@ import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
 import { getIconByName } from "@/lib/iconMap";
 
-function AnimatedCounter({ target, suffix = '', duration = 1200 }: { target: number; suffix?: string; duration?: number }) {
+function AnimatedCounter({ target, suffix = '', duration = 1500 }: { target: number; suffix?: string; duration?: number }) {
   const [value, setValue] = useState(0);
+  const ref = React.useRef<HTMLSpanElement | null>(null);
+  const startedRef = React.useRef(false);
+
   useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const easeOutQuad = (t: number) => t * (2 - t);
+
+    let rafId = 0;
     let start: number | null = null;
-    let rafId: number;
-    const step = (timestamp: number) => {
+
+    const run = (timestamp: number) => {
       if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const current = Math.floor(progress * target);
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutQuad(progress);
+      const current = Math.floor(eased * target);
       setValue(current);
-      if (progress < 1) rafId = requestAnimationFrame(step);
+      if (progress < 1) rafId = requestAnimationFrame(run);
     };
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
+
+    const onIntersection: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !startedRef.current) {
+          startedRef.current = true;
+          rafId = requestAnimationFrame(run);
+        }
+      });
+    };
+
+    const obs = new IntersectionObserver(onIntersection, { threshold: 0.3 });
+    obs.observe(el);
+
+    return () => {
+      obs.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [target, duration]);
 
-  return <span>{value}{suffix}</span>;
+  return <span ref={ref}>{value}{suffix}</span>;
 }
 
 export async function loader() {

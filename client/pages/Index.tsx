@@ -404,22 +404,26 @@ export default function Index() {
             <h3 className="text-2xl font-bold text-foreground">Industries we serve</h3>
             <p className="mt-3 text-foreground/85 max-w-prose">We partner with companies across sectors to deliver domain-aware, high-impact solutions.</p>
             <div className="mt-6 grid grid-cols-2 gap-4">
-              <div className="rounded-xl p-4 glass-card border border-primary/20">
-                <div className="font-semibold text-foreground">Fintech</div>
-                <div className="text-sm text-foreground/80 mt-2">Payments, billing, and financial platforms with strong compliance needs.</div>
-              </div>
-              <div className="rounded-xl p-4 glass-card border border-primary/20">
-                <div className="font-semibold text-foreground">Health</div>
-                <div className="text-sm text-foreground/80 mt-2">Data-sensitive products and interoperable systems for care teams.</div>
-              </div>
-              <div className="rounded-xl p-4 glass-card border border-primary/20">
-                <div className="font-semibold text-foreground">SaaS</div>
-                <div className="text-sm text-foreground/80 mt-2">Scalable product platforms, analytics, and go-to-market tooling.</div>
-              </div>
-              <div className="rounded-xl p-4 glass-card border border-primary/20">
-                <div className="font-semibold text-foreground">Enterprise</div>
-                <div className="text-sm text-foreground/80 mt-2">Legacy modernisation, integrations, and developer experience improvements.</div>
-              </div>
+              {[
+                { label: "Fintech", desc: "Payments, billing, and financial platforms with strong compliance needs.", icon: "target" },
+                { label: "Health", desc: "Data-sensitive products and interoperable systems for care teams.", icon: "palette" },
+                { label: "SaaS", desc: "Scalable product platforms, analytics, and go-to-market tooling.", icon: "cpu" },
+                { label: "Enterprise", desc: "Legacy modernisation, integrations, and developer experience improvements.", icon: "bar-chart-3" },
+              ].map((it, idx) => {
+                const Icon = getIconByName(it.icon);
+                return (
+                  <TiltCard key={idx} className="rounded-xl p-4 h-full">
+                    <Icon className="h-5 w-5 text-primary/100" />
+                    <div className="mt-3 font-semibold text-foreground">{it.label}</div>
+                    <div className="text-sm text-foreground/80 mt-2">{it.desc}</div>
+                  </TiltCard>
+                );
+              })}
+            </div>
+            <div className="mt-8">
+              <Link to="/services" className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold">
+                Read more →
+              </Link>
             </div>
           </div>
 
@@ -428,7 +432,7 @@ export default function Index() {
             <p className="mt-3 text-foreground/85">Selected projects showing outcomes and impact — concise summaries with links to read more.</p>
             <div className="mt-6 grid grid-cols-1 gap-4">
               <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center">
-                <img src="/placeholder.svg" alt="case" className="h-24 w-24 rounded-md object-cover" />
+                <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=800&q=80" alt="Nimbus case study" className="h-24 w-24 rounded-md object-cover" />
                 <div>
                   <div className="font-semibold text-foreground">Platform scaling for Nimbus</div>
                   <div className="text-sm text-foreground/80 mt-1">Cut latency by 40% and reduced costs via targeted infra improvements.</div>
@@ -439,7 +443,7 @@ export default function Index() {
               </article>
 
               <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center">
-                <img src="/placeholder.svg" alt="case" className="h-24 w-24 rounded-md object-cover" />
+                <img src="https://images.unsplash.com/photo-1508385082359-f3f8f1b5c1a6?auto=format&fit=crop&w=800&q=80" alt="Northstar case study" className="h-24 w-24 rounded-md object-cover" />
                 <div>
                   <div className="font-semibold text-foreground">Design system for Northstar</div>
                   <div className="text-sm text-foreground/80 mt-1">A shared component library enabling faster launches across teams.</div>
@@ -458,9 +462,10 @@ export default function Index() {
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
         delay={0.25}
       >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
-          Testimonials
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
+          <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials →</Link>
+        </div>
         <div className="mt-8 overflow-hidden">
           <motion.div
             initial="hidden"
@@ -472,52 +477,50 @@ export default function Index() {
             }}
             className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform"
           >
-            {testimonials.length ? (
-              testimonials.map((t: any) => (
-                <motion.figure
-                  key={t.id}
-                  variants={{
-                    hidden: { opacity: 0, y: 18 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.5 },
-                    },
-                  }}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card"
-                >
-                  <Quote className="h-5 w-5 text-foreground/90" />
-                  <blockquote className="mt-3 text-foreground">
-                    {t.quote}
-                  </blockquote>
-                  <figcaption className="mt-4 text-sm text-foreground/90">
-                    {t.author} {t.role ? `, ${t.role}` : ""}
-                  </figcaption>
-                  {t.avatar ? (
-                    typeof t.avatar === "string" ? (
-                      <motion.img
-                        src={t.avatar}
-                        alt="avatar"
-                        className="mt-3 h-12 w-12 rounded-full object-cover"
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                      />
-                    ) : t.avatar.id ? (
-                      <motion.img
-                        src={`/api/assets/${t.avatar.id}`}
-                        alt="avatar"
-                        className="mt-3 h-12 w-12 rounded-full object-cover"
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                      />
-                    ) : null
-                  ) : null}
-                </motion.figure>
-              ))
-            ) : (
-              <div className="text-foreground/90">No testimonials yet</div>
-            )}
+            {([...(testimonials || []), {
+              id: 'tt_extra',
+              author: 'Alex Johnson',
+              role: 'CEO, Innovate Solutions',
+              quote: 'Working with AUIO was a game-changer. Their strategic approach and execution delivered results beyond expectations.',
+              avatar: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
+            }]).map((t: any) => (
+              <motion.figure
+                key={t.id}
+                variants={{
+                  hidden: { opacity: 0, y: 18 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5 },
+                  },
+                }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card"
+              >
+                <Quote className="h-5 w-5 text-foreground/90" />
+                <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+                <figcaption className="mt-4 text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ""}</figcaption>
+                {t.avatar ? (
+                  typeof t.avatar === "string" ? (
+                    <motion.img
+                      src={t.avatar}
+                      alt="avatar"
+                      className="mt-3 h-12 w-12 rounded-full object-cover"
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                  ) : t.avatar.id ? (
+                    <motion.img
+                      src={`/api/assets/${t.avatar.id}`}
+                      alt="avatar"
+                      className="mt-3 h-12 w-12 rounded-full object-cover"
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                  ) : null
+                ) : null}
+              </motion.figure>
+            ))}
           </motion.div>
         </div>
       </Section>

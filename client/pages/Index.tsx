@@ -491,9 +491,6 @@ export default function Index() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-xs text-foreground/70">
-                      Learn more →
-                    </div>
                   </TiltCard>
                 );
               })}
@@ -520,6 +517,8 @@ export default function Index() {
                   src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=400&q=80"
                   alt="Nimbus case study"
                   className="h-24 w-24 rounded-md object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="flex-1">
                   <div className="font-semibold text-foreground">
@@ -754,44 +753,64 @@ export default function Index() {
           </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {news.map((n: any) => (
+          {news.map((n: any, idx: number) => (
             <article
               key={n.id}
               className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"
             >
-              {n.image ? (
-                typeof n.image === "string" ? (
+              {(() => {
+                const builderFallback =
+                  "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80";
+                const q4Href =
+                  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL";
+                const isQ4 = n?.title?.toLowerCase().includes("q4 highlights");
+                const src =
+                  typeof n?.image === "string"
+                    ? n.image
+                    : n?.image?.id
+                      ? `/api/assets/${n.image.id}`
+                      : isQ4
+                        ? builderFallback
+                        : "/placeholder.svg";
+                const imgEl = (
                   <img
-                    src={n.image}
+                    src={src}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding={idx === 0 ? "sync" : "async"}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).onerror = null;
+                      (e.currentTarget as HTMLImageElement).src =
+                        "/placeholder.svg";
+                    }}
                   />
-                ) : n.image.id ? (
-                  <img
-                    src={`/api/assets/${n.image.id}`}
-                    alt=""
-                    className="h-40 w-full object-cover border-b border-primary/10"
-                  />
+                );
+                return isQ4 ? (
+                  <a href={q4Href} target="_blank" rel="noopener noreferrer">
+                    {imgEl}
+                  </a>
                 ) : (
-                  <img
-                    src="/placeholder.svg"
-                    alt=""
-                    className="h-40 w-full object-cover border-b border-primary/10"
-                  />
-                )
-              ) : (
-                <img
-                  src="/placeholder.svg"
-                  alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
-                />
-              )}
+                  imgEl
+                );
+              })()}
               <div className="p-6">
                 <h3 className="font-semibold text-foreground">{n.title}</h3>
                 <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
-                <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">
-                  Read more →
-                </button>
+                {n?.title?.toLowerCase().includes("q4 highlights") ? (
+                  <a
+                    href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-sm font-semibold text-foreground/90 hover:text-foreground"
+                  >
+                    Read more →
+                  </a>
+                ) : (
+                  <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">
+                    Read more →
+                  </button>
+                )}
               </div>
             </article>
           ))}

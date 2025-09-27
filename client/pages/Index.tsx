@@ -9,9 +9,6 @@ import {
 import { motion } from "framer-motion";
 import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
-import CapabilitiesShowcase from "@/components/site/CapabilitiesShowcase";
-import HowWeServe from "@/components/site/HowWeServe";
-import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
 import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
 import { getIconByName } from "@/lib/iconMap";

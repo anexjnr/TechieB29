@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   Palette,
@@ -12,6 +13,25 @@ import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";
 import { Link, useLoaderData } from "react-router-dom";
 import { getIconByName } from "@/lib/iconMap";
+
+function AnimatedCounter({ target, suffix = '', duration = 1200 }: { target: number; suffix?: string; duration?: number }) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    let start: number | null = null;
+    let rafId: number;
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const current = Math.floor(progress * target);
+      setValue(current);
+      if (progress < 1) rafId = requestAnimationFrame(step);
+    };
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [target, duration]);
+
+  return <span>{value}{suffix}</span>;
+}
 
 export async function loader() {
   try {
@@ -335,18 +355,20 @@ export default function Index() {
       {/* Numbers / Impact */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" delay={0.14}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div>
-            <div className="text-4xl font-extrabold text-foreground">120+</div>
+          <Link to="/services" className="group block rounded-lg">
+            <div className="text-4xl font-extrabold text-foreground"><AnimatedCounter target={50} suffix="+" duration={1200} /></div>
             <div className="mt-2 text-sm text-foreground/85">Clients served</div>
-          </div>
-          <div>
-            <div className="text-4xl font-extrabold text-foreground">300+</div>
+          </Link>
+
+          <Link to="/services" className="group block rounded-lg">
+            <div className="text-4xl font-extrabold text-foreground"><AnimatedCounter target={80} suffix="+" duration={1400} /></div>
             <div className="mt-2 text-sm text-foreground/85">Projects shipped</div>
-          </div>
-          <div>
-            <div className="text-4xl font-extrabold text-foreground">8</div>
+          </Link>
+
+          <Link to="/services" className="group block rounded-lg">
+            <div className="text-4xl font-extrabold text-foreground"><AnimatedCounter target={5} duration={1000} /></div>
             <div className="mt-2 text-sm text-foreground/85">Countries</div>
-          </div>
+          </Link>
         </div>
       </Section>
 

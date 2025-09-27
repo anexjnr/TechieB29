@@ -494,17 +494,26 @@ export default function Index() {
                 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
               ];
 
+              // map known authors to fixed web avatars to ensure consistent loading
+              const authorAvatars: Record<string, string> = {
+                'alex m.': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+                'priya s.': 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
+                'alex j.': 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
+                'sam r.': 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
+              };
+
               // resolve avatar url for any testimonial
               let avatarUrl: string | null = null;
               if (t && t.avatar) {
                 avatarUrl = typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null;
               }
-              if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
 
-              // ensure Priya S has a known avatar
-              if (typeof t.author === 'string' && t.author.toLowerCase().includes('priya')) {
-                avatarUrl = 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80';
+              const authorKey = typeof t.author === 'string' ? t.author.toLowerCase().trim() : '';
+              if (authorKey && authorAvatars[authorKey]) {
+                avatarUrl = authorAvatars[authorKey];
               }
+
+              if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
 
               return (
                 <motion.article

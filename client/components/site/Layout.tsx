@@ -64,7 +64,7 @@ export default function Layout() {
           aria-label="Back to top"
           className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition z-[250] grid place-items-center"
         >
-          <ChevronUp className="h-5 w-5 text-foreground" />
+          <svg className="h-5 w-5 text-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
         </button>
       )}
     </div>

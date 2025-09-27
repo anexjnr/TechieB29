@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "@/components/site/ThemeToggle";
 
 const defaultNav = [
-  { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/services", label: "Services" },
   { to: "/insights", label: "Insights" },
@@ -15,6 +13,7 @@ const defaultNav = [
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [nav, setNav] = useState(defaultNav);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -33,11 +32,13 @@ export default function Header() {
               ? JSON.parse(navSection.content)
               : navSection.content;
           if (Array.isArray(parsed)) {
-            const mapped = parsed.map((i: any) => ({
-              to: i.to || i.href || "/",
-              label: i.label || i.title || "Item",
-            }));
-            setNav(mapped);
+            const mapped = parsed
+              .map((i: any) => ({
+                to: i.to || i.href || "/",
+                label: i.label || i.title || "Item",
+              }))
+              .filter((i: any) => i.to !== "/" && i.label?.toLowerCase() !== "home");
+            if (mapped.length) setNav(mapped);
           }
         } catch (e) {
           // ignore parse errors
@@ -48,17 +49,24 @@ export default function Header() {
     })();
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50">
+    <header className={`sticky top-0 z-50 transition-colors ${scrolled ? "bg-gradient-to-b from-[#0a0a0b] to-[#151515] border-b border-primary/20" : "bg-transparent"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center gap-4">
           <Link
             to="/"
-            className="font-extrabold tracking-tight text-xl text-primary/100 glass-card px-3 py-2 rounded-md"
+            className="font-extrabold tracking-tight text-xl text-primary/100 px-3 py-2 rounded-md"
           >
             AUIO
           </Link>
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 ml-auto">
             {nav.map((n) => (
               <NavLink
                 key={n.to + n.label}
@@ -71,10 +79,7 @@ export default function Header() {
               </NavLink>
             ))}
           </nav>
-          <div className="hidden md:flex items-center">
-            <ThemeToggle />
-          </div>
-          <div className="md:hidden">
+          <div className="md:hidden ml-auto">
             <button
               aria-label="Menu"
               onClick={() => setOpen(!open)}
@@ -87,7 +92,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-primary/20 bg-black/10">
+        <div className="md:hidden border-t border-primary/20 bg-[#0a0a0b]">
           <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
             {nav.map((n) => (
               <NavLink

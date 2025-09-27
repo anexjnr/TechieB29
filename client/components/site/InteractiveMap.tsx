@@ -124,6 +124,6 @@ export default function InteractiveMap() {
   }, []);
 
   return (
-    <div className="h-64 w-full rounded-xl overflow-hidden" ref={mapRef} aria-hidden />
+    <div className="h-80 md:h-96 w-full rounded-xl overflow-hidden" ref={mapRef} aria-hidden />
   );
 }

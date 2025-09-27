@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
 import Header from "./Header";
-import { ChevronUp } from "lucide-react";
 import Footer from "./Footer";
 
 import BackgroundOrnaments from "@/components/site/BackgroundOrnaments";

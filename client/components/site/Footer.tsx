@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
         </nav>
       </div>
-      <div className="border-t border-primary/10 py-4 text-center text-xs text-primary/70">
+      <div className="py-4 text-center text-xs text-primary/70">
         © {new Date().getFullYear()} AUIO. All rights reserved.
       </div>
     </footer>

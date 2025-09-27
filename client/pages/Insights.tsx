@@ -98,7 +98,7 @@ export default function Insights() {
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
                   loading="eager"
-                  fetchPriority="high"
+
                   decoding="sync"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).onerror = null;
@@ -111,7 +111,7 @@ export default function Insights() {
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
                   loading="eager"
-                  fetchPriority="high"
+
                   decoding="sync"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).onerror = null;

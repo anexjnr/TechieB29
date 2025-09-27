@@ -291,7 +291,7 @@ export default function Index() {
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2Fae85f6e9e16547c19207e581f64a6b6a?format=webp&width=800"
               alt="Team"
-              className="w-full h-64 md:h-80 lg:h-full rounded-2xl object-cover bg-transparent"
+              className="w-full h-64 md:h-80 lg:h-full rounded-2xl object-cover bg-transparent drop-shadow-lg"
             />
           </div>
         </div>

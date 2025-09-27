@@ -491,9 +491,6 @@ export default function Index() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-xs text-foreground/70">
-                      Learn more →
-                    </div>
                   </TiltCard>
                 );
               })}

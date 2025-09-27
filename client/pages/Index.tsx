@@ -261,7 +261,7 @@ export default function Index() {
         </Section>
       ) : null}
 
-      {/* Who We Are */}
+      {/* About teaser: merged Who We Are + What We Do */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
         delay={0.1}
@@ -273,8 +273,16 @@ export default function Index() {
             </h2>
             <p className="mt-4 text-foreground/85 max-w-prose">
               {sections.who?.content ||
-                "A senior, cross‑functional team with a bias for clarity. We operate with lean process, bold typography, and a focus on measurable outcomes."}
+                "A senior, cross‑functional team that designs, builds, and scales products people love. We blend strategy, design, engineering, and analytics to deliver measurable impact."}
             </p>
+            <div className="mt-6 flex gap-4">
+              <Link className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold" to="/about">
+                Learn more about us
+              </Link>
+              <Link className="text-sm font-semibold text-foreground/80 hover:text-foreground" to="/services">
+                View services
+              </Link>
+            </div>
           </div>
           <div>
             <img
@@ -286,90 +294,22 @@ export default function Index() {
         </div>
       </Section>
 
-      {/* What We Do */}
-      <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
-        delay={0.15}
-      >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
-          What We Do
-        </h2>
-        {(() => {
-          let items = [] as any[];
-          try {
-            items = sections.flowchart?.content
-              ? JSON.parse(sections.flowchart.content)
-              : [];
-          } catch (e) {
-            items = [];
-          }
-          if (!Array.isArray(items) || items.length === 0) {
-            items = [
-              {
-                icon: "target",
-                title: "Strategy",
-                desc: "From discovery to roadmap, aligning on outcomes.",
-              },
-              {
-                icon: "palette",
-                title: "Design",
-                desc: "Accessible, modern interfaces with purpose.",
-              },
-              {
-                icon: "cpu",
-                title: "Engineering",
-                desc: "Robust web apps, APIs, and infra.",
-              },
-              {
-                icon: "bar-chart-3",
-                title: "Analytics",
-                desc: "Ship, learn, iterate with data.",
-              },
-            ];
-          }
-          // map icon strings to components
-          const mapped = items.map((it) => ({
-            icon: (getIconByName(it.icon) || Target) as any,
-            title: it.label || it.title || "Item",
-            desc: it.desc || it.description || "",
-          }));
-          return <CapabilitiesShowcase className="mt-8" items={mapped} />;
-        })()}
-      </Section>
-
-      {/* How We Serve - improved spacing */}
-      <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
-        delay={0.2}
-      >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-primary">
-          How We Serve
-        </h2>
-        <HowWeServeInfographic
-          className="mt-8"
-          items={[
-            {
-              title: "Discover",
-              desc: "Define goals, constraints, and success.",
-              icon: Target,
-            },
-            {
-              title: "Design",
-              desc: "Prototype, test, refine with users.",
-              icon: Palette,
-            },
-            {
-              title: "Build",
-              desc: "Ship iteratively with quality gates.",
-              icon: Cpu,
-            },
-            {
-              title: "Evolve",
-              desc: "Measure outcomes and iterate.",
-              icon: BarChart3,
-            },
-          ]}
-        />
+      {/* Numbers / Impact */}
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" delay={0.14}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+          <div>
+            <div className="text-4xl font-extrabold text-foreground">120+</div>
+            <div className="mt-2 text-sm text-foreground/85">Clients served</div>
+          </div>
+          <div>
+            <div className="text-4xl font-extrabold text-foreground">300+</div>
+            <div className="mt-2 text-sm text-foreground/85">Projects shipped</div>
+          </div>
+          <div>
+            <div className="text-4xl font-extrabold text-foreground">8</div>
+            <div className="mt-2 text-sm text-foreground/85">Countries</div>
+          </div>
+        </div>
       </Section>
 
       {/* Testimonials slider (simple auto scroll) */}

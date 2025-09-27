@@ -288,11 +288,28 @@ export default function Index() {
             </div>
           </div>
           <div className="relative flex items-center justify-center">
+            {/* soft halo behind subject to hide edge artifacts */}
+            <div
+              aria-hidden
+              className="absolute rounded-full pointer-events-none"
+              style={{
+                width: '64%',
+                height: '80%',
+                transform: 'translateY(6%)',
+                background: 'radial-gradient(circle at 40% 30%, rgba(124,58,237,0.36) 0%, rgba(167,139,250,0.12) 35%, transparent 70%)',
+                filter: 'blur(38px) brightness(0.95)',
+                zIndex: 10,
+              }}
+            />
+
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800"
               alt="Woman"
-              className="w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent drop-shadow-lg"
-              style={{ background: "transparent" }}
+              className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
+              style={{
+                filter: 'drop-shadow(0 18px 40px rgba(0,0,0,0.45))',
+                zIndex: 20,
+              }}
             />
           </div>
         </div>

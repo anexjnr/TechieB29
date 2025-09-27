@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Palette,
   Cpu,
   Target,
@@ -187,25 +185,6 @@ export default function Index() {
     news: any[];
     testimonials: any[];
   };
-
-  const sliderRef = React.useRef<HTMLDivElement | null>(null);
-
-  const scrollByCards = (dir = 1) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    const first = el.querySelector('figure');
-    const cardWidth = first ? (first as HTMLElement).offsetWidth + 24 : 320;
-    el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
-  };
-
-  React.useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') scrollByCards(-1);
-      if (e.key === 'ArrowRight') scrollByCards(1);
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
 
   return (
     <div>
@@ -485,27 +464,10 @@ export default function Index() {
       >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
-          <div className="flex items-center gap-3">
-            <button
-              aria-label="Previous testimonials"
-              onClick={() => scrollByCards(-1)}
-              className="rounded-full bg-black/20 p-2 hover:bg-black/30"
-            >
-              <ChevronLeft className="h-4 w-4 text-foreground/90" />
-            </button>
-            <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
-            <button
-              aria-label="Next testimonials"
-              onClick={() => scrollByCards(1)}
-              className="rounded-full bg-black/20 p-2 hover:bg-black/30"
-            >
-              <ChevronRight className="h-4 w-4 text-foreground/90" />
-            </button>
-          </div>
+          <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
         </div>
-        <div className="mt-8 overflow-hidden">
+        <div className="mt-8">
           <motion.div
-            ref={sliderRef}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-120px" }}
@@ -513,7 +475,7 @@ export default function Index() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.1 } },
             }}
-            className="flex gap-6 overflow-x-auto scroll-pl-2 snap-x snap-mandatory will-change-transform py-2"
+            className="flex gap-6 justify-center flex-wrap will-change-transform"
           >
             {([...(testimonials || []), {
               id: 'tt_extra',

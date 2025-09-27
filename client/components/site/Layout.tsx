@@ -11,8 +11,9 @@ export default function Layout() {
   useEffect(() => {
     const check = () => {
       const el = document.documentElement;
-      const reached = window.innerHeight + window.scrollY >= el.scrollHeight - 4;
-      setAtBottom(reached);
+      const reached = window.innerHeight + window.scrollY >= el.scrollHeight - 80;
+      const scrolledBeyond = window.scrollY > 600; // show for long pages as well
+      setAtBottom(reached || scrolledBeyond);
     };
     check();
     window.addEventListener("scroll", check, { passive: true });
@@ -23,7 +24,14 @@ export default function Layout() {
     };
   }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = () => {
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      // fallback
+      window.scrollTo(0, 0);
+    }
+  };
 
   return (
     <div className="min-h-screen text-primary relative">
@@ -41,7 +49,7 @@ export default function Layout() {
           type="button"
           onClick={scrollToTop}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition"
+          className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition z-[250]"
         >
           ↑
         </button>

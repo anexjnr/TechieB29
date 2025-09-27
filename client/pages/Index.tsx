@@ -475,7 +475,7 @@ export default function Index() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.1 } },
             }}
-            className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform"
+            className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform items-start"
           >
             {([...(testimonials || []), {
               id: 'tt_extra',
@@ -497,19 +497,19 @@ export default function Index() {
                 <motion.figure
                   key={t.id}
                   variants={{
-                    hidden: { opacity: 0, y: 18 },
+                    hidden: { opacity: 0, y: 12 },
                     visible: {
                       opacity: 1,
                       y: 0,
-                      transition: { duration: 0.5 },
+                      transition: { duration: 0.45 },
                     },
                   }}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  className="min-w-[320px] sm:min-w-[420px] min-h-[240px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card flex flex-col justify-between"
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="min-w-[240px] sm:min-w-[300px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between"
                 >
                   <div>
                     <Quote className="h-5 w-5 text-foreground/90" />
-                    <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+                    <blockquote className="mt-2 text-foreground text-sm leading-relaxed">{t.quote}</blockquote>
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
@@ -520,7 +520,7 @@ export default function Index() {
                       <motion.img
                         src={avatarUrl}
                         alt="avatar"
-                        className="h-12 w-12 rounded-full object-cover"
+                        className="h-10 w-10 rounded-full object-cover"
                         animate={{ y: [0, -2, 0] }}
                         transition={{ duration: 3, repeat: Infinity }}
                       />

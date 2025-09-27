@@ -765,7 +765,7 @@ export default function Index() {
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
                     loading={idx === 0 ? "eager" : "lazy"}
-                    fetchPriority={idx === 0 ? "high" : undefined}
+
                     decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;
@@ -778,7 +778,7 @@ export default function Index() {
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
                     loading={idx === 0 ? "eager" : "lazy"}
-                    fetchPriority={idx === 0 ? "high" : undefined}
+
                     decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;

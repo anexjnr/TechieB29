@@ -290,8 +290,8 @@ export default function Index() {
           <div className="relative">
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#5b21b6]/40 via-transparent to-transparent pointer-events-none" />
             <img
-              src="https://source.unsplash.com/1200x800/?purple,office,team"
-              alt="Team"
+              src="https://source.unsplash.com/1200x800/?illustration,technology,purple"
+              alt="Illustration"
               className="w-full h-64 md:h-80 lg:h-full rounded-2xl border border-primary/20 bg-black/10 object-cover"
             />
           </div>

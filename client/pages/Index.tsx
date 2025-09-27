@@ -464,7 +464,7 @@ export default function Index() {
       >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
-          <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials →</Link>
+          <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
         </div>
         <div className="mt-8 overflow-hidden">
           <motion.div
@@ -483,44 +483,52 @@ export default function Index() {
               role: 'CEO, Innovate Solutions',
               quote: 'Working with AUIO was a game-changer. Their strategic approach and execution delivered results beyond expectations.',
               avatar: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
-            }]).map((t: any) => (
-              <motion.figure
-                key={t.id}
-                variants={{
-                  hidden: { opacity: 0, y: 18 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.5 },
-                  },
-                }}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className="min-w-[320px] sm:min-w-[420px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card"
-              >
-                <Quote className="h-5 w-5 text-foreground/90" />
-                <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
-                <figcaption className="mt-4 text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ""}</figcaption>
-                {t.avatar ? (
-                  typeof t.avatar === "string" ? (
-                    <motion.img
-                      src={t.avatar}
-                      alt="avatar"
-                      className="mt-3 h-12 w-12 rounded-full object-cover"
-                      animate={{ y: [0, -2, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    />
-                  ) : t.avatar.id ? (
-                    <motion.img
-                      src={`/api/assets/${t.avatar.id}`}
-                      alt="avatar"
-                      className="mt-3 h-12 w-12 rounded-full object-cover"
-                      animate={{ y: [0, -2, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    />
-                  ) : null
-                ) : null}
-              </motion.figure>
-            ))}
+            }]).map((t: any, idx: number) => {
+              const fallbacks = [
+                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
+              ];
+              const avatarUrl = t.avatar
+                ? (typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null)
+                : fallbacks[idx % fallbacks.length];
+
+              return (
+                <motion.figure
+                  key={t.id}
+                  variants={{
+                    hidden: { opacity: 0, y: 18 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5 },
+                    },
+                  }}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  className="min-w-[320px] sm:min-w-[420px] min-h-[240px] rounded-2xl border border-primary/20 bg-transparent p-6 glass-card flex flex-col justify-between"
+                >
+                  <div>
+                    <Quote className="h-5 w-5 text-foreground/90" />
+                    <blockquote className="mt-3 text-foreground">{t.quote}</blockquote>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-4">
+                    <div>
+                      <div className="text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ''}</div>
+                    </div>
+                    {avatarUrl ? (
+                      <motion.img
+                        src={avatarUrl}
+                        alt="avatar"
+                        className="h-12 w-12 rounded-full object-cover"
+                        animate={{ y: [0, -2, 0] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      />
+                    ) : null}
+                  </div>
+                </motion.figure>
+              );
+            })}
           </motion.div>
         </div>
       </Section>

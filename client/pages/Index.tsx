@@ -311,6 +311,23 @@ export default function Index() {
                 zIndex: 20,
               }}
             />
+
+            {/* bottom blur/fade to blend subject into background */}
+            <div
+              aria-hidden
+              className="absolute pointer-events-none"
+              style={{
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: 0,
+                width: '70%',
+                height: '160px',
+                zIndex: 25,
+                background: 'linear-gradient(180deg, rgba(124,58,237,0) 0%, rgba(124,58,237,0.18) 40%, rgba(124,58,237,0.6) 85%, rgba(167,139,250,0.8) 100%)',
+                filter: 'blur(14px)',
+                borderRadius: '40px',
+              }}
+            />
           </div>
         </div>
       </Section>

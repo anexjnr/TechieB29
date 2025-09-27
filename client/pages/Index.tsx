@@ -449,9 +449,11 @@ export default function Index() {
                 </div>
               </article>
 
-              <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center h-36">
-                <img src="https://images.unsplash.com/photo-1508385082359-f3f8f1b5c1a6?auto=format&fit=crop&w=400&q=80" alt="Northstar case study" className="h-24 w-24 rounded-md object-cover" />
-                <div className="flex-1">
+              <article className="rounded-2xl border border-primary/20 p-4 glass-card grid grid-cols-4 gap-4 items-center h-36">
+                <div className="col-span-1">
+                  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Northstar case study" className="h-28 w-28 rounded-md object-cover shadow-lg" loading="lazy" onError={(e)=>{(e.currentTarget as HTMLImageElement).onerror=null;(e.currentTarget as HTMLImageElement).src='/placeholder.svg';}} />
+                </div>
+                <div className="col-span-3">
                   <div className="font-semibold text-foreground">Design system for Northstar</div>
                   <div className="text-sm text-foreground/80 mt-1">A shared component library enabling faster launches across teams.</div>
                   <div className="mt-3">

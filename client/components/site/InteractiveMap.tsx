@@ -43,7 +43,7 @@ export default function InteractiveMap() {
       // avoid double init
       if (mapInstanceRef.current) return;
 
-      const map = L.map(mapRef.current, { zoomControl: false }).setView([20, 30], 2);
+      const map = L.map(mapRef.current, { zoomControl: true }).setView([20, 30], 2);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -58,16 +58,54 @@ export default function InteractiveMap() {
         { label: "Qatar", coords: [25.2854, 51.531] },
       ];
 
-      locations.forEach((loc) => {
-        const marker = L.marker(loc.coords).addTo(map);
-        marker.bindPopup(`<strong>${loc.label}</strong><br/>Currently working`).openPopup();
+      // ensure markercluster plugin is available, load if missing
+      const ensureCluster = async (): Promise<any> => {
+        if ((window as any).L && (window as any).L.markerClusterGroup) return (window as any).L.markerClusterGroup;
+        // load CSS
+        if (!document.querySelector("link[data-leaflet-cluster]")) {
+          const lnk2 = document.createElement("link");
+          lnk2.rel = "stylesheet";
+          lnk2.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css";
+          lnk2.setAttribute("data-leaflet-cluster", "1");
+          document.head.appendChild(lnk2);
+          const lnk3 = document.createElement("link");
+          lnk3.rel = "stylesheet";
+          lnk3.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css";
+          lnk3.setAttribute("data-leaflet-cluster-default", "1");
+          document.head.appendChild(lnk3);
+        }
+
+        if ((window as any).L && !(window as any).L.markerClusterGroup) {
+          await new Promise<void>((res) => {
+            const s = document.createElement("script");
+            s.src = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+            s.async = true;
+            s.onload = () => res();
+            document.body.appendChild(s);
+          });
+        }
+        return (window as any).L.markerClusterGroup;
+      };
+
+      ensureCluster().then((markerClusterGroup: any) => {
+        const cluster = markerClusterGroup();
+        locations.forEach((loc) => {
+          const m = L.marker(loc.coords);
+          m.bindPopup(`${loc.label}`);
+          cluster.addLayer(m);
+        });
+        map.addLayer(cluster);
+
+        // fit to cluster bounds
+        try {
+          map.fitBounds(cluster.getBounds().pad(0.6));
+        } catch (e) {
+          // fallback center
+          map.setView([20, 30], 2);
+        }
+
+        mapInstanceRef.current = map;
       });
-
-      mapInstanceRef.current = map;
-
-      // fit to markers
-      const group = L.featureGroup(locations.map((l) => L.marker(l.coords)));
-      map.fitBounds(group.getBounds().pad(0.6));
     };
 
     loadScript();

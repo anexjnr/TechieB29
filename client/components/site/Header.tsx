@@ -93,7 +93,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-primary/20 bg-[#0a0a0b]">
+        <div className="md:hidden bg-[#0a0a0b]">
           <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
             {nav.map((n) => (
               <NavLink

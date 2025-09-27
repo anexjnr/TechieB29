@@ -14,7 +14,6 @@ export default function LoadingScreen() {
           <OrbitLoader size={44} />
           <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl animate-pulse" />
         </div>
-        <span className="text-sm text-foreground/80">Loading…</span>
       </div>
     </div>
   );

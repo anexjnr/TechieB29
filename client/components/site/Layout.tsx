@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
 import Header from "./Header";
+import { ChevronUp } from "lucide-react";
 import Footer from "./Footer";
 
 import BackgroundOrnaments from "@/components/site/BackgroundOrnaments";
@@ -13,7 +14,7 @@ export default function Layout() {
       const el = document.documentElement;
       const reached =
         window.innerHeight + window.scrollY >= el.scrollHeight - 80;
-      const scrolledBeyond = window.scrollY > 600; // show for long pages as well
+      const scrolledBeyond = window.scrollY > 200; // show earlier
       setAtBottom(reached || scrolledBeyond);
     };
     check();
@@ -62,9 +63,9 @@ export default function Layout() {
           type="button"
           onClick={scrollToTop}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition z-[250]"
+          className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition z-[250] grid place-items-center"
         >
-          ��
+          <ChevronUp className="h-5 w-5" />
         </button>
       )}
     </div>

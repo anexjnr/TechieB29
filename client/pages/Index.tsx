@@ -88,7 +88,7 @@ export async function loader() {
             title: "Q4 Highlights",
             excerpt: "Milestones across platform and growth.",
             image:
-              "https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80",
+              "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
           },
           {
             id: "s2",
@@ -140,7 +140,7 @@ export async function loader() {
           title: "Q4 Highlights",
           excerpt: "Milestones across platform and growth.",
           image:
-            "https://images.unsplash.com/photo-1503481766315-1f9d1d9c7f1a?auto=format&fit=crop&w=1200&q=80",
+            "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
         },
         {
           id: "s2",

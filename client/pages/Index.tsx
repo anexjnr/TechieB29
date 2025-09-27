@@ -510,10 +510,10 @@ export default function Index() {
                 <motion.article
                   key={t.id}
                   variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 220, damping: 18 }}
                   className="relative rounded-2xl border border-primary/20 bg-gradient-to-br from-indigo-900/30 to-purple-900/20 p-6 overflow-hidden glass-card"
                 >
-                  <div className="absolute -top-6 left-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-primary/90 font-bold">{idx+1}</div>
-
                   <div className="flex flex-col h-full justify-between">
                     <div>
                       <Quote className="h-6 w-6 text-primary/80" />

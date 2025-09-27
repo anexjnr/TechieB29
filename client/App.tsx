@@ -1,36 +1,37 @@
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
+import { lazy, Suspense } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Index, { loader as indexLoader } from "./pages/Index";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Insights from "./pages/Insights";
-import Careers from "./pages/Careers";
-import Contact from "./pages/Contact";
-import LegalTerms from "./pages/LegalTerms";
-import LegalPolicy from "./pages/LegalPolicy";
-import NotFound from "./pages/NotFound";
-import Layout from "./components/site/Layout";
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminLogin from "./pages/admin/Login";
-import AdminDashboard from "./pages/admin/Dashboard";
-import AboutAdmin from "./pages/admin/AboutAdmin";
-import ServicesAdmin from "./pages/admin/ServicesAdmin";
-import ProjectsAdmin from "./pages/admin/ProjectsAdmin";
-import NewsAdmin from "./pages/admin/NewsAdmin";
-import TestimonialsAdmin from "./pages/admin/TestimonialsAdmin";
-import CareersAdmin from "./pages/admin/CareersAdmin";
-import UsersAdmin from "./pages/admin/UsersAdmin";
-import HomepageAdmin from "./pages/admin/HomepageAdmin";
-import PoliciesAdmin from "./pages/admin/PoliciesAdmin";
-import ContactAdmin from "./pages/admin/ContactAdmin";
-import ApplicationsAdmin from "./pages/admin/ApplicationsAdmin";
-import AssetsAdmin from "./pages/admin/AssetsAdmin";
+import { loader as indexLoader } from "./pages/Index";
+const Index = lazy(() => import("./pages/Index"));
+const About = lazy(() => import("./pages/About"));
+const Services = lazy(() => import("./pages/Services"));
+const Insights = lazy(() => import("./pages/Insights"));
+const Careers = lazy(() => import("./pages/Careers"));
+const Contact = lazy(() => import("./pages/Contact"));
+const LegalTerms = lazy(() => import("./pages/LegalTerms"));
+const LegalPolicy = lazy(() => import("./pages/LegalPolicy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Layout = lazy(() => import("./components/site/Layout"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminLogin = lazy(() => import("./pages/admin/Login"));
+const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const AboutAdmin = lazy(() => import("./pages/admin/AboutAdmin"));
+const ServicesAdmin = lazy(() => import("./pages/admin/ServicesAdmin"));
+const ProjectsAdmin = lazy(() => import("./pages/admin/ProjectsAdmin"));
+const NewsAdmin = lazy(() => import("./pages/admin/NewsAdmin"));
+const TestimonialsAdmin = lazy(() => import("./pages/admin/TestimonialsAdmin"));
+const CareersAdmin = lazy(() => import("./pages/admin/CareersAdmin"));
+const UsersAdmin = lazy(() => import("./pages/admin/UsersAdmin"));
+const HomepageAdmin = lazy(() => import("./pages/admin/HomepageAdmin"));
+const PoliciesAdmin = lazy(() => import("./pages/admin/PoliciesAdmin"));
+const ContactAdmin = lazy(() => import("./pages/admin/ContactAdmin"));
+const ApplicationsAdmin = lazy(() => import("./pages/admin/ApplicationsAdmin"));
+const AssetsAdmin = lazy(() => import("./pages/admin/AssetsAdmin"));
 
 const queryClient = new QueryClient();
 
@@ -75,7 +76,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <RouterProvider router={router} />
+      <Suspense fallback={<div className="fixed inset-0 grid place-items-center text-foreground/80">Loading…</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </TooltipProvider>
   </QueryClientProvider>
 );

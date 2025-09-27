@@ -764,12 +764,24 @@ export default function Index() {
                     src={n.image}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).onerror = null;
+                      (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                    }}
                   />
                 ) : n.image.id ? (
                   <img
                     src={`/api/assets/${n.image.id}`}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).onerror = null;
+                      (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                    }}
                   />
                 ) : (
                   <img

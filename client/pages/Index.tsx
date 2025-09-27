@@ -761,15 +761,18 @@ export default function Index() {
               {(() => {
                 const builderFallback =
                   "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80";
+                const q4Href =
+                  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL";
+                const isQ4 = n?.title?.toLowerCase().includes("q4 highlights");
                 const src =
                   typeof n?.image === "string"
                     ? n.image
                     : n?.image?.id
                     ? `/api/assets/${n.image.id}`
-                    : n?.title?.toLowerCase().includes("q4 highlights")
+                    : isQ4
                     ? builderFallback
                     : "/placeholder.svg";
-                return (
+                const imgEl = (
                   <img
                     src={src}
                     alt=""
@@ -782,13 +785,29 @@ export default function Index() {
                     }}
                   />
                 );
+                return isQ4 ? (
+                  <a href={q4Href} target="_blank" rel="noopener noreferrer">{imgEl}</a>
+                ) : (
+                  imgEl
+                );
               })()}
               <div className="p-6">
                 <h3 className="font-semibold text-foreground">{n.title}</h3>
                 <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
-                <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">
-                  Read more →
-                </button>
+                {n?.title?.toLowerCase().includes("q4 highlights") ? (
+                  <a
+                    href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-sm font-semibold text-foreground/90 hover:text-foreground"
+                  >
+                    Read more →
+                  </a>
+                ) : (
+                  <button className="mt-4 text-sm font-semibold text-foreground/90 hover:text-foreground">
+                    Read more →
+                  </button>
+                )}
               </div>
             </article>
           ))}

@@ -1,5 +1,6 @@
 import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
+import InteractiveMap from "@/components/site/InteractiveMap";
 
 export default function Contact() {
   return (
@@ -53,7 +54,9 @@ export default function Contact() {
           <p className="mt-2 text-sm text-foreground/80">
             Remote‑first with offices in SF and Berlin.
           </p>
-          <div className="mt-6 h-64 w-full rounded-xl border border-primary/20 bg-black/20" />
+          <div className="mt-6">
+            <InteractiveMap />
+          </div>
         </div>
       </Section>
     </div>

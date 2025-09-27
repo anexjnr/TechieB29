@@ -768,10 +768,10 @@ export default function Index() {
                   typeof n?.image === "string"
                     ? n.image
                     : n?.image?.id
-                    ? `/api/assets/${n.image.id}`
-                    : isQ4
-                    ? builderFallback
-                    : "/placeholder.svg";
+                      ? `/api/assets/${n.image.id}`
+                      : isQ4
+                        ? builderFallback
+                        : "/placeholder.svg";
                 const imgEl = (
                   <img
                     src={src}
@@ -781,12 +781,15 @@ export default function Index() {
                     decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;
-                      (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                      (e.currentTarget as HTMLImageElement).src =
+                        "/placeholder.svg";
                     }}
                   />
                 );
                 return isQ4 ? (
-                  <a href={q4Href} target="_blank" rel="noopener noreferrer">{imgEl}</a>
+                  <a href={q4Href} target="_blank" rel="noopener noreferrer">
+                    {imgEl}
+                  </a>
                 ) : (
                   imgEl
                 );

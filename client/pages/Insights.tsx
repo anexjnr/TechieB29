@@ -98,11 +98,11 @@ export default function Insights() {
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
                   loading="eager"
-
                   decoding="sync"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).onerror = null;
-                    (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                    (e.currentTarget as HTMLImageElement).src =
+                      "/placeholder.svg";
                   }}
                 />
               ) : n.image.id ? (
@@ -111,11 +111,11 @@ export default function Insights() {
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
                   loading="eager"
-
                   decoding="sync"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).onerror = null;
-                    (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                    (e.currentTarget as HTMLImageElement).src =
+                      "/placeholder.svg";
                   }}
                 />
               ) : (

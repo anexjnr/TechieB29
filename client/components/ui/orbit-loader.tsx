@@ -6,7 +6,10 @@ interface OrbitLoaderProps {
   className?: string;
 }
 
-export default function OrbitLoader({ size = 44, className }: OrbitLoaderProps) {
+export default function OrbitLoader({
+  size = 44,
+  className,
+}: OrbitLoaderProps) {
   const px = `${size}px`;
   return (
     <div

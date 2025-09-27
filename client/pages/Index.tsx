@@ -289,9 +289,9 @@ export default function Index() {
           </div>
           <div>
             <img
-              src="/placeholder.svg"
+              src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F5dad6e1df58d44b3883da2940209827c?format=webp&width=800"
               alt="Team"
-              className="w-full rounded-2xl border border-primary/20 bg-black/10"
+              className="w-full rounded-2xl border border-primary/20 bg-black/10 object-cover"
             />
           </div>
         </div>

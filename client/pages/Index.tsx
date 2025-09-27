@@ -268,16 +268,22 @@ export default function Index() {
             <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
               {sections.who?.heading || "Who We Are"}
             </h2>
-            <p className="mt-4 text-foreground/85 max-w-prose">
-              {sections.who?.content ||
-                "A senior, cross‑functional team that designs, builds, and scales products people love. We blend strategy, design, engineering, and analytics to deliver measurable impact."}
-            </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-4 text-foreground/85 max-w-prose space-y-4">
+              <p>
+                {sections.who?.content ||
+                  "A senior, cross‑functional team that designs, builds, and scales products people love. We blend strategy, design, engineering, and analytics to deliver measurable impact."}
+              </p>
+              <p>
+                We partner with leadership to translate uncertain opportunities into clear roadmaps — combining user research, pragmatic engineering, and measurable outcomes. Our teams have shipped platforms for startups and enterprises across regulated and consumer markets.
+              </p>
+              <p>
+                Operating as a remote-first company with strategic offices globally, we emphasize clarity, fast feedback loops, and long-term partnerships that prioritize user value and technical excellence.
+              </p>
+            </div>
+
+            <div className="mt-6">
               <Link className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold" to="/about">
                 Learn more about us
-              </Link>
-              <Link className="text-sm font-semibold text-foreground/80 hover:text-foreground" to="/services">
-                View services
               </Link>
             </div>
           </div>

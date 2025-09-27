@@ -22,7 +22,8 @@ export default function Insights() {
                   id: "s1",
                   title: "Q4 Highlights",
                   excerpt: "Milestones across platform and growth.",
-                  image: null,
+                  image:
+                    "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
                 },
               ],
         );
@@ -96,12 +97,26 @@ export default function Insights() {
                   src={n.image}
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).onerror = null;
+                    (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                  }}
                 />
               ) : n.image.id ? (
                 <img
                   src={`/api/assets/${n.image.id}`}
                   alt=""
                   className="h-40 w-full object-cover border-b border-primary/10"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).onerror = null;
+                    (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
+                  }}
                 />
               ) : (
                 <img

@@ -289,7 +289,7 @@ export default function Index() {
           </div>
           <div className="relative flex items-center justify-center">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F6c864208352e4e73b5bbe3d4f45476b1?format=webp&width=800"
+              src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800"
               alt="Woman"
               className="w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent drop-shadow-lg"
               style={{ background: "transparent" }}

@@ -493,6 +493,22 @@ export default function Index() {
                 ? (typeof t.avatar === 'string' ? t.avatar : t.avatar.id ? `/api/assets/${t.avatar.id}` : null)
                 : fallbacks[idx % fallbacks.length];
 
+              const isAlex = t.id === 'tt_extra' || (typeof t.author === 'string' && t.author.toLowerCase().includes('alex johnson'));
+
+              // ensure Priya S has an avatar if missing
+              let resolvedAvatar = avatarUrl;
+              if ((!resolvedAvatar || resolvedAvatar.indexOf('placeholder') !== -1) && typeof t.author === 'string' && t.author.toLowerCase().includes('priya')) {
+                resolvedAvatar = 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80';
+              }
+
+              const figureClasses = isAlex
+                ? 'min-w-[220px] sm:min-w-[260px] rounded-2xl border border-primary/20 bg-transparent p-3 glass-card flex flex-col justify-between'
+                : 'min-w-[240px] sm:min-w-[300px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between';
+
+              const quoteClass = isAlex ? 'mt-2 text-foreground text-xs leading-snug' : 'mt-2 text-foreground text-sm leading-relaxed';
+
+              const avatarSizeClass = isAlex ? 'h-8 w-8' : 'h-10 w-10';
+
               return (
                 <motion.figure
                   key={t.id}
@@ -505,22 +521,22 @@ export default function Index() {
                     },
                   }}
                   whileHover={{ y: -4, scale: 1.02 }}
-                  className="min-w-[240px] sm:min-w-[300px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between"
+                  className={figureClasses}
                 >
                   <div>
                     <Quote className="h-5 w-5 text-foreground/90" />
-                    <blockquote className="mt-2 text-foreground text-sm leading-relaxed">{t.quote}</blockquote>
+                    <blockquote className={quoteClass}>{t.quote}</blockquote>
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
                     <div>
                       <div className="text-sm text-foreground/90">{t.author} {t.role ? `, ${t.role}` : ''}</div>
                     </div>
-                    {avatarUrl ? (
+                    {resolvedAvatar ? (
                       <motion.img
-                        src={avatarUrl}
+                        src={resolvedAvatar}
                         alt="avatar"
-                        className="h-10 w-10 rounded-full object-cover"
+                        className={`${avatarSizeClass} rounded-full object-cover`}
                         animate={{ y: [0, -2, 0] }}
                         transition={{ duration: 3, repeat: Infinity }}
                       />

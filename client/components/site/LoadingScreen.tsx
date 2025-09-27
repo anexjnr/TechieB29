@@ -1,5 +1,5 @@
 import React from "react";
-import { Loader2 } from "lucide-react";
+import OrbitLoader from "@/components/ui/orbit-loader";
 
 export default function LoadingScreen() {
   return (
@@ -11,10 +11,10 @@ export default function LoadingScreen() {
     >
       <div className="flex flex-col items-center gap-3">
         <div className="relative">
-          <Loader2 className="h-10 w-10 animate-spin text-foreground" />
-          <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl animate-pulse" />
+          <OrbitLoader size={44} />
+          <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl animate-pulse" />
         </div>
-        <span className="text-sm text-foreground/80">Preparing content…</span>
+        <span className="text-sm text-foreground/80">Loading…</span>
       </div>
     </div>
   );

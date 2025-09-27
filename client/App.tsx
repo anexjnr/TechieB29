@@ -76,7 +76,14 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={<div className="fixed inset-0 grid place-items-center text-foreground/80">Loading…</div>}>
+      <Suspense fallback={
+        <div>
+          {(() => {
+            const Comp = require("./components/site/LoadingScreen").default;
+            return <Comp />;
+          })()}
+        </div>
+      }>
         <RouterProvider router={router} />
       </Suspense>
     </TooltipProvider>

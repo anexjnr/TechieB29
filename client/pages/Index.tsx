@@ -289,11 +289,42 @@ export default function Index() {
           </div>
           <div className="relative">
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#5b21b6]/40 via-transparent to-transparent pointer-events-none" />
-            <img
-              src="https://source.unsplash.com/1200x800/?illustration,technology,purple"
-              alt="Illustration"
-              className="w-full h-64 md:h-80 lg:h-full rounded-2xl border border-primary/20 bg-black/10 object-cover"
-            />
+            <div className="w-full h-64 md:h-80 lg:h-full rounded-2xl border border-primary/20 bg-black/10 overflow-hidden">
+              <svg viewBox="0 0 800 600" className="w-full h-full" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stopColor="#7c3aed" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#a78bfa" stopOpacity="1" />
+                  </linearGradient>
+                  <linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.7" />
+                  </linearGradient>
+                </defs>
+
+                <rect width="800" height="600" fill="url(#g1)" />
+                <g transform="translate(100,50)">
+                  <rect x="0" y="0" width="520" height="360" rx="24" fill="url(#g2)" opacity="0.85" />
+                  <circle cx="420" cy="60" r="60" fill="#fff" opacity="0.06" />
+                  <g transform="translate(40,40)" fill="#fff" opacity="0.9">
+                    <rect x="10" y="10" width="120" height="16" rx="8" />
+                    <rect x="10" y="36" width="220" height="12" rx="6" />
+                    <rect x="10" y="60" width="180" height="12" rx="6" />
+                  </g>
+                  <g transform="translate(260,120)" fill="#fff" opacity="0.85">
+                    <rect x="0" y="0" width="220" height="10" rx="6" />
+                    <rect x="0" y="22" width="180" height="10" rx="6" />
+                    <rect x="0" y="44" width="120" height="10" rx="6" />
+                  </g>
+                </g>
+
+                <g transform="translate(560,320)">
+                  <rect x="0" y="0" width="200" height="140" rx="16" fill="#fff" opacity="0.06" />
+                  <circle cx="40" cy="40" r="18" fill="#fff" opacity="0.08" />
+                  <rect x="70" y="20" width="100" height="12" rx="6" fill="#fff" opacity="0.08" />
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </Section>

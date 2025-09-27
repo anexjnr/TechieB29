@@ -497,9 +497,9 @@ export default function Index() {
               // map known authors to fixed web avatars to ensure consistent loading
               const rawAvatars: Record<string, string> = {
                 'alex m': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
-                'priya s': 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
+                'priya s': 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
                 'alex j': 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
-                'sam r': 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
+                'sam r': 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
               };
 
               const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim();
@@ -521,6 +521,11 @@ export default function Index() {
               }
 
               if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
+
+              // ensure the avatar URL uses https and add small query parameters to help CDN
+              if (avatarUrl && avatarUrl.startsWith('https://images.unsplash.com') && avatarUrl.indexOf('auto=format') === -1) {
+                avatarUrl = avatarUrl + '?auto=format&fit=crop&w=400&q=80';
+              }
 
               // ensure full url (avoid relative API asset issues) - leave as-is otherwise
 

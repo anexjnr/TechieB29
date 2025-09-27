@@ -495,27 +495,29 @@ export default function Index() {
               ];
 
               // map known authors to fixed web avatars to ensure consistent loading
-              const authorAvatars: Record<string, string> = {
-                'alex m.': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
-                'priya s.': 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
-                'alex j.': 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
-                'sam r.': 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
+              const rawAvatars: Record<string, string> = {
+                'alex m': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+                'priya s': 'https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80',
+                'alex j': 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
+                'sam r': 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
               };
+
+              const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim();
 
               // resolve avatar url for any testimonial
               let avatarUrl: string | null = null;
 
-              const authorKey = typeof t.author === 'string' ? t.author.toLowerCase().trim() : '';
+              const authorKey = typeof t.author === 'string' ? normalize(t.author) : '';
               // prefer explicit mapping for known authors
-              if (authorKey && authorAvatars[authorKey]) {
-                avatarUrl = authorAvatars[authorKey];
+              if (authorKey && rawAvatars[authorKey]) {
+                avatarUrl = rawAvatars[authorKey];
               }
 
               // if not resolved, try t.avatar as string or object with url or id
               if (!avatarUrl && t && t.avatar) {
                 if (typeof t.avatar === 'string') avatarUrl = t.avatar;
-                else if (t.avatar.url) avatarUrl = t.avatar.url;
-                else if (t.avatar.id) avatarUrl = `/api/assets/${t.avatar.id}`;
+                else if ((t.avatar as any).url) avatarUrl = (t.avatar as any).url;
+                else if ((t.avatar as any).id) avatarUrl = `/api/assets/${(t.avatar as any).id}`;
               }
 
               if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];

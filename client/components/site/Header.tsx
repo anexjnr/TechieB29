@@ -58,7 +58,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-colors ${scrolled ? "bg-gradient-to-b from-black/95 via-black/80 to-black/70 shadow-md" : "bg-transparent"}`}>
+    <header className={`sticky top-0 z-50 transition-colors border-0 ${scrolled ? "bg-gradient-to-b from-black/95 via-black/80 to-black/70 shadow-md" : "bg-transparent"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center gap-4">
           <Link

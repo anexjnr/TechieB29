@@ -309,6 +309,62 @@ export default function Index() {
         </div>
       </Section>
 
+      {/* Industries & Case Studies */}
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.15}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div>
+            <h3 className="text-2xl font-bold text-foreground">Industries we serve</h3>
+            <p className="mt-3 text-foreground/85 max-w-prose">We partner with companies across sectors to deliver domain-aware, high-impact solutions.</p>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="rounded-xl p-4 glass-card border border-primary/20">
+                <div className="font-semibold text-foreground">Fintech</div>
+                <div className="text-sm text-foreground/80 mt-2">Payments, billing, and financial platforms with strong compliance needs.</div>
+              </div>
+              <div className="rounded-xl p-4 glass-card border border-primary/20">
+                <div className="font-semibold text-foreground">Health</div>
+                <div className="text-sm text-foreground/80 mt-2">Data-sensitive products and interoperable systems for care teams.</div>
+              </div>
+              <div className="rounded-xl p-4 glass-card border border-primary/20">
+                <div className="font-semibold text-foreground">SaaS</div>
+                <div className="text-sm text-foreground/80 mt-2">Scalable product platforms, analytics, and go-to-market tooling.</div>
+              </div>
+              <div className="rounded-xl p-4 glass-card border border-primary/20">
+                <div className="font-semibold text-foreground">Enterprise</div>
+                <div className="text-sm text-foreground/80 mt-2">Legacy modernisation, integrations, and developer experience improvements.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-bold text-foreground">Case studies</h3>
+            <p className="mt-3 text-foreground/85">Selected projects showing outcomes and impact — concise summaries with links to read more.</p>
+            <div className="mt-6 grid grid-cols-1 gap-4">
+              <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center">
+                <img src="/placeholder.svg" alt="case" className="h-24 w-24 rounded-md object-cover" />
+                <div>
+                  <div className="font-semibold text-foreground">Platform scaling for Nimbus</div>
+                  <div className="text-sm text-foreground/80 mt-1">Cut latency by 40% and reduced costs via targeted infra improvements.</div>
+                  <div className="mt-3">
+                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study →</Link>
+                  </div>
+                </div>
+              </article>
+
+              <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center">
+                <img src="/placeholder.svg" alt="case" className="h-24 w-24 rounded-md object-cover" />
+                <div>
+                  <div className="font-semibold text-foreground">Design system for Northstar</div>
+                  <div className="text-sm text-foreground/80 mt-1">A shared component library enabling faster launches across teams.</div>
+                  <div className="mt-3">
+                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study →</Link>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Testimonials slider (simple auto scroll) */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"

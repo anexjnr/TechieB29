@@ -289,7 +289,7 @@ export default function Index() {
           </div>
           <div>
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F5dad6e1df58d44b3883da2940209827c?format=webp&width=800"
+              src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80"
               alt="Team"
               className="w-full rounded-2xl border border-primary/20 bg-black/10 object-cover"
             />

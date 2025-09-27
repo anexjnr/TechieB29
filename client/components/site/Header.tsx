@@ -37,7 +37,9 @@ export default function Header() {
                 to: i.to || i.href || "/",
                 label: i.label || i.title || "Item",
               }))
-              .filter((i: any) => i.to !== "/" && i.label?.toLowerCase() !== "home");
+              .filter(
+                (i: any) => i.to !== "/" && i.label?.toLowerCase() !== "home",
+              );
             if (mapped.length) setNav(mapped);
           }
         } catch (e) {
@@ -57,7 +59,9 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-colors border-0 ${scrolled ? "bg-gradient-to-b from-black/55 to-transparent backdrop-blur-sm" : "bg-transparent"}`}>
+    <header
+      className={`sticky top-0 z-50 transition-colors border-0 ${scrolled ? "bg-gradient-to-b from-black/55 to-transparent backdrop-blur-sm" : "bg-transparent"}`}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center gap-4">
           <Link

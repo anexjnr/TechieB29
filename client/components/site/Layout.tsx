@@ -11,7 +11,8 @@ export default function Layout() {
   useEffect(() => {
     const check = () => {
       const el = document.documentElement;
-      const reached = window.innerHeight + window.scrollY >= el.scrollHeight - 80;
+      const reached =
+        window.innerHeight + window.scrollY >= el.scrollHeight - 80;
       const scrolledBeyond = window.scrollY > 600; // show for long pages as well
       setAtBottom(reached || scrolledBeyond);
     };

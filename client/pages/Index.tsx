@@ -549,7 +549,13 @@ export default function Index() {
                         <div className="text-xs text-foreground/80">{t.role}</div>
                       </div>
                       {avatarUrl ? (
-                        <img src={avatarUrl} alt={`${t.author} avatar`} className="h-12 w-12 rounded-full object-cover border-2 border-white/10" />
+                        <img
+                          src={avatarUrl}
+                          alt={`${t.author} avatar`}
+                          className="h-12 w-12 rounded-full object-cover border-2 border-white/10"
+                          loading="lazy"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).onerror = null; (e.currentTarget as HTMLImageElement).src = fallbacks[idx % fallbacks.length]; }}
+                        />
                       ) : null}
                     </div>
                   </div>

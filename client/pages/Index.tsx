@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Palette,
   Cpu,
   Target,
@@ -185,6 +187,25 @@ export default function Index() {
     news: any[];
     testimonials: any[];
   };
+
+  const sliderRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scrollByCards = (dir = 1) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const first = el.querySelector('figure');
+    const cardWidth = first ? (first as HTMLElement).offsetWidth + 24 : 320;
+    el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+  };
+
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') scrollByCards(-1);
+      if (e.key === 'ArrowRight') scrollByCards(1);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   return (
     <div>
@@ -464,10 +485,27 @@ export default function Index() {
       >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Testimonials</h2>
-          <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
+          <div className="flex items-center gap-3">
+            <button
+              aria-label="Previous testimonials"
+              onClick={() => scrollByCards(-1)}
+              className="rounded-full bg-black/20 p-2 hover:bg-black/30"
+            >
+              <ChevronLeft className="h-4 w-4 text-foreground/90" />
+            </button>
+            <Link to="/testimonials" className="text-sm font-semibold text-foreground/90 hover:text-foreground">All Testimonials</Link>
+            <button
+              aria-label="Next testimonials"
+              onClick={() => scrollByCards(1)}
+              className="rounded-full bg-black/20 p-2 hover:bg-black/30"
+            >
+              <ChevronRight className="h-4 w-4 text-foreground/90" />
+            </button>
+          </div>
         </div>
         <div className="mt-8 overflow-hidden">
           <motion.div
+            ref={sliderRef}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-120px" }}
@@ -475,14 +513,20 @@ export default function Index() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.1 } },
             }}
-            className="flex gap-6 animate-[slide_20s_linear_infinite] will-change-transform items-start"
+            className="flex gap-6 overflow-x-auto scroll-pl-2 snap-x snap-mandatory will-change-transform py-2"
           >
             {([...(testimonials || []), {
               id: 'tt_extra',
-              author: 'Alex Johnson',
-              role: 'CEO, Innovate Solutions',
+              author: 'Alex J.',
+              role: 'CEO, Inn Solutions',
               quote: 'Working with AUIO was a Game-Changer.',
               avatar: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
+            }, {
+              id: 'tt4',
+              author: 'Sam R.',
+              role: 'Product Lead, Gamma',
+              quote: 'A focused team that delivers measurable outcomes.',
+              avatar: 'https://images.unsplash.com/photo-1545996124-1b3aab1d3c5b?auto=format&fit=crop&w=400&q=80',
             }]).map((t: any, idx: number) => {
               const fallbacks = [
                 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
@@ -503,7 +547,7 @@ export default function Index() {
               }
 
               // uniform sizing for all cards so they align
-              const figureClasses = 'w-[300px] sm:w-[340px] h-[200px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between';
+              const figureClasses = 'w-[300px] sm:w-[340px] h-[200px] rounded-2xl border border-primary/20 bg-transparent p-4 glass-card flex flex-col justify-between snap-start';
               const quoteClass = 'mt-2 text-foreground text-sm leading-relaxed overflow-hidden';
               const avatarSizeClass = 'h-10 w-10';
 

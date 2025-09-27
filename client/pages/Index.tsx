@@ -291,7 +291,7 @@ export default function Index() {
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#5b21b6]/40 via-transparent to-transparent pointer-events-none" />
             <div className="w-full h-64 md:h-80 lg:h-full rounded-2xl border border-primary/20 bg-black/10 overflow-hidden">
               <img
-                src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F40ddf0742d984e1aa9829eec66305b1b?format=webp&width=800"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2Fae85f6e9e16547c19207e581f64a6b6a?format=webp&width=800"
                 alt="Team illustration"
                 className="w-full h-full object-cover"
               />

@@ -753,7 +753,7 @@ export default function Index() {
           </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {news.map((n: any) => (
+          {news.map((n: any, idx: number) => (
             <article
               key={n.id}
               className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"
@@ -764,8 +764,9 @@ export default function Index() {
                     src={n.image}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
-                    loading="lazy"
-                    decoding="async"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    fetchPriority={idx === 0 ? "high" : undefined}
+                    decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;
                       (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
@@ -776,8 +777,9 @@ export default function Index() {
                     src={`/api/assets/${n.image.id}`}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
-                    loading="lazy"
-                    decoding="async"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    fetchPriority={idx === 0 ? "high" : undefined}
+                    decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;
                       (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";

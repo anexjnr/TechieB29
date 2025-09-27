@@ -448,7 +448,7 @@ export default function Index() {
                   <div className="font-semibold text-foreground">Design system for Northstar</div>
                   <div className="text-sm text-foreground/80 mt-1">A shared component library enabling faster launches across teams.</div>
                   <div className="mt-3">
-                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study →</Link>
+                    <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Read case study ��</Link>
                   </div>
                 </div>
               </article>
@@ -481,7 +481,7 @@ export default function Index() {
               id: 'tt_extra',
               author: 'Alex Johnson',
               role: 'CEO, Innovate Solutions',
-              quote: 'Working with AUIO was a game-changer. Their strategic approach and execution delivered results beyond expectations.',
+              quote: 'Working with AUIO was a Game-Changer.',
               avatar: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80',
             }]).map((t: any, idx: number) => {
               const fallbacks = [

@@ -758,47 +758,31 @@ export default function Index() {
               key={n.id}
               className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"
             >
-              {n.image ? (
-                typeof n.image === "string" ? (
+              {(() => {
+                const builderFallback =
+                  "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80";
+                const src =
+                  typeof n?.image === "string"
+                    ? n.image
+                    : n?.image?.id
+                    ? `/api/assets/${n.image.id}`
+                    : n?.title?.toLowerCase().includes("q4 highlights")
+                    ? builderFallback
+                    : "/placeholder.svg";
+                return (
                   <img
-                    src={n.image}
+                    src={src}
                     alt=""
                     className="h-40 w-full object-cover border-b border-primary/10"
                     loading={idx === 0 ? "eager" : "lazy"}
-
                     decoding={idx === 0 ? "sync" : "async"}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).onerror = null;
                       (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
                     }}
                   />
-                ) : n.image.id ? (
-                  <img
-                    src={`/api/assets/${n.image.id}`}
-                    alt=""
-                    className="h-40 w-full object-cover border-b border-primary/10"
-                    loading={idx === 0 ? "eager" : "lazy"}
-
-                    decoding={idx === 0 ? "sync" : "async"}
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).onerror = null;
-                      (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
-                    }}
-                  />
-                ) : (
-                  <img
-                    src="/placeholder.svg"
-                    alt=""
-                    className="h-40 w-full object-cover border-b border-primary/10"
-                  />
-                )
-              ) : (
-                <img
-                  src="/placeholder.svg"
-                  alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
-                />
-              )}
+                );
+              })()}
               <div className="p-6">
                 <h3 className="font-semibold text-foreground">{n.title}</h3>
                 <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>

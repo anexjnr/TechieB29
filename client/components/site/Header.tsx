@@ -72,7 +72,7 @@ export default function Header() {
                 key={n.to + n.label}
                 to={n.to}
                 className={({ isActive }) =>
-                  `text-sm font-semibold transition-all px-3 py-2 rounded-md ${isActive ? "bg-primary/10 text-primary" : "text-primary/80 hover:bg-primary/5 hover:text-primary"}`
+                  `text-sm font-semibold transition-colors px-2 py-1 ${isActive ? "text-primary" : "text-primary/80 hover:text-primary"}`
                 }
               >
                 {n.label}

@@ -412,10 +412,17 @@ export default function Index() {
               ].map((it, idx) => {
                 const Icon = getIconByName(it.icon);
                 return (
-                  <TiltCard key={idx} className="rounded-xl p-4 h-full">
-                    <Icon className="h-5 w-5 text-primary/100" />
-                    <div className="mt-3 font-semibold text-foreground">{it.label}</div>
-                    <div className="text-sm text-foreground/80 mt-2">{it.desc}</div>
+                  <TiltCard key={idx} className="rounded-xl p-4 h-36 flex flex-col justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-md bg-white/5">
+                        <Icon className="h-5 w-5 text-primary/100" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-foreground">{it.label}</div>
+                        <div className="text-sm text-foreground/80 mt-1">{it.desc}</div>
+                      </div>
+                    </div>
+                    <div className="text-xs text-foreground/70">Learn more →</div>
                   </TiltCard>
                 );
               })}

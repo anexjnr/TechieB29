@@ -14,7 +14,7 @@ export default function Layout() {
       const el = document.documentElement;
       const reached =
         window.innerHeight + window.scrollY >= el.scrollHeight - 80;
-      const scrolledBeyond = window.scrollY > 200; // show earlier
+      const scrolledBeyond = window.scrollY > 80; // show even earlier
       setAtBottom(reached || scrolledBeyond);
     };
     check();
@@ -65,7 +65,7 @@ export default function Layout() {
           aria-label="Back to top"
           className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#0a0a0b] text-primary border border-primary/30 shadow-lg hover:-translate-y-0.5 transition z-[250] grid place-items-center"
         >
-          <ChevronUp className="h-5 w-5" />
+          <ChevronUp className="h-5 w-5 text-foreground" />
         </button>
       )}
     </div>

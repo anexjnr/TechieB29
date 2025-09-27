@@ -1,5 +1,4 @@
 import fs from 'fs';
-import fs from 'fs';
 import path from 'path';
 import { db as memoryDb, createItem, updateItem, deleteItem } from './store';
 

@@ -135,7 +135,7 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
         <div className="text-center">
           <AnimatedTitle
             text={loading ? "About Us" : about?.heading || "About Us"}
@@ -153,25 +153,25 @@ export default function About() {
       {/* Company Stats */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" delay={0.1}>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center">
-          <div className="rounded-lg glass-card p-6">
+          <div className="rounded-lg glass-card border border-primary/20 p-6">
             <div className="text-4xl font-extrabold text-foreground">
               <AnimatedCounter target={7} suffix="+" duration={1200} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">Years Experience</div>
           </div>
-          <div className="rounded-lg glass-card p-6">
+          <div className="rounded-lg glass-card border border-primary/20 p-6">
             <div className="text-4xl font-extrabold text-foreground">
               <AnimatedCounter target={150} suffix="+" duration={1400} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">Projects Completed</div>
           </div>
-          <div className="rounded-lg glass-card p-6">
+          <div className="rounded-lg glass-card border border-primary/20 p-6">
             <div className="text-4xl font-extrabold text-foreground">
               <AnimatedCounter target={50} suffix="+" duration={1000} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">Team Members</div>
           </div>
-          <div className="rounded-lg glass-card p-6">
+          <div className="rounded-lg glass-card border border-primary/20 p-6">
             <div className="text-4xl font-extrabold text-foreground">
               <AnimatedCounter target={15} suffix="+" duration={1600} />
             </div>
@@ -183,7 +183,7 @@ export default function About() {
       {/* Who We Are Section */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.15}>
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-6">
             Who We Are
           </h2>
           <p className="text-lg text-foreground/85 max-w-3xl mx-auto">
@@ -210,7 +210,7 @@ export default function About() {
             <div className="mt-8">
               <Link
                 to="/contact"
-                className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg hover:scale-105 transition-all duration-200"
+                className="inline-flex items-center rounded-full glass-card border border-primary/20 px-6 py-3 text-sm font-semibold text-foreground shadow-lg hover:scale-105 transition-all duration-200"
               >
                 Work with us
               </Link>
@@ -222,10 +222,10 @@ export default function About() {
               {renderImage()}
               
               {/* Floating Elements */}
-              <div className="absolute top-4 right-4 rounded-full glass-card p-3">
+              <div className="absolute top-4 right-4 rounded-full glass-card border border-primary/20 p-3">
                 <Users className="h-6 w-6 text-primary/100" />
               </div>
-              <div className="absolute bottom-4 left-4 rounded-full glass-card p-3">
+              <div className="absolute bottom-4 left-4 rounded-full glass-card border border-primary/20 p-3">
                 <Award className="h-6 w-6 text-primary/100" />
               </div>
             </div>
@@ -236,10 +236,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -256,8 +256,8 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="text-center h-full">
@@ -274,10 +274,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -295,14 +295,14 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, scale: 0.9 },
-                  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+                  hidden: { opacity: 0, y: 12 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="text-center h-full">
                   <Award className="h-10 w-10 text-primary/100 mx-auto mb-3" />
                   <h4 className="font-semibold text-foreground mb-2">{award.award}</h4>
-                  <p className="text-sm text-foreground/70">{award.org} • {award.year}</p>
+                  <p className="text-sm text-foreground/80">{award.org} • {award.year}</p>
                 </TiltCard>
               </motion.div>
             ))}
@@ -313,10 +313,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -348,8 +348,8 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="text-center">
@@ -371,10 +371,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -412,8 +412,8 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, x: idx % 2 === 0 ? -30 : 30 },
-                  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+                  hidden: { opacity: 0, y: 12 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="h-full">
@@ -421,7 +421,7 @@ export default function About() {
                     <Newspaper className="h-5 w-5 text-primary/100 mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-medium text-primary/100">{article.outlet}</p>
-                      <p className="text-xs text-foreground/60">{article.date}</p>
+                      <p className="text-xs text-foreground/80">{article.date}</p>
                     </div>
                   </div>
                   <h4 className="text-lg font-semibold text-foreground mb-2">{article.title}</h4>
@@ -436,10 +436,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
         >
           <div className="flex items-center gap-3 mb-8">
@@ -476,8 +476,8 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, scale: 0.9 },
-                  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+                  hidden: { opacity: 0, y: 12 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="text-center">
@@ -488,7 +488,7 @@ export default function About() {
                   />
                   <h4 className="font-semibold text-foreground mb-1">{director.name}</h4>
                   <p className="text-sm text-primary/100 mb-1">{director.role}</p>
-                  <p className="text-xs text-foreground/70">{director.company}</p>
+                  <p className="text-xs text-foreground/80">{director.company}</p>
                 </TiltCard>
               </motion.div>
             ))}
@@ -497,9 +497,9 @@ export default function About() {
       </Section>
 
       {/* What We Do Section */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 bg-muted/30" delay={0.2}>
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.2}>
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-6">
             What We Do
           </h2>
           <p className="text-lg text-foreground/85 max-w-3xl mx-auto">
@@ -511,10 +511,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -546,13 +546,13 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="h-full">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg glass-card flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg glass-card border border-primary/20 flex items-center justify-center">
                       <Package className="h-5 w-5 text-primary/100" />
                     </div>
                     <div>
@@ -563,7 +563,7 @@ export default function About() {
                   <p className="text-sm text-foreground/80 mb-4">{product.description}</p>
                   <ul className="space-y-2">
                     {product.features.map((feature, fidx) => (
-                      <li key={fidx} className="flex items-center gap-2 text-xs text-foreground/70">
+                      <li key={fidx} className="flex items-center gap-2 text-xs text-foreground/80">
                         <CheckCircle className="h-3 w-3 text-primary/100" />
                         {feature}
                       </li>
@@ -579,10 +579,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -616,8 +616,8 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, x: idx % 2 === 0 ? -30 : 30 },
-                  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+                  hidden: { opacity: 0, y: 12 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="h-full">
@@ -645,10 +645,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="mb-16"
         >
@@ -694,12 +694,12 @@ export default function About() {
                 <motion.div
                   key={idx}
                   variants={{
-                    hidden: { opacity: 0, scale: 0.9 },
-                    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+                    hidden: { opacity: 0, y: 12 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                   }}
                 >
                   <TiltCard className="text-center h-full">
-                    <div className="w-12 h-12 rounded-full glass-card flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center mx-auto mb-4">
                       <Icon className="h-6 w-6 text-primary/100" />
                     </div>
                     <h4 className="text-lg font-semibold text-foreground mb-3">{security.title}</h4>
@@ -715,10 +715,10 @@ export default function About() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
         >
           <div className="flex items-center gap-3 mb-8">
@@ -728,8 +728,8 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <motion.div
               variants={{
-                hidden: { opacity: 0, x: -30 },
-                visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+                hidden: { opacity: 0, y: 18 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
               }}
             >
               <TiltCard className="h-full">
@@ -765,8 +765,8 @@ export default function About() {
             
             <motion.div
               variants={{
-                hidden: { opacity: 0, x: 30 },
-                visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+                hidden: { opacity: 0, y: 18 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
               }}
             >
               <TiltCard className="h-full">
@@ -820,7 +820,7 @@ export default function About() {
           viewport={{ once: true, margin: "-120px" }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
@@ -851,12 +851,12 @@ export default function About() {
               <motion.div
                 key={idx}
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                 }}
               >
                 <TiltCard className="h-full p-6 text-center">
-                  <div className="mx-auto w-12 h-12 rounded-full glass-card flex items-center justify-center mb-4">
+                  <div className="mx-auto w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary/100" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">{value.title}</h3>
@@ -869,7 +869,7 @@ export default function About() {
       </Section>
 
       {/* How We Serve - Enhanced Timeline */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 bg-muted/30" delay={0.3}>
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.3}>
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             How We Serve
@@ -886,10 +886,10 @@ export default function About() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-120px" }}
             variants={{
               hidden: {},
-              visible: { transition: { staggerChildren: 0.15 } },
+              visible: { transition: { staggerChildren: 0.08 } },
             }}
             className="space-y-12"
           >
@@ -930,8 +930,8 @@ export default function About() {
                 <motion.div
                   key={idx}
                   variants={{
-                    hidden: { opacity: 0, x: isLeft ? -50 : 50 },
-                    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+                    hidden: { opacity: 0, y: 18 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
                   }}
                   className={`relative flex items-center ${
                     isLeft ? "justify-start" : "justify-end"
@@ -945,12 +945,12 @@ export default function About() {
                     <TiltCard className="p-6">
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                          <div className="w-12 h-12 rounded-full glass-card flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center">
                             <Icon className="h-6 w-6 text-primary/100" />
                           </div>
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-primary/80 mb-1">
+                          <div className="text-xs font-bold text-primary/100 mb-1">
                             PHASE {step.phase}
                           </div>
                           <h3 className="text-xl font-bold text-foreground mb-2">
@@ -982,7 +982,7 @@ export default function About() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="inline-flex items-center rounded-full glass-card px-8 py-3 text-sm font-semibold text-foreground shadow-lg hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center rounded-full glass-card border border-primary/20 px-8 py-3 text-sm font-semibold text-foreground shadow-lg hover:scale-105 transition-all duration-200"
               data-testid="start-project-btn"
             >
               Start a Project

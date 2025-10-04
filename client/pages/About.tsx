@@ -204,7 +204,7 @@ export default function About() {
 
       {/* Who We Are Section */}
       <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-2 pb-16"
         delay={0.15}
       >
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">

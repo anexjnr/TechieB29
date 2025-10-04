@@ -75,7 +75,7 @@ router.get("/sections", async (_req, res) => {
   try {
     const items = await prisma.section.findMany({
       orderBy: { order: "asc" },
-      include: { image: true } as any,
+      select: { id: true, key: true, heading: true, content: true, enabled: true, order: true },
     });
     if (!items || items.length === 0) {
       return res.json(memoryDb.sections || []);

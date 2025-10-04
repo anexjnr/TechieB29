@@ -195,37 +195,23 @@ export default function About() {
 
       {/* Who We Are Section */}
       <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-16"
         delay={0.15}
       >
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-6">
-            Who We Are
-          </h2>
-          <p className="text-lg text-foreground/85 max-w-3xl mx-auto">
-            Discover our leadership, team, and the people who drive our success
-            forward every day.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <div className="space-y-4 text-foreground/85 max-w-prose">
-              <p>{loading ? "" : about?.content || ""}</p>
-              <p>
-                We are a team of passionate professionals who believe in the
-                power of technology to transform businesses. Our diverse
-                backgrounds in engineering, design, and strategy enable us to
-                deliver comprehensive solutions that drive real results.
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
+          <div className="flex flex-col gap-6">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+                Who We Are
+              </h2>
+              <p className="mt-4 text-lg text-foreground/85 max-w-2xl">
+                {description}
               </p>
             </div>
-            <div className="mt-8">
-              <Link
-                to="/contact"
-                className="inline-flex items-center rounded-full glass-card border border-primary/20 px-6 py-3 text-sm font-semibold text-foreground shadow-lg hover:scale-105 transition-all duration-200"
-              >
-                Work with us
-              </Link>
+            <div className="space-y-4 text-foreground/85 max-w-prose">
+              {contentParagraphs.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
             </div>
           </div>
 

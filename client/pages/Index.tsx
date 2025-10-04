@@ -722,9 +722,9 @@ export default function Index() {
               <div className="p-6">
                 <h3 className="font-semibold text-foreground">{n.title}</h3>
                 <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
-                {n?.title?.toLowerCase().includes("q4 highlights") ? (
+                {n?.link ? (
                   <a
-                    href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL"
+                    href={n.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-block text-sm font-semibold text-foreground/90 hover:text-foreground"

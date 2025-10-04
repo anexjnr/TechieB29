@@ -16,17 +16,6 @@ export async function seed() {
       },
     });
 
-    // Seed simple content if empty
-    const newsCount = await prisma.news.count();
-    if (newsCount === 0) {
-      await prisma.news.createMany({
-        data: [
-          { title: 'Q4 Highlights', excerpt: 'Milestones across platform and growth.', content: 'Full report...', imageId: asset.id },
-          { title: 'New Office', excerpt: 'We expanded to Berlin.', content: 'Details...', imageId: asset.id },
-          { title: 'Open Roles', excerpt: 'We\'re hiring across the stack.', content: 'See careers', imageId: asset.id },
-        ],
-      });
-    }
 
     const projCount = await prisma.project.count();
     if (projCount === 0) {

@@ -520,19 +520,7 @@ export default function Index() {
             <div className="relative">
               <div className="rounded-3xl glass-card border border-primary/20 p-4 sm:p-6 md:p-8">
                 {flowSteps.length ? (
-                  <HowWeServeInfographic
-                    items={flowSteps}
-                    centerTitle={
-                      typeof flowchartSection?.heading === "string" && flowchartSection.heading.trim().length
-                        ? (flowchartSection?.heading as string)
-                        : undefined
-                    }
-                    centerSubtitle={
-                      typeof flowchartSection?.subheading === "string" && flowchartSection.subheading!.trim().length
-                        ? (flowchartSection?.subheading as string)
-                        : undefined
-                    }
-                  />
+                  <FlowGrid items={flowSteps.map((s) => ({ icon: s.icon, title: s.title, subtitle: s.desc }))} />
                 ) : infoCards.length ? (
                   <motion.div
                     initial="hidden"

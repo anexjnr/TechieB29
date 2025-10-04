@@ -351,6 +351,43 @@ export async function seed() {
         enabled: true,
       },
     });
+
+    // Ensure 4 avatar assets and testimonials
+    const avatarIds = await Promise.all([
+      ensureAsset("avatar-ava.svg", avatarSvg("AT", "#7C3AED")),
+      ensureAsset("avatar-daniel.svg", avatarSvg("DL", "#22D3EE")),
+      ensureAsset("avatar-priya.svg", avatarSvg("PS", "#F59E0B")),
+      ensureAsset("avatar-omar.svg", avatarSvg("OR", "#34D399")),
+    ]);
+
+    await ensureTestimonial(
+      "Ava Thompson",
+      "Product Manager",
+      "Horizon Labs",
+      "The team delivered quickly and aligned outcomes with business goals.",
+      avatarIds[0],
+    );
+    await ensureTestimonial(
+      "Daniel Lee",
+      "CTO",
+      "CirrusTech",
+      "Rock-solid engineering and clear communication throughout.",
+      avatarIds[1],
+    );
+    await ensureTestimonial(
+      "Priya Shah",
+      "Head of Analytics",
+      "DataForge",
+      "They helped us instrument, measure, and iterate with confidence.",
+      avatarIds[2],
+    );
+    await ensureTestimonial(
+      "Omar Reyes",
+      "Engineering Manager",
+      "Nova Systems",
+      "A pragmatic partner from strategy to scalable delivery.",
+      avatarIds[3],
+    );
   } catch (e) {
     console.warn("Seeding failed:", e);
   }

@@ -2,6 +2,50 @@ import fs from "fs";
 import path from "path";
 import { prisma } from "./prisma";
 
+function avatarSvg(initials: string, color: string) {
+  const safe = initials.replace(/[^A-Z0-9]/gi, "").slice(0, 2).toUpperCase();
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="16" fill="url(#g)"/>
+  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Poppins, Arial, sans-serif" font-size="34" fill="white" font-weight="700">${safe}</text>
+</svg>`;
+}
+
+async function ensureAsset(filename: string, svg: string) {
+  const existing = await prisma.asset.findFirst({ where: { filename } });
+  if (existing) return existing.id;
+  const created = await prisma.asset.create({
+    data: {
+      filename,
+      mime: "image/svg+xml",
+      data: Buffer.from(svg, "utf-8"),
+    },
+  });
+  return created.id;
+}
+
+async function ensureTestimonial(author: string, title: string, company: string, quote: string, avatarId: string) {
+  const existing = await prisma.testimonial.findFirst({ where: { author } });
+  if (existing) {
+    await prisma.testimonial.update({
+      where: { id: existing.id },
+      data: { title, company, quote, avatarId },
+    });
+    return existing.id;
+  }
+  const created = await prisma.testimonial.create({
+    data: { author, title, company, quote, avatarId },
+  });
+  return created.id;
+}
+
 export async function seed() {
   // create a placeholder asset from public/placeholder.svg
   try {

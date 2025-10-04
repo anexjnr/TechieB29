@@ -10,6 +10,7 @@ router.get("/news", async (_req, res) => {
       orderBy: { date: "desc" },
       include: { image: true } as any,
     });
+    if (!items || items.length === 0) return res.json(memoryDb.news);
     res.json(items);
   } catch (e) {
     console.warn("Prisma news failed, using memory store", e.message || e);
@@ -22,6 +23,7 @@ router.get("/testimonials", async (_req, res) => {
     const items = await prisma.testimonial.findMany({
       include: { avatar: true } as any,
     });
+    if (!items || items.length === 0) return res.json(memoryDb.testimonials);
     res.json(items);
   } catch (e) {
     console.warn(
@@ -35,6 +37,7 @@ router.get("/testimonials", async (_req, res) => {
 router.get("/services", async (_req, res) => {
   try {
     const items = await prisma.service.findMany();
+    if (!items || items.length === 0) return res.json(memoryDb.services);
     res.json(items);
   } catch (e) {
     console.warn("Prisma services failed, using memory store", e.message || e);
@@ -47,6 +50,7 @@ router.get("/projects", async (_req, res) => {
     const items = await prisma.project.findMany({
       include: { image: true } as any,
     });
+    if (!items || items.length === 0) return res.json(memoryDb.projects);
     res.json(items);
   } catch (e) {
     console.warn("Prisma projects failed, using memory store", e.message || e);
@@ -59,6 +63,7 @@ router.get("/about", async (_req, res) => {
     const items = await prisma.about.findMany({
       include: { image: true } as any,
     });
+    if (!items || items.length === 0) return res.json(memoryDb.about);
     res.json(items);
   } catch (e) {
     console.warn("Prisma about failed, using memory store", e.message || e);
@@ -85,6 +90,7 @@ router.get("/sections", async (_req, res) => {
 router.get("/jobs", async (_req, res) => {
   try {
     const items = await prisma.job.findMany();
+    if (!items || items.length === 0) return res.json(memoryDb.jobs);
     res.json(items);
   } catch (e) {
     console.warn("Prisma jobs failed, using memory store", e.message || e);

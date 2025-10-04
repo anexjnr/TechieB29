@@ -76,31 +76,34 @@ async function fetchJsonSoft<T = any>(
   url: string,
   timeoutMs = 0,
 ): Promise<T | null> {
+  const safeFetch = async (): Promise<Response | null> => {
+    try {
+      return await fetch(url, { credentials: "same-origin", cache: "no-store" });
+    } catch {
+      return null;
+    }
+  };
+
   try {
+    let resp: Response | null;
     if (timeoutMs > 0) {
-      const resp = (await Promise.race<Promise<Response | null>>([
-        fetch(url),
+      resp = (await Promise.race([
+        safeFetch(),
         new Promise<Response | null>((resolve) =>
           setTimeout(() => resolve(null), timeoutMs),
         ),
       ])) as Response | null;
-
-      if (!resp || !resp.ok) return null;
-      try {
-        return (await resp.json()) as T;
-      } catch {
-        return null;
-      }
     } else {
-      const resp = await fetch(url);
-      if (!resp.ok) return null;
-      try {
-        return (await resp.json()) as T;
-      } catch {
-        return null;
-      }
+      resp = await safeFetch();
     }
-  } catch (e) {
+
+    if (!resp || !resp.ok) return null;
+    try {
+      return (await resp.json()) as T;
+    } catch {
+      return null;
+    }
+  } catch {
     return null;
   }
 }

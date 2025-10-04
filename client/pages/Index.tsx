@@ -144,22 +144,35 @@ export default function Index() {
     },
   ];
 
-  const [newsItems, setNewsItems] = useState<any[]>(news && news.length ? news : defaultNews);
-  const [testiItems, setTestiItems] = useState<any[]>(testimonials && testimonials.length ? testimonials : defaultTestimonials);
+  const [newsItems, setNewsItems] = useState<any[]>(
+    news && news.length ? news : defaultNews,
+  );
+  const [testiItems, setTestiItems] = useState<any[]>(
+    testimonials && testimonials.length ? testimonials : defaultTestimonials,
+  );
 
   useEffect(() => {
     let aborted = false;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 1800);
     Promise.all([
-      fetch("/api/news", { signal: controller.signal }).then((r) => r.ok ? r.json() : [] as any[]).catch(() => []),
-      fetch("/api/testimonials", { signal: controller.signal }).then((r) => r.ok ? r.json() : [] as any[]).catch(() => []),
-    ]).then(([n, t]) => {
-      if (aborted) return;
-      if (Array.isArray(n) && n.length) setNewsItems(n);
-      if (Array.isArray(t) && t.length) setTestiItems(t);
-    }).finally(() => clearTimeout(timer));
-    return () => { aborted = true; controller.abort(); };
+      fetch("/api/news", { signal: controller.signal })
+        .then((r) => (r.ok ? r.json() : ([] as any[])))
+        .catch(() => []),
+      fetch("/api/testimonials", { signal: controller.signal })
+        .then((r) => (r.ok ? r.json() : ([] as any[])))
+        .catch(() => []),
+    ])
+      .then(([n, t]) => {
+        if (aborted) return;
+        if (Array.isArray(n) && n.length) setNewsItems(n);
+        if (Array.isArray(t) && t.length) setTestiItems(t);
+      })
+      .finally(() => clearTimeout(timer));
+    return () => {
+      aborted = true;
+      controller.abort();
+    };
   }, []);
 
   return (

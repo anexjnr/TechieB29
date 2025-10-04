@@ -11,13 +11,18 @@ export type FlowItem = {
 export default function FlowGrid({
   items,
   className,
+  columns = 2,
+  limit,
 }: {
   items: FlowItem[];
   className?: string;
+  columns?: 2 | 3 | 4;
+  limit?: number;
 }) {
-  const list = items.slice(0, 4);
+  const gridCols = columns === 4 ? "md:grid-cols-4" : columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
+  const list = typeof limit === "number" ? items.slice(0, limit) : items;
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", className)}>
+    <div className={cn("grid grid-cols-1", gridCols, "gap-6", className)}>
       {list.map((it, idx) => (
         <TiltCard key={`${it.title}-${idx}`} className="min-h-[140px]">
           <it.icon className="h-6 w-6 text-primary/100" />

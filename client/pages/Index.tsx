@@ -811,12 +811,6 @@ export default function Index() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             Testimonials
           </h2>
-          <Link
-            to="/testimonials"
-            className="text-sm font-semibold text-foreground/90 hover:text-foreground"
-          >
-            All Testimonials
-          </Link>
         </div>
 
         <div className="mt-8">

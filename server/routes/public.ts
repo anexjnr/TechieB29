@@ -5,6 +5,7 @@ import { memoryDb, serveAssetFallback } from "../dbFallback";
 const router = Router();
 
 router.get("/news", async (_req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
   try {
     const items = await prisma.news.findMany({
       orderBy: { date: "desc" },
@@ -19,6 +20,7 @@ router.get("/news", async (_req, res) => {
 });
 
 router.get("/testimonials", async (_req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=120");
   try {
     const items = await prisma.testimonial.findMany({
       include: { avatar: true } as any,

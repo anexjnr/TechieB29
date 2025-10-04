@@ -177,9 +177,9 @@ class MemoryDB {
         {
           id: uid(),
           key: "hero",
-          heading: "Building clear, resilient products for modern companies",
+          heading: "Transforming Businesses with AI, Digital Innovation and Enterprise-Grade Solutions",
           content:
-            "We partner with teams to design, build, and evolve software that ships value fast—without the clutter.",
+            "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions.",
           image:
             "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
           enabled: true,

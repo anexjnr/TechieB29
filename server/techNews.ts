@@ -73,16 +73,23 @@ async function fetchOpenGraphImage(targetUrl: string): Promise<string | null> {
       rel("twitter:image"),
     ].filter(Boolean) as string[];
     let img = candidates[0] || null;
+    const base = new URL(targetUrl);
     if (img && img.startsWith("//")) {
-      const u = new URL(targetUrl);
-      img = `${u.protocol}${img}`;
+      img = `${base.protocol}${img}`;
     } else if (img && img.startsWith("/")) {
-      const u = new URL(targetUrl);
-      img = `${u.origin}${img}`;
+      img = `${base.origin}${img}`;
+    }
+    if (!img) {
+      img = `https://www.google.com/s2/favicons?sz=128&domain_url=${encodeURIComponent(base.origin)}`;
     }
     return img || null;
   } catch {
-    return null;
+    try {
+      const base = new URL(targetUrl);
+      return `https://www.google.com/s2/favicons?sz=128&domain_url=${encodeURIComponent(base.origin)}`;
+    } catch {
+      return null;
+    }
   }
 }
 

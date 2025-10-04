@@ -87,11 +87,30 @@ router.get("/projects", async (_req, res) => {
 
 router.get("/about", async (_req, res) => {
   try {
-    const items = await prisma.about.findMany({
-      include: { image: true } as any,
-    });
+    const items = await prisma.about.findMany();
     if (!items || items.length === 0) return res.json(memoryDb.about);
-    res.json(items);
+
+    const normalized = items.map((item) => {
+      const explicitUrl =
+        typeof item.imageUrl === "string" ? item.imageUrl.trim() : "";
+      const hasExplicitUrl = explicitUrl.length > 0;
+      const image = hasExplicitUrl
+        ? explicitUrl
+        : item.imageId
+          ? `/api/assets/${item.imageId}`
+          : null;
+
+      return {
+        id: item.id,
+        heading: item.heading,
+        content: item.content,
+        image,
+        imageUrl: hasExplicitUrl ? explicitUrl : null,
+        enabled: item.enabled,
+      };
+    });
+
+    res.json(normalized);
   } catch (e) {
     console.warn("Prisma about failed, using memory store", e.message || e);
     res.json(memoryDb.about);

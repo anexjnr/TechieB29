@@ -48,7 +48,7 @@ const DEFAULT_ABOUT_PARAGRAPHS = [
 
 interface AboutData {
   heading: string;
-  description: string;
+  description?: string;
   content: string;
   image?: string | { id: string } | null;
 }
@@ -138,12 +138,6 @@ export default function About() {
     })();
   }, []);
 
-  const description = useMemo(() => {
-    const raw = typeof about?.description === "string" ? about.description : "";
-    const trimmed = raw.trim();
-    return trimmed.length ? trimmed : DEFAULT_ABOUT_DESCRIPTION;
-  }, [about?.description]);
-
   const contentParagraphs = useMemo(() => {
     const raw = typeof about?.content === "string" ? about.content : "";
     const paragraphs = raw
@@ -152,6 +146,24 @@ export default function About() {
       .filter(Boolean);
     return paragraphs.length ? paragraphs : DEFAULT_ABOUT_PARAGRAPHS;
   }, [about?.content]);
+
+  const description = useMemo(() => {
+    const raw = typeof about?.description === "string" ? about.description : "";
+    const trimmed = raw.trim();
+    if (trimmed.length) return trimmed;
+    if (contentParagraphs.length) return contentParagraphs[0];
+    return DEFAULT_ABOUT_DESCRIPTION;
+  }, [about?.description, contentParagraphs]);
+
+  const detailParagraphs = useMemo(() => {
+    const desc = description.trim();
+    return contentParagraphs.filter((paragraph, index) => {
+      if (index === 0 && paragraph.trim() === desc) {
+        return false;
+      }
+      return true;
+    });
+  }, [contentParagraphs, description]);
 
   const renderImage = (): JSX.Element => {
     const img = about?.image;
@@ -181,21 +193,18 @@ export default function About() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-6">
         <div className="text-center">
           <AnimatedTitle
             text={loading ? "About Us" : about?.heading || "About Us"}
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
-          <p className="mt-6 text-lg text-foreground/90 max-w-2xl mx-auto">
-            {loading ? "Loading..." : description}
-          </p>
         </div>
       </Section>
 
       {/* Who We Are Section */}
       <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-2 pb-16"
         delay={0.15}
       >
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
@@ -209,7 +218,7 @@ export default function About() {
               </p>
             </div>
             <div className="space-y-4 text-foreground/85 max-w-prose">
-              {contentParagraphs.map((paragraph, idx) => (
+              {detailParagraphs.map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
               ))}
             </div>

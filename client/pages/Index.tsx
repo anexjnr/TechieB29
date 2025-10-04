@@ -379,6 +379,8 @@ export default function Index() {
     );
   }, [whoWeAre?.data]);
 
+  const whoWeAreImage = normalizeImage(whoWeAre?.image);
+
   const impactItems = useMemo(() => {
     const items = impact?.data?.items;
     if (!Array.isArray(items)) return [];

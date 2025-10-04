@@ -14,7 +14,7 @@ async function main() {
       jobs,
       users,
     ] = await Promise.all([
-      prisma.news.count(),
+      prisma.techNews.count(),
       prisma.project.count(),
       prisma.testimonial.count(),
       prisma.service.count(),

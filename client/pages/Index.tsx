@@ -72,15 +72,48 @@ function AnimatedCounter({
   );
 }
 
+async function fetchJsonSoft<T = any>(
+  url: string,
+  timeoutMs = 0,
+): Promise<T | null> {
+  const safeFetch = async (): Promise<Response | null> => {
+    try {
+      return await fetch(url, {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  try {
+    let resp: Response | null;
+    if (timeoutMs > 0) {
+      resp = (await Promise.race([
+        safeFetch(),
+        new Promise<Response | null>((resolve) =>
+          setTimeout(() => resolve(null), timeoutMs),
+        ),
+      ])) as Response | null;
+    } else {
+      resp = await safeFetch();
+    }
+
+    if (!resp || !resp.ok) return null;
+    try {
+      return (await resp.json()) as T;
+    } catch {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+}
+
 export async function loader() {
   try {
-    // Fetch only sections fast; other content will use built-in fallbacks
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1200);
-    const s = await fetch("/api/sections", { signal: controller.signal })
-      .then((r) => r.json())
-      .catch(() => []);
-    clearTimeout(timeout);
+    const s = (await fetchJsonSoft<any[]>("/api/sections", 1200)) || [];
 
     const sectionsMap: Record<string, any> = {};
     if (Array.isArray(s))
@@ -88,7 +121,6 @@ export async function loader() {
         if (it && it.key) sectionsMap[it.key] = it;
       });
 
-    // Return quickly; component has defaults for news/testimonials
     return { sections: sectionsMap, news: [], testimonials: [] };
   } catch (e) {
     return { sections: {}, news: [], testimonials: [] };
@@ -152,26 +184,22 @@ export default function Index() {
   );
 
   useEffect(() => {
-    let aborted = false;
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 1800);
-    Promise.all([
-      fetch("/api/news", { signal: controller.signal })
-        .then((r) => (r.ok ? r.json() : ([] as any[])))
-        .catch(() => []),
-      fetch("/api/testimonials", { signal: controller.signal })
-        .then((r) => (r.ok ? r.json() : ([] as any[])))
-        .catch(() => []),
-    ])
-      .then(([n, t]) => {
-        if (aborted) return;
-        if (Array.isArray(n) && n.length) setNewsItems(n);
-        if (Array.isArray(t) && t.length) setTestiItems(t);
-      })
-      .finally(() => clearTimeout(timer));
+    let canceled = false;
+
+    const load = async () => {
+      const [n, t] = await Promise.all([
+        fetchJsonSoft<any[]>("/api/news", 1800),
+        fetchJsonSoft<any[]>("/api/testimonials", 1800),
+      ]);
+
+      if (canceled) return;
+      if (Array.isArray(n) && n.length) setNewsItems(n);
+      if (Array.isArray(t) && t.length) setTestiItems(t);
+    };
+
+    load();
     return () => {
-      aborted = true;
-      controller.abort();
+      canceled = true;
     };
   }, []);
 
@@ -514,7 +542,6 @@ export default function Index() {
                   "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80",
                 ];
 
-                // map known authors to fixed web avatars to ensure consistent loading
                 const rawAvatars: Record<string, string> = {
                   "alex m":
                     "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
@@ -532,17 +559,14 @@ export default function Index() {
                     .replace(/[^a-z0-9 ]/g, "")
                     .trim();
 
-                // resolve avatar url for any testimonial
                 let avatarUrl: string | null = null;
 
                 const authorKey =
                   typeof t.author === "string" ? normalize(t.author) : "";
-                // prefer explicit mapping for known authors
                 if (authorKey && rawAvatars[authorKey]) {
                   avatarUrl = rawAvatars[authorKey];
                 }
 
-                // if not resolved, try t.avatar as string or object with url or id
                 if (!avatarUrl && t && t.avatar) {
                   if (typeof t.avatar === "string") avatarUrl = t.avatar;
                   else if ((t.avatar as any).url)
@@ -553,7 +577,6 @@ export default function Index() {
 
                 if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
 
-                // ensure the avatar URL uses https and add small query parameters to help CDN
                 if (
                   avatarUrl &&
                   avatarUrl.startsWith("https://images.unsplash.com") &&
@@ -561,8 +584,6 @@ export default function Index() {
                 ) {
                   avatarUrl = avatarUrl + "?auto=format&fit=crop&w=400&q=80";
                 }
-
-                // ensure full url (avoid relative API asset issues) - leave as-is otherwise
 
                 return (
                   <motion.article

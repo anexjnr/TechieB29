@@ -10,15 +10,22 @@ router.get("/news", async (_req, res) => {
     "public, max-age=30, stale-while-revalidate=60",
   );
   try {
-    const items = await prisma.news.findMany({
-      orderBy: { date: "desc" },
-      include: { image: true } as any,
+    const items = await prisma.techNews.findMany({
+      orderBy: { publishedAt: "desc" },
+      take: 3,
     });
-    if (!items || items.length === 0) return res.json(memoryDb.news);
-    res.json(items);
+    const mapped = (items || []).map((n: any) => ({
+      id: n.id,
+      title: n.title,
+      excerpt: n.excerpt || "",
+      image: n.imageUrl || null,
+      link: n.url,
+      date: n.publishedAt,
+    }));
+    res.json(mapped);
   } catch (e) {
-    console.warn("Prisma news failed, using memory store", e.message || e);
-    res.json(memoryDb.news);
+    console.warn("TechNews fetch failed", e.message || e);
+    res.json([]);
   }
 });
 
@@ -128,6 +135,18 @@ router.get("/assets/:id", async (req, res) => {
   } catch (e) {
     console.warn("Prisma asset fetch failed, using fallback", e.message || e);
     serveAssetFallback(id, res);
+  }
+});
+
+// Manual refresh endpoint (for admins/operators). Triggers fetch + upsert.
+router.get("/technews/refresh", async (_req, res) => {
+  try {
+    const { refreshTechNews } = await import("../techNews");
+    await refreshTechNews();
+    const count = await prisma.techNews.count();
+    res.json({ ok: true, count });
+  } catch (e: any) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 

@@ -443,35 +443,35 @@ export default function Index() {
         </div>
       </Section>
 
-      {/* Numbers / Impact */}
+      {/* Impact Snapshot */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
         delay={0.14}
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <Link to="/services" className="group block rounded-lg">
+          <div className="group block rounded-lg">
+            <div className="text-4xl font-extrabold text-foreground">🌍</div>
+            <div className="mt-2 text-sm text-foreground/85">
+              Presence across India &amp; the Middle East
+            </div>
+          </div>
+
+          <Link to="/clients" className="group block rounded-lg">
             <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={50} suffix="+" duration={1200} />
+              <AnimatedCounter target={45} suffix="+" duration={1200} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">
               Clients served
             </div>
           </Link>
 
-          <Link to="/services" className="group block rounded-lg">
+          <Link to="/products" className="group block rounded-lg">
             <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={80} suffix="+" duration={1400} />
+              <AnimatedCounter target={4} duration={1000} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">
-              Projects shipped
+              Flagship enterprise products
             </div>
-          </Link>
-
-          <Link to="/services" className="group block rounded-lg">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={5} duration={1000} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Countries</div>
           </Link>
         </div>
       </Section>

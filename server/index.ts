@@ -36,6 +36,9 @@ export function createServer() {
   // Public API for site content (no auth)
   import('./routes/public').then(m => app.use('/api', m.default)).catch(() => {});
 
+  // Tech news scheduler (server-start + every 24h)
+  import('./techNews').then(m => m.startTechNewsScheduler()).catch(() => {});
+
   // Auth
   app.post("/api/admin/login", adminLogin);
   app.use("/api/admin", adminRouter);

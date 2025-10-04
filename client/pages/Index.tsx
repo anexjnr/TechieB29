@@ -74,163 +74,24 @@ function AnimatedCounter({
 
 export async function loader() {
   try {
-    const [s, n, t] = await Promise.all([
-      fetch("/api/sections")
-        .then((r) => r.json())
-        .catch(() => []),
-      fetch("/api/news")
-        .then((r) => r.json())
-        .catch(() => []),
-      fetch("/api/testimonials")
-        .then((r) => r.json())
-        .catch(() => []),
-    ]);
+    // Fetch only sections fast; other content will use built-in fallbacks
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1200);
+    const s = await fetch("/api/sections", { signal: controller.signal })
+      .then((r) => r.json())
+      .catch(() => []);
+    clearTimeout(timeout);
+
     const sectionsMap: Record<string, any> = {};
     if (Array.isArray(s))
       s.filter((it: any) => it?.enabled !== false).forEach((it: any) => {
         if (it && it.key) sectionsMap[it.key] = it;
       });
 
-    // Attempt to fetch latest tech news from TechCrunch (public WP JSON API). If unavailable, fall back to internal news.
-    let news: any[] = [];
-    try {
-      const externalRes = await fetch(
-        "https://techcrunch.com/wp-json/wp/v2/posts?per_page=3&_embed",
-      );
-      if (externalRes.ok) {
-        const extData = await externalRes.json();
-        if (Array.isArray(extData) && extData.length) {
-          news = extData.map((it: any) => {
-            const media =
-              it._embedded &&
-              it._embedded["wp:featuredmedia"] &&
-              it._embedded["wp:featuredmedia"][0];
-            const imageUrl = media
-              ? media.source_url || media.media_details?.sizes?.full?.source_url
-              : it.jetpack_featured_media_url || null;
-            return {
-              id: String(it.id),
-              title:
-                it.title && it.title.rendered
-                  ? it.title.rendered.replace(/<[^>]+>/g, "")
-                  : it.title || "",
-              excerpt:
-                it.excerpt && it.excerpt.rendered
-                  ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180)
-                  : "",
-              link: it.link || "",
-              image: imageUrl || null,
-            };
-          });
-        }
-      }
-    } catch (e) {
-      // ignore external fetch errors
-      news = [];
-    }
-
-    // If external didn't provide news, fall back to internal API results or seeded items
-    if (!news.length) {
-      const newsRaw = Array.isArray(n)
-        ? n.filter((x: any) => x?.enabled !== false).slice(0, 3)
-        : [];
-      news = newsRaw.length
-        ? newsRaw
-        : [
-            {
-              id: "s1",
-              title: "Q4 Highlights",
-              excerpt: "Milestones across platform and growth.",
-              image:
-                "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
-            },
-            {
-              id: "s2",
-              title: "New Office",
-              excerpt: "We expanded to Berlin.",
-              image:
-                "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
-            },
-            {
-              id: "s3",
-              title: "Open Roles",
-              excerpt: "We're hiring across the stack.",
-              image:
-                "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-            },
-          ];
-    }
-
-    const testiRaw = Array.isArray(t)
-      ? t.filter((x: any) => x?.enabled !== false)
-      : [];
-    const testimonials = testiRaw.length
-      ? testiRaw
-      : [
-          {
-            id: "tt1",
-            author: "Alex M.",
-            role: "CTO, Nimbus",
-            quote: "They move fast without breaking clarity.",
-            avatar:
-              "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
-          },
-          {
-            id: "tt2",
-            author: "Priya S.",
-            role: "VP Eng, Northstar",
-            quote: "A true partner from strategy to delivery.",
-            avatar:
-              "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
-          },
-        ];
-
-    return { sections: sectionsMap, news, testimonials };
+    // Return quickly; component has defaults for news/testimonials
+    return { sections: sectionsMap, news: [], testimonials: [] };
   } catch (e) {
-    return {
-      sections: {},
-      news: [
-        {
-          id: "s1",
-          title: "Q4 Highlights",
-          excerpt: "Milestones across platform and growth.",
-          image:
-            "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
-        },
-        {
-          id: "s2",
-          title: "New Office",
-          excerpt: "We expanded to Berlin.",
-          image:
-            "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
-        },
-        {
-          id: "s3",
-          title: "Open Roles",
-          excerpt: "We're hiring across the stack.",
-          image:
-            "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-        },
-      ],
-      testimonials: [
-        {
-          id: "tt1",
-          author: "Alex M.",
-          role: "CTO, Nimbus",
-          quote: "They move fast without breaking clarity.",
-          avatar:
-            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
-        },
-        {
-          id: "tt2",
-          author: "Priya S.",
-          role: "VP Eng, Northstar",
-          quote: "A true partner from strategy to delivery.",
-          avatar:
-            "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
-        },
-      ],
-    };
+    return { sections: {}, news: [], testimonials: [] };
   }
 }
 
@@ -240,6 +101,79 @@ export default function Index() {
     news: any[];
     testimonials: any[];
   };
+
+  const defaultNews = [
+    {
+      id: "s1",
+      title: "Q4 Highlights",
+      excerpt: "Milestones across platform and growth.",
+      image:
+        "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
+    },
+    {
+      id: "s2",
+      title: "New Office",
+      excerpt: "We expanded to Berlin.",
+      image:
+        "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      id: "s3",
+      title: "Open Roles",
+      excerpt: "We're hiring across the stack.",
+      image:
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    },
+  ];
+  const defaultTestimonials = [
+    {
+      id: "tt1",
+      author: "Alex M.",
+      role: "CTO, Nimbus",
+      quote: "They move fast without breaking clarity.",
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+    },
+    {
+      id: "tt2",
+      author: "Priya S.",
+      role: "VP Eng, Northstar",
+      quote: "A true partner from strategy to delivery.",
+      avatar:
+        "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
+    },
+  ];
+
+  const [newsItems, setNewsItems] = useState<any[]>(
+    news && news.length ? news : defaultNews,
+  );
+  const [testiItems, setTestiItems] = useState<any[]>(
+    testimonials && testimonials.length ? testimonials : defaultTestimonials,
+  );
+
+  useEffect(() => {
+    let aborted = false;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1800);
+    Promise.all([
+      fetch("/api/news", { signal: controller.signal })
+        .then((r) => (r.ok ? r.json() : ([] as any[])))
+        .catch(() => []),
+      fetch("/api/testimonials", { signal: controller.signal })
+        .then((r) => (r.ok ? r.json() : ([] as any[])))
+        .catch(() => []),
+    ])
+      .then(([n, t]) => {
+        if (aborted) return;
+        if (Array.isArray(n) && n.length) setNewsItems(n);
+        if (Array.isArray(t) && t.length) setTestiItems(t);
+      })
+      .finally(() => clearTimeout(timer));
+    return () => {
+      aborted = true;
+      controller.abort();
+    };
+  }, []);
 
   return (
     <div>
@@ -554,7 +488,7 @@ export default function Index() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {[
-              ...(testimonials || []),
+              ...(testiItems || []),
               {
                 id: "tt_extra",
                 author: "Alex J.",
@@ -696,7 +630,7 @@ export default function Index() {
           </h2>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {news.map((n: any, idx: number) => (
+          {newsItems.map((n: any, idx: number) => (
             <article
               key={n.id}
               className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"

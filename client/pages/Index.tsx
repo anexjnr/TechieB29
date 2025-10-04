@@ -209,7 +209,7 @@ export default function Index() {
               <AnimatedTitle
                 text={
                   sections.hero?.heading ||
-                  "Transforming Businesses with AI, Digital Innovation and Enterprise-Grade Solutions"
+                  "Transforming Businesses with AI and Digital Innovation"
                 }
                 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
               />

@@ -6,7 +6,7 @@ import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";
 import LoadingScreen from "@/components/site/LoadingScreen";
-import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
+import FlowGrid from "@/components/site/FlowGrid";
 import { getIconByName } from "@/lib/iconMap";
 
 type SectionPayload = {

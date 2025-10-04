@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Target,
@@ -37,6 +37,14 @@ const BACKEND_URL =
   (typeof process !== "undefined" &&
     (process as any).env?.REACT_APP_BACKEND_URL) ||
   "";
+
+const DEFAULT_ABOUT_DESCRIPTION =
+  "We are a technology solutions company focused on helping businesses unlock new possibilities with AI, digital transformation, and enterprise innovation.";
+
+const DEFAULT_ABOUT_PARAGRAPHS = [
+  "Senior engineers and designers working as one unit. Fewer handoffs, more accountability. We operate with lean process and a bias for action.",
+  "We are a team of passionate professionals who believe in the power of technology to transform businesses. Our diverse backgrounds in engineering, design, and strategy enable us to deliver comprehensive solutions that drive real results.",
+];
 
 interface AboutData {
   heading: string;
@@ -107,15 +115,15 @@ function AnimatedCounter({
 export default function About() {
   const [about, setAbout] = useState<AboutData>({
     heading: "About Us",
-    description: "",
-    content:
-      "Senior engineers and designers working as one unit. Fewer handoffs, more accountability. We operate with lean process and a bias for action.",
+    description: DEFAULT_ABOUT_DESCRIPTION,
+    content: DEFAULT_ABOUT_PARAGRAPHS.join("\n\n"),
     image: null,
   });
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await fetch(`${BACKEND_URL}/api/about`);
         if (res.ok) {
@@ -124,9 +132,26 @@ export default function About() {
         }
       } catch (e) {
         console.error("API call failed, using fallback content:", e);
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
+
+  const description = useMemo(() => {
+    const raw = typeof about?.description === "string" ? about.description : "";
+    const trimmed = raw.trim();
+    return trimmed.length ? trimmed : DEFAULT_ABOUT_DESCRIPTION;
+  }, [about?.description]);
+
+  const contentParagraphs = useMemo(() => {
+    const raw = typeof about?.content === "string" ? about.content : "";
+    const paragraphs = raw
+      .split(/\r?\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean);
+    return paragraphs.length ? paragraphs : DEFAULT_ABOUT_PARAGRAPHS;
+  }, [about?.content]);
 
   const renderImage = (): JSX.Element => {
     const img = about?.image;
@@ -163,7 +188,7 @@ export default function About() {
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
           <p className="mt-6 text-lg text-foreground/90 max-w-2xl mx-auto">
-            {loading ? "Loading..." : about?.description || ""}
+            {loading ? "Loading..." : description}
           </p>
         </div>
       </Section>

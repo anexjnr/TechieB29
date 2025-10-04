@@ -329,7 +329,7 @@ export default function Index() {
   const whatWeDo = sections["what-we-do"];
   const whoWeAre = sections["who-we-are"];
   const impact = sections["impact"];
-  const flowchartSection = sections["flowchart"];
+  const flowchartSection = sections["flowchart"] ?? sections["capabilities"];
 
   const flowSteps = useMemo(() => {
     const raw = (flowchartSection as any)?.data;

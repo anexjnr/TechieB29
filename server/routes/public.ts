@@ -116,6 +116,7 @@ router.get("/sections", async (_req, res) => {
         enabled: true,
         order: true,
         imageId: true,
+        imageUrl: true,
         image: {
           select: {
             id: true,
@@ -126,13 +127,21 @@ router.get("/sections", async (_req, res) => {
     if (!items || items.length === 0) {
       return res.json(memoryDb.sections || []);
     }
-    const normalized = items.map((item: any) => ({
-      ...item,
-      image:
+    const normalized = items.map((item: any) => {
+      const assetUrl =
         item?.image && typeof item.image === "object" && item.image?.id
           ? `/api/assets/${item.image.id}`
-          : null,
-    }));
+          : null;
+      const explicitUrl =
+        typeof item?.imageUrl === "string" ? item.imageUrl.trim() : null;
+      const image = explicitUrl && explicitUrl.length ? explicitUrl : assetUrl;
+      const { image: _imageRelation, ...rest } = item;
+      return {
+        ...rest,
+        image,
+        imageUrl: image,
+      };
+    });
     res.json(normalized);
   } catch (e) {
     console.warn("Prisma sections failed, using memory store", e.message || e);

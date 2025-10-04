@@ -713,9 +713,10 @@ export default function Index() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
           <div className="group block rounded-lg">
             <div className="flex items-center justify-center">
-              {(getIconByName(presence?.icon) || Globe)({
-                className: "h-12 w-12 text-primary/90",
-              })}
+              {(() => {
+                const PresenceIcon = getIconByName(presence?.icon) || Globe;
+                return <PresenceIcon className="h-12 w-12 text-primary/90" />;
+              })()}
             </div>
             <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
               {presence?.heading || "Presence across India & the Middle East"}

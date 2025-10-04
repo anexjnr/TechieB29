@@ -78,7 +78,10 @@ async function fetchJsonSoft<T = any>(
 ): Promise<T | null> {
   const safeFetch = async (): Promise<Response | null> => {
     try {
-      return await fetch(url, { credentials: "same-origin", cache: "no-store" });
+      return await fetch(url, {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
     } catch {
       return null;
     }
@@ -114,11 +117,9 @@ export async function loader() {
 
     const sectionsMap: Record<string, any> = {};
     if (Array.isArray(s))
-      s
-        .filter((it: any) => it?.enabled !== false)
-        .forEach((it: any) => {
-          if (it && it.key) sectionsMap[it.key] = it;
-        });
+      s.filter((it: any) => it?.enabled !== false).forEach((it: any) => {
+        if (it && it.key) sectionsMap[it.key] = it;
+      });
 
     return { sections: sectionsMap, news: [], testimonials: [] };
   } catch (e) {

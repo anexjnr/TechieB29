@@ -8,9 +8,14 @@ export type TechNewsItem = {
   publishedAt: Date;
 };
 
-async function fetchFromDevTo(tags: string[] = ["technology", "programming", "ai"]): Promise<TechNewsItem[]> {
+async function fetchFromDevTo(
+  tags: string[] = ["technology", "programming", "ai"],
+): Promise<TechNewsItem[]> {
   try {
-    const headers = { "User-Agent": "fusion-starter/technews" } as Record<string, string>;
+    const headers = { "User-Agent": "fusion-starter/technews" } as Record<
+      string,
+      string
+    >;
     const lists = await Promise.all(
       tags.map(async (tag) => {
         const url = `https://dev.to/api/articles?per_page=20&tag=${encodeURIComponent(tag)}`;
@@ -24,9 +29,12 @@ async function fetchFromDevTo(tags: string[] = ["technology", "programming", "ai
       .map((a: any) => {
         const title: string = a?.title || "";
         const url: string = a?.url || "";
-        const publishedAt: Date = a?.published_at ? new Date(a.published_at) : new Date();
+        const publishedAt: Date = a?.published_at
+          ? new Date(a.published_at)
+          : new Date();
         const excerpt: string | null = a?.description || null;
-        const imageUrl: string | null = a?.cover_image || a?.social_image || null;
+        const imageUrl: string | null =
+          a?.cover_image || a?.social_image || null;
         return title && url && imageUrl
           ? ({ title, url, publishedAt, excerpt, imageUrl } as TechNewsItem)
           : null;
@@ -60,8 +68,10 @@ async function fetchOpenGraphImage(targetUrl: string): Promise<string | null> {
     const res = await fetch(targetUrl, {
       signal: controller.signal,
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; FusionBot/1.0; +https://example.com/bot)",
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "User-Agent":
+          "Mozilla/5.0 (compatible; FusionBot/1.0; +https://example.com/bot)",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
       redirect: "follow",
     });
@@ -75,8 +85,15 @@ async function fetchOpenGraphImage(targetUrl: string): Promise<string | null> {
       }
     }
     const html = await res.text();
-    const rel = (name: string) => new RegExp(`<meta[^>]+property=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1] ||
-      new RegExp(`<meta[^>]+name=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1];
+    const rel = (name: string) =>
+      new RegExp(
+        `<meta[^>]+property=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`,
+        "i",
+      ).exec(html)?.[1] ||
+      new RegExp(
+        `<meta[^>]+name=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`,
+        "i",
+      ).exec(html)?.[1];
     const candidates = [
       rel("og:image:secure_url"),
       rel("og:image"),
@@ -109,7 +126,9 @@ export async function refreshTechNews() {
   for (const n of items) {
     try {
       // find existing
-      const existing = await prisma.techNews.findUnique({ where: { url: n.url } });
+      const existing = await prisma.techNews.findUnique({
+        where: { url: n.url },
+      });
       const imageUrl = n.imageUrl || existing?.imageUrl || null;
 
       await prisma.techNews.upsert({
@@ -135,10 +154,13 @@ export async function refreshTechNews() {
   }
 
   try {
-    const all = await prisma.techNews.findMany({ orderBy: { publishedAt: "desc" } });
+    const all = await prisma.techNews.findMany({
+      orderBy: { publishedAt: "desc" },
+    });
     if (all.length > 6) {
       const toDelete = all.slice(6).map((x) => x.id);
-      if (toDelete.length) await prisma.techNews.deleteMany({ where: { id: { in: toDelete } } });
+      if (toDelete.length)
+        await prisma.techNews.deleteMany({ where: { id: { in: toDelete } } });
     }
   } catch {}
 }

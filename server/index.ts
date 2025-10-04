@@ -20,10 +20,17 @@ export function createServer() {
   db.seed().catch(() => void 0);
 
   // Prisma DB connection check & seed sample data
-  prisma.$connect().then(() => {
-    // lazy import to avoid top-level module cycles
-    import('./seed').then((m) => m.seed()).catch((e) => console.warn('Seed failed', e));
-  }).catch((e) => { console.warn('Prisma connect failed (if running without DB):', e.message); });
+  prisma
+    .$connect()
+    .then(() => {
+      // lazy import to avoid top-level module cycles
+      import("./seed")
+        .then((m) => m.seed())
+        .catch((e) => console.warn("Seed failed", e));
+    })
+    .catch((e) => {
+      console.warn("Prisma connect failed (if running without DB):", e.message);
+    });
 
   // Example API routes
   app.get("/api/ping", (_req, res) => {
@@ -34,10 +41,12 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
 
   // Public API for site content (no auth)
-  import('./routes/public').then(m => app.use('/api', m.default)).catch(() => {});
+  import("./routes/public")
+    .then((m) => app.use("/api", m.default))
+    .catch(() => {});
 
   // Tech news scheduler (server-start + every 24h)
-  import('./techNews').then(m => m.startTechNewsScheduler()).catch(() => {});
+  import("./techNews").then((m) => m.startTechNewsScheduler()).catch(() => {});
 
   // Auth
   app.post("/api/admin/login", adminLogin);

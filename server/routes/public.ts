@@ -10,15 +10,22 @@ router.get("/news", async (_req, res) => {
     "public, max-age=30, stale-while-revalidate=60",
   );
   try {
-    const items = await prisma.news.findMany({
-      orderBy: { date: "desc" },
-      include: { image: true } as any,
+    const items = await prisma.techNews.findMany({
+      orderBy: { publishedAt: "desc" },
+      take: 3,
     });
-    if (!items || items.length === 0) return res.json(memoryDb.news);
-    res.json(items);
+    const mapped = (items || []).map((n: any) => ({
+      id: n.id,
+      title: n.title,
+      excerpt: n.excerpt || "",
+      image: n.imageUrl || null,
+      link: n.url,
+      date: n.publishedAt,
+    }));
+    res.json(mapped);
   } catch (e) {
-    console.warn("Prisma news failed, using memory store", e.message || e);
-    res.json(memoryDb.news);
+    console.warn("TechNews fetch failed", e.message || e);
+    res.json([]);
   }
 });
 

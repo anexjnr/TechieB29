@@ -110,10 +110,7 @@ export async function refreshTechNews() {
     try {
       // find existing
       const existing = await prisma.techNews.findUnique({ where: { url: n.url } });
-      let imageUrl = existing?.imageUrl || n.imageUrl || null;
-      if (!imageUrl) {
-        imageUrl = await fetchOpenGraphImage(n.url);
-      }
+      const imageUrl = n.imageUrl || existing?.imageUrl || null;
 
       await prisma.techNews.upsert({
         where: { url: n.url },

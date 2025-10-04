@@ -63,7 +63,14 @@ async function fetchOpenGraphImage(targetUrl: string): Promise<string | null> {
       redirect: "follow",
     });
     clearTimeout(t);
-    if (!res.ok) return null;
+    if (!res.ok) {
+      try {
+        const base = new URL(targetUrl);
+        return `https://www.google.com/s2/favicons?sz=128&domain_url=${encodeURIComponent(base.origin)}`;
+      } catch {
+        return null;
+      }
+    }
     const html = await res.text();
     const rel = (name: string) => new RegExp(`<meta[^>]+property=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1] ||
       new RegExp(`<meta[^>]+name=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1];

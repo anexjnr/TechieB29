@@ -317,6 +317,46 @@ export default function Index() {
         </Section>
       ) : null}
 
+      {/* What We Do: 3-column intro */}
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.05}>
+        <div className="text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+            What We Do
+          </h2>
+        </div>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TiltCard className="min-h-[160px]">
+            <Target className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              AI &amp; Digital Transformation
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Reimagine processes with intelligence and automation.
+            </div>
+          </TiltCard>
+
+          <TiltCard className="min-h-[160px]">
+            <BarChart3 className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              Enterprise Products
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Future-ready platforms across Retail, NBFC, MEP, and Data Transfer.
+            </div>
+          </TiltCard>
+
+          <TiltCard className="min-h-[160px]">
+            <Cpu className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              Technology Services
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Architecture review, cloud enablement, AI augmentation, and enterprise security.
+            </div>
+          </TiltCard>
+        </div>
+      </Section>
+
       {/* About teaser: merged Who We Are + What We Do */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"

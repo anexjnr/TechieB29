@@ -115,7 +115,7 @@ router.get("/stats", async (_req, res) => {
     ] = await Promise.all([
       prisma.service.count(),
       prisma.project.count(),
-      prisma.news.count(),
+      prisma.techNews.count(),
       prisma.testimonial.count(),
       prisma.job.count(),
       prisma.section.count(),
@@ -457,7 +457,7 @@ function modelFor(section: string) {
     case "projects":
       return prisma.project;
     case "news":
-      return prisma.news;
+      return null;
     case "testimonials":
       return prisma.testimonial;
     case "jobs":
@@ -478,7 +478,6 @@ router.get("/:section", async (req, res) => {
 
   // include related asset where applicable
   const include: any = {};
-  if (section === "news") include.image = true;
   if (section === "projects") include.image = true;
   if (section === "about") include.image = true;
   if (section === "services") include.image = true;
@@ -486,7 +485,7 @@ router.get("/:section", async (req, res) => {
 
   // Choose sensible ordering per model
   let orderBy: any = undefined;
-  if (section === "news") orderBy = { date: "desc" };
+  if (section === "services") orderBy = { order: "asc" };
   else if (section === "services") orderBy = { order: "asc" };
   else orderBy = { id: "desc" };
 
@@ -511,7 +510,7 @@ router.get("/:section", async (req, res) => {
       case "projects":
         return res.json(memoryDb.projects);
       case "news":
-        return res.json(memoryDb.news);
+        return res.status(404).json({ error: "Unknown section" });
       case "testimonials":
         return res.json(memoryDb.testimonials);
       case "jobs":
@@ -548,8 +547,7 @@ router.post("/:section", async (req, res) => {
           created = createItem(memoryDb.projects, payload);
           break;
         case "news":
-          created = createItem(memoryDb.news, payload);
-          break;
+          return res.status(404).json({ error: "Unknown section" });
         case "testimonials":
           created = createItem(memoryDb.testimonials, payload);
           break;
@@ -605,12 +603,7 @@ router.put("/:section/:id", async (req, res) => {
           );
           break;
         case "news":
-          updated = updateItem(
-            memoryDb.news as any,
-            id,
-            req.body || ({} as any),
-          );
-          break;
+          return res.status(404).json({ error: "Unknown section" });
         case "testimonials":
           updated = updateItem(
             memoryDb.testimonials as any,
@@ -667,8 +660,7 @@ router.delete("/:section/:id", async (req, res) => {
           ok = deleteItem(memoryDb.projects as any, id);
           break;
         case "news":
-          ok = deleteItem(memoryDb.news as any, id);
-          break;
+          return res.status(404).json({ error: "Unknown section" });
         case "testimonials":
           ok = deleteItem(memoryDb.testimonials as any, id);
           break;

@@ -51,15 +51,14 @@ model Project {
   enabled     Boolean @default(true)
 }
 
-model News {
-  id       String @id @default(cuid())
-  title    String
-  excerpt  String
-  content  String
-  imageId  String?
-  image    Asset? @relation("NewsImage", fields: [imageId], references: [id])
-  date     DateTime @default(now())
-  enabled  Boolean @default(true)
+model TechNews {
+  id           String   @id @default(cuid())
+  title        String
+  excerpt      String?
+  url          String   @unique
+  imageUrl     String?
+  publishedAt  DateTime
+  updatedAt    DateTime @default(now())
 }
 
 model Testimonial {
@@ -101,7 +100,6 @@ model Asset {
 
   abouts       About[]       @relation("AboutImage")
   projects     Project[]     @relation("ProjectImage")
-  newsItems    News[]        @relation("NewsImage")
   testimonials Testimonial[] @relation("TestimonialAvatar")
   sections     Section[]     @relation("SectionImage")
   services     Service[]     @relation("ServiceImage")

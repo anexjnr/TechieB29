@@ -193,7 +193,7 @@ export default function About() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
+      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-12">
         <div className="text-center">
           <AnimatedTitle
             text={loading ? "About Us" : about?.heading || "About Us"}

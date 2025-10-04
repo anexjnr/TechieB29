@@ -330,6 +330,7 @@ export default function Index() {
   const whoWeAre = sections["who-we-are"];
   const impact = sections["impact"];
   const flowchartSection = sections["flowchart"] ?? sections["capabilities"];
+  const whatWeDoCompact = sections["what-we-do-compact"];
 
   const flowSteps = useMemo(() => {
     const raw = (flowchartSection as any)?.data;
@@ -363,6 +364,38 @@ export default function Index() {
       })
       .filter(Boolean) as { title: string; desc: string; icon: any }[];
   }, [flowchartSection?.data]);
+
+  const whatWeDoCompactItems = useMemo(() => {
+    const raw = (whatWeDoCompact as any)?.data;
+    const arr = Array.isArray(raw)
+      ? raw
+      : raw && Array.isArray((raw as any).items)
+        ? (raw as any).items
+        : [];
+    return (arr as any[])
+      .map((item: any, idx: number) => {
+        const titleCandidate =
+          typeof item?.heading === "string" && item.heading.trim().length
+            ? item.heading
+            : typeof item?.label === "string" && item.label.trim().length
+              ? item.label
+              : typeof item?.title === "string" && item.title.trim().length
+                ? item.title
+                : null;
+        if (!titleCandidate) return null;
+        const subtitle =
+          typeof item?.subheading === "string" && item.subheading.trim().length
+            ? item.subheading
+            : typeof item?.desc === "string" && item.desc.trim().length
+              ? item.desc
+              : typeof item?.description === "string" && item.description.trim().length
+                ? item.description
+                : "";
+        const Icon = getIconByName(item?.icon) || [Target, BarChart3, Cpu][idx % 3] || Target;
+        return { title: titleCandidate, subtitle, icon: Icon };
+      })
+      .filter(Boolean) as { title: string; subtitle: string; icon: any }[];
+  }, [whatWeDoCompact?.data]);
 
   const heroCtas = useMemo(() => {
     const raw = hero?.data?.ctas;
@@ -818,6 +851,24 @@ export default function Index() {
                 </Link>
               );
             })}
+          </div>
+        </Section>
+      ) : null}
+
+      {whatWeDoCompactItems.length ? (
+        <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.22}>
+          <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+              {typeof whatWeDoCompact?.heading === "string" && whatWeDoCompact.heading.trim().length
+                ? whatWeDoCompact.heading
+                : "What We Do"}
+            </h2>
+            {typeof whatWeDoCompact?.subheading === "string" && whatWeDoCompact.subheading.trim().length ? (
+              <p className="mt-4 text-foreground/90 max-w-2xl mx-auto">{whatWeDoCompact.subheading}</p>
+            ) : null}
+          </div>
+          <div className="mt-8">
+            <FlowGrid items={whatWeDoCompactItems} columns={3} limit={3} />
           </div>
         </Section>
       ) : null}

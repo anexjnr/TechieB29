@@ -6,6 +6,7 @@ import {
   Target,
   BarChart3,
   Quote,
+  Globe,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Section from "@/components/site/Section";

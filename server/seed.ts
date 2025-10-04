@@ -3,7 +3,10 @@ import path from "path";
 import { prisma } from "./prisma";
 
 function avatarSvg(initials: string, color: string) {
-  const safe = initials.replace(/[^A-Z0-9]/gi, "").slice(0, 2).toUpperCase();
+  const safe = initials
+    .replace(/[^A-Z0-9]/gi, "")
+    .slice(0, 2)
+    .toUpperCase();
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
   <defs>
@@ -31,7 +34,13 @@ async function ensureAsset(filename: string, svg: string) {
   return created.id;
 }
 
-async function ensureTestimonial(author: string, title: string, company: string, quote: string, avatarId: string) {
+async function ensureTestimonial(
+  author: string,
+  title: string,
+  company: string,
+  quote: string,
+  avatarId: string,
+) {
   const existing = await prisma.testimonial.findFirst({ where: { author } });
   if (existing) {
     await prisma.testimonial.update({

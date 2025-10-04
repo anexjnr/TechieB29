@@ -352,6 +352,42 @@ export async function seed() {
       },
     });
 
+    // Ensure 'who' section exists with image
+    await prisma.section.upsert({
+      where: { key: "who" },
+      update: {
+        heading: "Who We Are",
+        content:
+          "We are a senior, cross-functional team focused on clarity, velocity, and measurable outcomes across regulated and consumer markets.\nOur operators blend research, design, and engineering disciplines to translate uncertain opportunities into compounding value.",
+        data: {
+          paragraphs: [
+            "We are a senior, cross-functional team focused on clarity, velocity, and measurable outcomes across regulated and consumer markets.",
+            "Our operators blend research, design, and engineering disciplines to translate uncertain opportunities into compounding value.",
+            "Operating as a remote-first company with strategic offices globally, we emphasize clarity, fast feedback loops, and long-term partnerships that prioritize user value and technical excellence.",
+          ],
+        },
+        imageId: asset.id,
+        order: 4,
+        enabled: true,
+      },
+      create: {
+        key: "who",
+        heading: "Who We Are",
+        content:
+          "We are a senior, cross-functional team focused on clarity, velocity, and measurable outcomes across regulated and consumer markets.\nOur operators blend research, design, and engineering disciplines to translate uncertain opportunities into compounding value.",
+        data: {
+          paragraphs: [
+            "We are a senior, cross-functional team focused on clarity, velocity, and measurable outcomes across regulated and consumer markets.",
+            "Our operators blend research, design, and engineering disciplines to translate uncertain opportunities into compounding value.",
+            "Operating as a remote-first company with strategic offices globally, we emphasize clarity, fast feedback loops, and long-term partnerships that prioritize user value and technical excellence.",
+          ],
+        },
+        imageId: asset.id,
+        order: 4,
+        enabled: true,
+      },
+    });
+
     // Ensure 4 avatar assets and testimonials
     const avatarIds = await Promise.all([
       ensureAsset("avatar-ava.svg", avatarSvg("AT", "#7C3AED")),

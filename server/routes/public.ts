@@ -132,7 +132,9 @@ router.get("/sections", async (_req, res) => {
         item?.image && typeof item.image === "object" && item.image?.id
           ? `/api/assets/${item.image.id}`
           : null;
-      const image = item?.imageUrl?.trim?.() ? item.imageUrl : assetUrl;
+      const explicitUrl =
+        typeof item?.imageUrl === "string" ? item.imageUrl.trim() : null;
+      const image = explicitUrl && explicitUrl.length ? explicitUrl : assetUrl;
       const { image: _imageRelation, ...rest } = item;
       return {
         ...rest,

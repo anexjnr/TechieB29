@@ -47,7 +47,9 @@ router.get("/testimonials", async (_req, res) => {
       company: item.company,
       quote: item.quote,
       avatar:
-        item?.avatar && item.avatar?.id ? `/api/assets/${item.avatar.id}` : null,
+        item?.avatar && item.avatar?.id
+          ? `/api/assets/${item.avatar.id}`
+          : null,
     }));
     res.json(normalized);
   } catch (e) {

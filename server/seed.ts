@@ -141,7 +141,8 @@ export async function seed() {
                 {
                   icon: "target",
                   title: "Strategy",
-                  subtitle: "From discovery to roadmap, we align teams on outcomes.",
+                  subtitle:
+                    "From discovery to roadmap, we align teams on outcomes.",
                 },
                 {
                   icon: "palette",
@@ -182,13 +183,15 @@ export async function seed() {
           {
             key: "what-we-do",
             heading: "What We Do",
-            subheading: "Integrated consulting, product, and engineering partnerships.",
+            subheading:
+              "Integrated consulting, product, and engineering partnerships.",
             data: {
               tiles: [
                 {
                   icon: "target",
                   title: "AI & Digital Transformation",
-                  subtitle: "Reimagine processes with intelligence and automation.",
+                  subtitle:
+                    "Reimagine processes with intelligence and automation.",
                 },
                 {
                   icon: "bar-chart-3",

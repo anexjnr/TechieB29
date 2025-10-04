@@ -1,13 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  BarChart3,
-  Cpu,
-  Globe,
-  Quote,
-  Target,
-} from "lucide-react";
+import { ArrowRight, BarChart3, Cpu, Globe, Quote, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
@@ -226,13 +219,12 @@ const DEFAULT_TESTIMONIALS: TestimonialItem[] = [
   },
 ];
 
-const DEFAULT_SECTIONS_MAP = DEFAULT_SECTIONS_LIST.reduce<Record<string, SectionPayload>>(
-  (acc, section) => {
-    acc[section.key] = section;
-    return acc;
-  },
-  {},
-);
+const DEFAULT_SECTIONS_MAP = DEFAULT_SECTIONS_LIST.reduce<
+  Record<string, SectionPayload>
+>((acc, section) => {
+  acc[section.key] = section;
+  return acc;
+}, {});
 
 function parseJsonIfPossible(value: unknown) {
   if (value == null) return null;
@@ -242,10 +234,7 @@ function parseJsonIfPossible(value: unknown) {
   if (!trimmed) return null;
   const starts = trimmed[0];
   const ends = trimmed[trimmed.length - 1];
-  if (
-    (starts === "{" && ends === "}") ||
-    (starts === "[" && ends === "]")
-  ) {
+  if ((starts === "{" && ends === "}") || (starts === "[" && ends === "]")) {
     try {
       return JSON.parse(trimmed);
     } catch (error) {
@@ -274,7 +263,9 @@ function normalizeSections(input: any[] | null | undefined) {
     if (!key) return;
     if (item.enabled === false) return;
     const parsedData =
-      item.data != null ? parseJsonIfPossible(item.data) : parseJsonIfPossible(item.content);
+      item.data != null
+        ? parseJsonIfPossible(item.data)
+        : parseJsonIfPossible(item.content);
     map[key] = {
       id: typeof item.id === "string" ? item.id : undefined,
       key,
@@ -309,7 +300,8 @@ function normalizeNews(items: any[] | null | undefined): NewsItem[] {
             ? item.url
             : null;
       const image = normalizeImage(item.image ?? item.imageUrl);
-      const date = typeof item.date === "string" ? item.date : item.publishedAt ?? null;
+      const date =
+        typeof item.date === "string" ? item.date : (item.publishedAt ?? null);
       return {
         id,
         title,
@@ -322,7 +314,9 @@ function normalizeNews(items: any[] | null | undefined): NewsItem[] {
     .filter(Boolean) as NewsItem[];
 }
 
-function normalizeTestimonials(items: any[] | null | undefined): TestimonialItem[] {
+function normalizeTestimonials(
+  items: any[] | null | undefined,
+): TestimonialItem[] {
   return (Array.isArray(items) ? items : [])
     .map((item) => {
       const id = typeof item?.id === "string" ? item.id : null;
@@ -346,7 +340,10 @@ function normalizeTestimonials(items: any[] | null | undefined): TestimonialItem
     .filter(Boolean) as TestimonialItem[];
 }
 
-async function fetchJsonSoft<T = any>(url: string, timeoutMs = 0): Promise<T | null> {
+async function fetchJsonSoft<T = any>(
+  url: string,
+  timeoutMs = 0,
+): Promise<T | null> {
   const safeFetch = async (): Promise<Response | null> => {
     try {
       return await fetch(url, {
@@ -440,9 +437,11 @@ function AnimatedCounter({
 }
 
 export default function Index() {
-  const [sections, setSections] = useState<Record<string, SectionPayload>>(DEFAULT_SECTIONS_MAP);
+  const [sections, setSections] =
+    useState<Record<string, SectionPayload>>(DEFAULT_SECTIONS_MAP);
   const [newsItems, setNewsItems] = useState<NewsItem[]>(DEFAULT_NEWS);
-  const [testimonials, setTestimonials] = useState<TestimonialItem[]>(DEFAULT_TESTIMONIALS);
+  const [testimonials, setTestimonials] =
+    useState<TestimonialItem[]>(DEFAULT_TESTIMONIALS);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -483,7 +482,8 @@ export default function Index() {
   }, []);
 
   const hero = sections["hero"] ?? DEFAULT_SECTIONS_MAP["hero"];
-  const cardsSection = sections["info-cards"] ?? DEFAULT_SECTIONS_MAP["info-cards"];
+  const cardsSection =
+    sections["info-cards"] ?? DEFAULT_SECTIONS_MAP["info-cards"];
   const whatWeDo = sections["what-we-do"] ?? DEFAULT_SECTIONS_MAP["what-we-do"];
   const whoWeAre = sections["who-we-are"] ?? DEFAULT_SECTIONS_MAP["who-we-are"];
   const impact = sections["impact"] ?? DEFAULT_SECTIONS_MAP["impact"];
@@ -512,16 +512,24 @@ export default function Index() {
     return DEFAULT_SECTIONS_MAP["impact"].data?.items ?? [];
   }, [impact?.data]);
 
-  const stats = impactItems.filter((item: any) => item?.type === "stat").slice(0, 2);
-  const presence = impactItems.find((item: any) => item?.type === "description");
+  const stats = impactItems
+    .filter((item: any) => item?.type === "stat")
+    .slice(0, 2);
+  const presence = impactItems.find(
+    (item: any) => item?.type === "description",
+  );
 
-  const heroPrimaryCta = hero?.data?.ctas?.[0] ?? DEFAULT_SECTIONS_MAP["hero"].data?.ctas?.[0];
-  const heroSecondaryCta = hero?.data?.ctas?.[1] ?? DEFAULT_SECTIONS_MAP["hero"].data?.ctas?.[1];
+  const heroPrimaryCta =
+    hero?.data?.ctas?.[0] ?? DEFAULT_SECTIONS_MAP["hero"].data?.ctas?.[0];
+  const heroSecondaryCta =
+    hero?.data?.ctas?.[1] ?? DEFAULT_SECTIONS_MAP["hero"].data?.ctas?.[1];
 
   const renderCta = (cta: any, className: string, isPrimary = false) => {
-    if (!cta || typeof cta.href !== "string" || typeof cta.label !== "string") return null;
+    if (!cta || typeof cta.href !== "string" || typeof cta.label !== "string")
+      return null;
     const href = cta.href;
-    const isExternal = href.startsWith("http://") || href.startsWith("https://");
+    const isExternal =
+      href.startsWith("http://") || href.startsWith("https://");
     if (isExternal) {
       return (
         <a
@@ -552,11 +560,17 @@ export default function Index() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <AnimatedTitle
-                text={hero.heading || DEFAULT_SECTIONS_MAP["hero"].heading || "Transforming Businesses with AI and Digital Innovation"}
+                text={
+                  hero.heading ||
+                  DEFAULT_SECTIONS_MAP["hero"].heading ||
+                  "Transforming Businesses with AI and Digital Innovation"
+                }
                 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
               />
               <p className="mt-6 text-lg text-foreground/90 max-w-xl">
-                {hero.subheading || hero.content || DEFAULT_SECTIONS_MAP["hero"].subheading}
+                {hero.subheading ||
+                  hero.content ||
+                  DEFAULT_SECTIONS_MAP["hero"].subheading}
               </p>
               <div className="mt-8 flex items-center gap-4">
                 {renderCta(
@@ -583,7 +597,10 @@ export default function Index() {
                   className="grid grid-cols-2 gap-4 sm:gap-6 w-full items-stretch"
                 >
                   {infoCards.map((card: any, idx: number) => {
-                    const Icon = getIconByName(card?.icon) || [Target, BarChart3, Cpu, Globe][idx % 4] || Target;
+                    const Icon =
+                      getIconByName(card?.icon) ||
+                      [Target, BarChart3, Cpu, Globe][idx % 4] ||
+                      Target;
                     return (
                       <motion.div
                         key={`${card?.title ?? idx}`}
@@ -602,7 +619,9 @@ export default function Index() {
                             {card?.title || card?.label || "Capability"}
                           </div>
                           <div className="text-sm text-primary/80">
-                            {card?.subtitle || card?.desc || "Focused execution for measurable results."}
+                            {card?.subtitle ||
+                              card?.desc ||
+                              "Focused execution for measurable results."}
                           </div>
                         </TiltCard>
                       </motion.div>
@@ -615,7 +634,10 @@ export default function Index() {
         </Section>
       ) : null}
 
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.05}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.05}
+      >
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             {whatWeDo.heading || DEFAULT_SECTIONS_MAP["what-we-do"].heading}
@@ -628,7 +650,10 @@ export default function Index() {
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {whatWeDoTiles.map((tile: any, idx: number) => {
-            const Icon = getIconByName(tile?.icon) || [Target, BarChart3, Cpu][idx % 3] || Target;
+            const Icon =
+              getIconByName(tile?.icon) ||
+              [Target, BarChart3, Cpu][idx % 3] ||
+              Target;
             return (
               <TiltCard key={`${tile?.title ?? idx}`} className="min-h-[160px]">
                 <Icon className="h-6 w-6 text-primary/100" />
@@ -636,7 +661,9 @@ export default function Index() {
                   {tile?.title || tile?.heading || "Capability"}
                 </div>
                 <div className="text-sm text-primary/80 mt-2">
-                  {tile?.subtitle || tile?.description || "Impactful outcomes with measurable value."}
+                  {tile?.subtitle ||
+                    tile?.description ||
+                    "Impactful outcomes with measurable value."}
                 </div>
               </TiltCard>
             );
@@ -644,7 +671,10 @@ export default function Index() {
         </div>
       </Section>
 
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.1}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.1}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
@@ -680,7 +710,11 @@ export default function Index() {
             />
 
             <img
-              src={normalizeImage(whoWeAre.image) || normalizeImage(DEFAULT_SECTIONS_MAP["who-we-are"].image) || "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800"}
+              src={
+                normalizeImage(whoWeAre.image) ||
+                normalizeImage(DEFAULT_SECTIONS_MAP["who-we-are"].image) ||
+                "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800"
+              }
               alt="Team member"
               className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
               style={{
@@ -709,7 +743,10 @@ export default function Index() {
         </div>
       </Section>
 
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" delay={0.14}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
+        delay={0.14}
+      >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
           <div className="group block rounded-lg">
             <div className="flex items-center justify-center">
@@ -727,12 +764,22 @@ export default function Index() {
             const value = Number(item?.value) || 0;
             const suffix = typeof item?.suffix === "string" ? item.suffix : "";
             const label = item?.label || "Metric";
-            const href = typeof item?.href === "string" ? item.href : idx === 0 ? "/clients" : "/products";
-            const isExternal = href.startsWith("http://") || href.startsWith("https://");
+            const href =
+              typeof item?.href === "string"
+                ? item.href
+                : idx === 0
+                  ? "/clients"
+                  : "/products";
+            const isExternal =
+              href.startsWith("http://") || href.startsWith("https://");
             const content = (
               <>
                 <div className="text-4xl font-extrabold text-foreground">
-                  <AnimatedCounter target={value} suffix={suffix} duration={1200} />
+                  <AnimatedCounter
+                    target={value}
+                    suffix={suffix}
+                    duration={1200}
+                  />
                 </div>
                 <div className="mt-2 text-sm text-foreground/85">{label}</div>
               </>
@@ -756,7 +803,10 @@ export default function Index() {
         </div>
       </Section>
 
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.25}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.25}
+      >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             Testimonials
@@ -781,7 +831,9 @@ export default function Index() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {testimonials.slice(0, 4).map((testimonial, idx) => {
-              const fallbacks = DEFAULT_TESTIMONIALS.map((t) => t.avatar).filter(Boolean) as string[];
+              const fallbacks = DEFAULT_TESTIMONIALS.map(
+                (t) => t.avatar,
+              ).filter(Boolean) as string[];
               let avatarUrl = normalizeImage(testimonial.avatar);
               if (!avatarUrl) avatarUrl = fallbacks[idx % fallbacks.length];
 
@@ -828,7 +880,9 @@ export default function Index() {
                           onError={(event) => {
                             const element = event.currentTarget;
                             element.onerror = null;
-                            element.src = fallbacks[idx % fallbacks.length] ?? "/placeholder.svg";
+                            element.src =
+                              fallbacks[idx % fallbacks.length] ??
+                              "/placeholder.svg";
                           }}
                         />
                       ) : null}
@@ -841,7 +895,10 @@ export default function Index() {
         </div>
       </Section>
 
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.3}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.3}
+      >
         <div className="flex items-end justify-between gap-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             Latest News
@@ -850,7 +907,8 @@ export default function Index() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {newsItems.slice(0, 3).map((news, idx) => {
             const imageSrc = normalizeImage(news.image) || "/placeholder.svg";
-            const isExternal = typeof news.link === "string" && news.link.startsWith("http");
+            const isExternal =
+              typeof news.link === "string" && news.link.startsWith("http");
             const imageElement = (
               <img
                 src={imageSrc}
@@ -871,15 +929,23 @@ export default function Index() {
                 className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"
               >
                 {isExternal ? (
-                  <a href={news.link ?? "#"} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={news.link ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {imageElement}
                   </a>
                 ) : (
                   imageElement
                 )}
                 <div className="p-6">
-                  <h3 className="font-semibold text-foreground">{news.title}</h3>
-                  <p className="mt-2 text-sm text-foreground/90">{news.excerpt}</p>
+                  <h3 className="font-semibold text-foreground">
+                    {news.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-foreground/90">
+                    {news.excerpt}
+                  </p>
                   {isExternal ? (
                     <a
                       href={news.link ?? "#"}

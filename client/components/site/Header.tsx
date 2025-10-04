@@ -3,10 +3,10 @@ import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 const defaultNav = [
-  { to: "/about", label: "About" },
+  { to: "/about", label: "About Us" },
+  { to: "/products", label: "Products" },
   { to: "/services", label: "Services" },
-  { to: "/insights", label: "Insights" },
-  { to: "/careers", label: "Careers" },
+  { to: "/clients", label: "Clients" },
   { to: "/contact", label: "Contact" },
 ];
 

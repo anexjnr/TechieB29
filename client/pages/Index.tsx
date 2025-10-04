@@ -6,6 +6,7 @@ import {
   Target,
   BarChart3,
   Quote,
+  Globe,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Section from "@/components/site/Section";
@@ -90,34 +91,75 @@ export async function loader() {
         if (it && it.key) sectionsMap[it.key] = it;
       });
 
-    const newsRaw = Array.isArray(n)
-      ? n.filter((x: any) => x?.enabled !== false).slice(0, 3)
-      : [];
-    const news = newsRaw.length
-      ? newsRaw
-      : [
-          {
-            id: "s1",
-            title: "Q4 Highlights",
-            excerpt: "Milestones across platform and growth.",
-            image:
-              "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
-          },
-          {
-            id: "s2",
-            title: "New Office",
-            excerpt: "We expanded to Berlin.",
-            image:
-              "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
-          },
-          {
-            id: "s3",
-            title: "Open Roles",
-            excerpt: "We're hiring across the stack.",
-            image:
-              "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-          },
-        ];
+    // Attempt to fetch latest tech news from TechCrunch (public WP JSON API). If unavailable, fall back to internal news.
+    let news: any[] = [];
+    try {
+      const externalRes = await fetch(
+        "https://techcrunch.com/wp-json/wp/v2/posts?per_page=3&_embed",
+      );
+      if (externalRes.ok) {
+        const extData = await externalRes.json();
+        if (Array.isArray(extData) && extData.length) {
+          news = extData.map((it: any) => {
+            const media =
+              it._embedded &&
+              it._embedded["wp:featuredmedia"] &&
+              it._embedded["wp:featuredmedia"][0];
+            const imageUrl = media
+              ? media.source_url || media.media_details?.sizes?.full?.source_url
+              : it.jetpack_featured_media_url || null;
+            return {
+              id: String(it.id),
+              title:
+                it.title && it.title.rendered
+                  ? it.title.rendered.replace(/<[^>]+>/g, "")
+                  : it.title || "",
+              excerpt:
+                it.excerpt && it.excerpt.rendered
+                  ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180)
+                  : "",
+              link: it.link || "",
+              image: imageUrl || null,
+            };
+          });
+        }
+      }
+    } catch (e) {
+      // ignore external fetch errors
+      news = [];
+    }
+
+    // If external didn't provide news, fall back to internal API results or seeded items
+    if (!news.length) {
+      const newsRaw = Array.isArray(n)
+        ? n.filter((x: any) => x?.enabled !== false).slice(0, 3)
+        : [];
+      news = newsRaw.length
+        ? newsRaw
+        : [
+            {
+              id: "s1",
+              title: "Q4 Highlights",
+              excerpt: "Milestones across platform and growth.",
+              image:
+                "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
+            },
+            {
+              id: "s2",
+              title: "New Office",
+              excerpt: "We expanded to Berlin.",
+              image:
+                "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
+            },
+            {
+              id: "s3",
+              title: "Open Roles",
+              excerpt: "We're hiring across the stack.",
+              image:
+                "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+            },
+          ];
+    }
 
     const testiRaw = Array.isArray(t)
       ? t.filter((x: any) => x?.enabled !== false)
@@ -209,25 +251,26 @@ export default function Index() {
               <AnimatedTitle
                 text={
                   sections.hero?.heading ||
-                  "Building clear, resilient products for modern companies"
+                  "Transforming Businesses with AI and Digital Innovation"
                 }
                 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
               />
               <p className="mt-6 text-lg text-foreground/90 max-w-xl">
-                {sections.hero?.content}
+                {sections.hero?.content ||
+                  "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions."}
               </p>
               <div className="mt-8 flex items-center gap-4">
                 <Link
-                  to="/contact"
+                  to="/products"
                   className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg"
                 >
-                  Start a project <ArrowRight className="ml-3 h-4 w-4" />
+                  Explore Products <ArrowRight className="ml-3 h-4 w-4" />
                 </Link>
                 <Link
-                  to="/services"
+                  to="/contact"
                   className="text-sm font-semibold text-foreground/90 hover:text-foreground"
                 >
-                  See services
+                  Speak to an Expert
                 </Link>
               </div>
             </div>
@@ -316,6 +359,51 @@ export default function Index() {
         </Section>
       ) : null}
 
+      {/* What We Do: 3-column intro */}
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.05}
+      >
+        <div className="text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+            What We Do
+          </h2>
+        </div>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TiltCard className="min-h-[160px]">
+            <Target className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              AI &amp; Digital Transformation
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Reimagine processes with intelligence and automation.
+            </div>
+          </TiltCard>
+
+          <TiltCard className="min-h-[160px]">
+            <BarChart3 className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              Enterprise Products
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Future-ready platforms across Retail, NBFC, MEP, and Data
+              Transfer.
+            </div>
+          </TiltCard>
+
+          <TiltCard className="min-h-[160px]">
+            <Cpu className="h-6 w-6 text-primary/100" />
+            <div className="mt-4 font-semibold text-primary/100">
+              Technology Services
+            </div>
+            <div className="text-sm text-primary/80 mt-2">
+              Architecture review, cloud enablement, AI augmentation, and
+              enterprise security.
+            </div>
+          </TiltCard>
+        </div>
+      </Section>
+
       {/* About teaser: merged Who We Are + What We Do */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
@@ -402,177 +490,38 @@ export default function Index() {
         </div>
       </Section>
 
-      {/* Numbers / Impact */}
+      {/* Impact Snapshot */}
       <Section
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
         delay={0.14}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <Link to="/services" className="group block rounded-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
+          <div className="group block rounded-lg">
+            <div className="flex items-center justify-center">
+              <Globe className="h-12 w-12 text-primary/90" />
+            </div>
+            <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
+              Presence across India &amp; the Middle East
+            </div>
+          </div>
+
+          <Link to="/clients" className="group block rounded-lg">
             <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={50} suffix="+" duration={1200} />
+              <AnimatedCounter target={45} suffix="+" duration={1200} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">
               Clients served
             </div>
           </Link>
 
-          <Link to="/services" className="group block rounded-lg">
+          <Link to="/products" className="group block rounded-lg">
             <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={80} suffix="+" duration={1400} />
+              <AnimatedCounter target={4} duration={1000} />
             </div>
             <div className="mt-2 text-sm text-foreground/85">
-              Projects shipped
+              Flagship enterprise products
             </div>
           </Link>
-
-          <Link to="/services" className="group block rounded-lg">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={5} duration={1000} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Countries</div>
-          </Link>
-        </div>
-      </Section>
-
-      {/* Industries & Case Studies */}
-      <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
-        delay={0.15}
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <div>
-            <h3 className="text-2xl font-bold text-foreground">
-              Industries we serve
-            </h3>
-            <p className="mt-3 text-foreground/85 max-w-prose">
-              We partner with companies across sectors to deliver domain-aware,
-              high-impact solutions.
-            </p>
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              {[
-                {
-                  label: "Fintech",
-                  desc: "Payments, billing, and financial platforms with strong compliance needs.",
-                  icon: "target",
-                },
-                {
-                  label: "Health",
-                  desc: "Data-sensitive products and interoperable systems for care teams.",
-                  icon: "palette",
-                },
-                {
-                  label: "SaaS",
-                  desc: "Scalable product platforms, analytics, and go-to-market tooling.",
-                  icon: "cpu",
-                },
-                {
-                  label: "Enterprise",
-                  desc: "Legacy modernisation, integrations, and developer experience improvements.",
-                  icon: "bar-chart-3",
-                },
-              ].map((it, idx) => {
-                const Icon = getIconByName(it.icon);
-                return (
-                  <TiltCard
-                    key={idx}
-                    className="rounded-xl p-4 h-36 flex flex-col justify-between"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-md bg-white/5">
-                        <Icon className="h-5 w-5 text-primary/100" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-foreground">
-                          {it.label}
-                        </div>
-                        <div className="text-sm text-foreground/80 mt-1">
-                          {it.desc}
-                        </div>
-                      </div>
-                    </div>
-                  </TiltCard>
-                );
-              })}
-            </div>
-            <div className="mt-8">
-              <Link
-                to="/services"
-                className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold"
-              >
-                Read more →
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-2xl font-bold text-foreground">Case studies</h3>
-            <p className="mt-3 text-foreground/85">
-              Selected projects showing outcomes and impact — concise summaries
-              with links to read more.
-            </p>
-            <div className="mt-6 flex flex-col gap-4 h-full">
-              <article className="rounded-2xl border border-primary/20 p-4 glass-card flex gap-4 items-center h-36">
-                <img
-                  src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=400&q=80"
-                  alt="Nimbus case study"
-                  className="h-24 w-24 rounded-md object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="flex-1">
-                  <div className="font-semibold text-foreground">
-                    Platform scaling for Nimbus
-                  </div>
-                  <div className="text-sm text-foreground/80 mt-1">
-                    Cut latency by 40% and reduced costs via targeted infra
-                    improvements.
-                  </div>
-                  <div className="mt-3">
-                    <Link
-                      to="/services"
-                      className="text-sm font-semibold text-foreground/90 hover:text-foreground"
-                    >
-                      Read case study →
-                    </Link>
-                  </div>
-                </div>
-              </article>
-
-              <article className="rounded-2xl border border-primary/20 p-4 glass-card grid grid-cols-4 gap-4 items-center h-36">
-                <div className="col-span-1">
-                  <img
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80"
-                    alt="Northstar case study"
-                    className="h-28 w-28 rounded-md object-cover shadow-lg"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).onerror = null;
-                      (e.currentTarget as HTMLImageElement).src =
-                        "/placeholder.svg";
-                    }}
-                  />
-                </div>
-                <div className="col-span-3">
-                  <div className="font-semibold text-foreground">
-                    Design system for Northstar
-                  </div>
-                  <div className="text-sm text-foreground/80 mt-1">
-                    A shared component library enabling faster launches across
-                    teams.
-                  </div>
-                  <div className="mt-3">
-                    <Link
-                      to="/services"
-                      className="text-sm font-semibold text-foreground/90 hover:text-foreground"
-                    >
-                      Read case study →
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
         </div>
       </Section>
 
@@ -745,12 +694,6 @@ export default function Index() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             Latest News
           </h2>
-          <Link
-            to="/insights"
-            className="text-sm font-semibold text-foreground/90 hover:text-foreground"
-          >
-            All insights
-          </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {news.map((n: any, idx: number) => (
@@ -797,9 +740,9 @@ export default function Index() {
               <div className="p-6">
                 <h3 className="font-semibold text-foreground">{n.title}</h3>
                 <p className="mt-2 text-sm text-foreground/90">{n.excerpt}</p>
-                {n?.title?.toLowerCase().includes("q4 highlights") ? (
+                {n?.link ? (
                   <a
-                    href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.livemint.com%2Fcompanies%2Fcompany-results%2Fq4-results-today-dmart-kotak-mahindra-idbi-bank-to-zen-tech-18-companies-to-declare-q4-results-2024-on-may-4-11714789780675.html&psig=AOvVaw0LKKs-2BIXMeJGos_tsuWA&ust=1759060848156000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMCa3Mby-I8DFQAAAAAdAAAAABAL"
+                    href={n.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-block text-sm font-semibold text-foreground/90 hover:text-foreground"

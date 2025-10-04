@@ -177,9 +177,9 @@ class MemoryDB {
         {
           id: uid(),
           key: "hero",
-          heading: "Building clear, resilient products for modern companies",
+          heading: "Transforming Businesses with AI and Digital Innovation",
           content:
-            "We partner with teams to design, build, and evolve software that ships value fast—without the clutter.",
+            "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions.",
           image:
             "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
           enabled: true,
@@ -240,11 +240,10 @@ class MemoryDB {
           key: "nav",
           heading: "Navigation",
           content: JSON.stringify([
-            { to: "/", label: "Home" },
-            { to: "/about", label: "About" },
+            { to: "/about", label: "About Us" },
+            { to: "/products", label: "Products" },
             { to: "/services", label: "Services" },
-            { to: "/insights", label: "Insights" },
-            { to: "/careers", label: "Careers" },
+            { to: "/clients", label: "Clients" },
             { to: "/contact", label: "Contact" },
           ]),
           enabled: true,

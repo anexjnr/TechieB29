@@ -91,34 +91,58 @@ export async function loader() {
         if (it && it.key) sectionsMap[it.key] = it;
       });
 
-    const newsRaw = Array.isArray(n)
-      ? n.filter((x: any) => x?.enabled !== false).slice(0, 3)
-      : [];
-    const news = newsRaw.length
-      ? newsRaw
-      : [
-          {
-            id: "s1",
-            title: "Q4 Highlights",
-            excerpt: "Milestones across platform and growth.",
-            image:
-              "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
-          },
-          {
-            id: "s2",
-            title: "New Office",
-            excerpt: "We expanded to Berlin.",
-            image:
-              "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
-          },
-          {
-            id: "s3",
-            title: "Open Roles",
-            excerpt: "We're hiring across the stack.",
-            image:
-              "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-          },
-        ];
+    // Attempt to fetch latest tech news from TechCrunch (public WP JSON API). If unavailable, fall back to internal news.
+    let news: any[] = [];
+    try {
+      const externalRes = await fetch("https://techcrunch.com/wp-json/wp/v2/posts?per_page=3");
+      if (externalRes.ok) {
+        const extData = await externalRes.json();
+        if (Array.isArray(extData) && extData.length) {
+          news = extData.map((it: any) => ({
+            id: String(it.id),
+            title: (it.title && it.title.rendered) ? it.title.rendered.replace(/<[^>]+>/g, "") : it.title || "",
+            excerpt: (it.excerpt && it.excerpt.rendered) ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180) : "",
+            link: it.link || "",
+            image: (it.featured_media && it._links && it._links['wp:featuredmedia']) ? undefined : undefined,
+          }));
+        }
+      }
+    } catch (e) {
+      // ignore external fetch errors
+      news = [];
+    }
+
+    // If external didn't provide news, fall back to internal API results or seeded items
+    if (!news.length) {
+      const newsRaw = Array.isArray(n)
+        ? n.filter((x: any) => x?.enabled !== false).slice(0, 3)
+        : [];
+      news = newsRaw.length
+        ? newsRaw
+        : [
+            {
+              id: "s1",
+              title: "Q4 Highlights",
+              excerpt: "Milestones across platform and growth.",
+              image:
+                "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
+            },
+            {
+              id: "s2",
+              title: "New Office",
+              excerpt: "We expanded to Berlin.",
+              image:
+                "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
+            },
+            {
+              id: "s3",
+              title: "Open Roles",
+              excerpt: "We're hiring across the stack.",
+              image:
+                "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+            },
+          ];
+    }
 
     const testiRaw = Array.isArray(t)
       ? t.filter((x: any) => x?.enabled !== false)

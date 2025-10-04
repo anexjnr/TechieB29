@@ -72,6 +72,7 @@ router.get("/about", async (_req, res) => {
 });
 
 router.get("/sections", async (_req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
   try {
     const items = await prisma.section.findMany({
       orderBy: { order: "asc" },

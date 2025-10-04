@@ -6,6 +6,7 @@ import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";
 import LoadingScreen from "@/components/site/LoadingScreen";
+import FlowGrid from "@/components/site/FlowGrid";
 import { getIconByName } from "@/lib/iconMap";
 
 type SectionPayload = {
@@ -328,6 +329,109 @@ export default function Index() {
   const whatWeDo = sections["what-we-do"];
   const whoWeAre = sections["who-we-are"];
   const impact = sections["impact"];
+  const flowchartSection = sections["flowchart"] ?? sections["capabilities"];
+  const whatWeDoCompact = sections["what-we-do-compact"];
+  const whoSection = sections["who"];
+
+  const flowSteps = useMemo(() => {
+    const raw = (flowchartSection as any)?.data;
+    const arr = Array.isArray(raw)
+      ? raw
+      : raw && Array.isArray((raw as any).items)
+        ? (raw as any).items
+        : [];
+    return (arr as any[])
+      .map((item: any, idx: number) => {
+        const titleCandidate =
+          typeof item?.label === "string" && item.label.trim().length
+            ? item.label
+            : typeof item?.title === "string" && item.title.trim().length
+              ? item.title
+              : typeof item?.heading === "string" && item.heading.trim().length
+                ? item.heading
+                : null;
+        if (!titleCandidate) return null;
+        const descCandidate =
+          typeof item?.desc === "string" && item.desc.trim().length
+            ? item.desc
+            : typeof item?.description === "string" &&
+                item.description.trim().length
+              ? item.description
+              : typeof item?.subtitle === "string" &&
+                  item.subtitle.trim().length
+                ? item.subtitle
+                : "";
+        const Icon =
+          getIconByName(item?.icon) ||
+          [Target, BarChart3, Cpu, Globe][idx % 4] ||
+          Target;
+        return { title: titleCandidate, desc: descCandidate, icon: Icon };
+      })
+      .filter(Boolean) as { title: string; desc: string; icon: any }[];
+  }, [flowchartSection?.data]);
+
+  const whatWeDoCompactItems = useMemo(() => {
+    const raw = (whatWeDoCompact as any)?.data;
+    const arr = Array.isArray(raw)
+      ? raw
+      : raw && Array.isArray((raw as any).items)
+        ? (raw as any).items
+        : [];
+    return (arr as any[])
+      .map((item: any, idx: number) => {
+        const titleCandidate =
+          typeof item?.heading === "string" && item.heading.trim().length
+            ? item.heading
+            : typeof item?.label === "string" && item.label.trim().length
+              ? item.label
+              : typeof item?.title === "string" && item.title.trim().length
+                ? item.title
+                : null;
+        if (!titleCandidate) return null;
+        const subtitle =
+          typeof item?.subheading === "string" && item.subheading.trim().length
+            ? item.subheading
+            : typeof item?.desc === "string" && item.desc.trim().length
+              ? item.desc
+              : typeof item?.description === "string" &&
+                  item.description.trim().length
+                ? item.description
+                : "";
+        const Icon =
+          getIconByName(item?.icon) ||
+          [Target, BarChart3, Cpu][idx % 3] ||
+          Target;
+        return { title: titleCandidate, subtitle, icon: Icon };
+      })
+      .filter(Boolean) as { title: string; subtitle: string; icon: any }[];
+  }, [whatWeDoCompact?.data]);
+
+  const whoParagraphs2 = useMemo(() => {
+    const arr = Array.isArray((whoSection as any)?.data?.paragraphs)
+      ? (whoSection as any).data.paragraphs
+      : [];
+    if (arr.length)
+      return arr.filter((p: any) => typeof p === "string" && p.trim().length);
+    const s = typeof whoSection?.content === "string" ? whoSection.content : "";
+    return s
+      .split(/\n+/)
+      .map((x) => x.trim())
+      .filter((x) => x.length);
+  }, [whoSection?.data, whoSection?.content]);
+
+  const whoImage2 = useMemo(() => {
+    if (
+      typeof (whoSection as any)?.image === "string" &&
+      (whoSection as any).image
+    )
+      return (whoSection as any).image as string;
+    if (
+      typeof (whoSection as any)?.imageId === "string" &&
+      (whoSection as any).imageId
+    )
+      return `/api/assets/${(whoSection as any).imageId}`;
+    return null;
+  }, [whoSection]);
 
   const heroCtas = useMemo(() => {
     const raw = hero?.data?.ctas;
@@ -484,7 +588,15 @@ export default function Index() {
             </div>
             <div className="relative">
               <div className="rounded-3xl glass-card border border-primary/20 p-4 sm:p-6 md:p-8">
-                {infoCards.length ? (
+                {flowSteps.length ? (
+                  <FlowGrid
+                    items={flowSteps.map((s) => ({
+                      icon: s.icon,
+                      title: s.title,
+                      subtitle: s.desc,
+                    }))}
+                  />
+                ) : infoCards.length ? (
                   <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -781,6 +893,108 @@ export default function Index() {
                 </Link>
               );
             })}
+          </div>
+        </Section>
+      ) : null}
+
+      {whatWeDoCompactItems.length ? (
+        <Section
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+          delay={0.22}
+        >
+          <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+              {typeof whatWeDoCompact?.heading === "string" &&
+              whatWeDoCompact.heading.trim().length
+                ? whatWeDoCompact.heading
+                : "What We Do"}
+            </h2>
+            {typeof whatWeDoCompact?.subheading === "string" &&
+            whatWeDoCompact.subheading.trim().length ? (
+              <p className="mt-4 text-foreground/90 max-w-2xl mx-auto">
+                {whatWeDoCompact.subheading}
+              </p>
+            ) : null}
+          </div>
+          <div className="mt-8">
+            <FlowGrid items={whatWeDoCompactItems} columns={3} limit={3} />
+          </div>
+        </Section>
+      ) : null}
+
+      {whoSection?.heading || whoParagraphs2.length || whoImage2 ? (
+        <Section
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+          delay={0.24}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              {typeof whoSection?.heading === "string" &&
+              whoSection.heading.trim().length ? (
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+                  {whoSection.heading}
+                </h2>
+              ) : null}
+              <div className="mt-4 text-foreground/85 max-w-prose space-y-4">
+                {whoParagraphs2.map((paragraph, idx) => (
+                  <p key={`${paragraph}-${idx}`}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="mt-6">
+                <Link
+                  className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold"
+                  to="/about"
+                >
+                  Learn more about us
+                </Link>
+              </div>
+            </div>
+            {whoImage2 ? (
+              <div className="relative flex items-center justify-center">
+                <div
+                  aria-hidden
+                  className="absolute rounded-full pointer-events-none"
+                  style={{
+                    width: "64%",
+                    height: "80%",
+                    transform: "translateY(6%)",
+                    background:
+                      "radial-gradient(circle at 40% 30%, rgba(124,58,237,0.36) 0%, rgba(167,139,250,0.12) 35%, transparent 70%)",
+                    filter: "blur(38px) brightness(0.95)",
+                    zIndex: 10,
+                  }}
+                />
+                <img
+                  src={whoImage2}
+                  alt={
+                    typeof whoSection?.heading === "string"
+                      ? whoSection.heading
+                      : ""
+                  }
+                  className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
+                  style={{
+                    filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
+                    zIndex: 20,
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    bottom: 0,
+                    width: "70%",
+                    height: "160px",
+                    zIndex: 25,
+                    background:
+                      "linear-gradient(180deg, rgba(124,58,237,0) 0%, rgba(124,58,237,0.18) 40%, rgba(124,58,237,0.6) 85%, rgba(167,139,250,0.8) 100%)",
+                    filter: "blur(14px)",
+                    borderRadius: "40px",
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         </Section>
       ) : null}

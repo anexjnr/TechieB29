@@ -127,7 +127,11 @@ export default function SectionsAdmin() {
       if (uploaded?.id) payload.imageId = uploaded.id;
 
       // if capabilities present and key indicates flowchart, stringify
-      if (key === "flowchart" || key === "capabilities") {
+      if (
+        key === "flowchart" ||
+        key === "capabilities" ||
+        key === "what-we-do-compact"
+      ) {
         payload.content = JSON.stringify(capabilities);
       }
 
@@ -270,7 +274,9 @@ export default function SectionsAdmin() {
           </div>
 
           {/* If editing capabilities, show structured editor */}
-          {key === "flowchart" || key === "capabilities" ? (
+          {key === "flowchart" ||
+          key === "capabilities" ||
+          key === "what-we-do-compact" ? (
             <div className="mb-2">
               <div className="flex items-center justify-between">
                 <div className="text-sm font-semibold text-primary/90">

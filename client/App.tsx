@@ -2,13 +2,14 @@ import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { lazy, Suspense } from "react";
+import Index from "./pages/Index";
+import Layout from "./components/site/Layout";
 import LoadingScreen from "./components/site/LoadingScreen";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { loader as indexLoader } from "./pages/Index";
-const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const Insights = lazy(() => import("./pages/Insights"));
@@ -17,7 +18,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const LegalTerms = lazy(() => import("./pages/LegalTerms"));
 const LegalPolicy = lazy(() => import("./pages/LegalPolicy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Layout = lazy(() => import("./components/site/Layout"));
+// Layout eagerly loaded above
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminLogin = lazy(() => import("./pages/admin/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));

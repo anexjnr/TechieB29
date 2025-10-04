@@ -62,13 +62,14 @@ model TechNews {
 }
 
 model Testimonial {
-  id     String @id @default(cuid())
-  author String
-  role   String?
-  quote  String
+  id       String @id @default(cuid())
+  author   String
+  title    String?
+  company  String?
+  quote    String
   avatarId String?
-  avatar  Asset? @relation("TestimonialAvatar", fields: [avatarId], references: [id])
-  enabled Boolean @default(true)
+  avatar   Asset? @relation("TestimonialAvatar", fields: [avatarId], references: [id])
+  enabled  Boolean @default(true)
 }
 
 model Job {

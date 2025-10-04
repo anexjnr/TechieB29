@@ -672,12 +672,6 @@ export default function Index() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             Latest News
           </h2>
-          <Link
-            to="/insights"
-            className="text-sm font-semibold text-foreground/90 hover:text-foreground"
-          >
-            All insights
-          </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {news.map((n: any, idx: number) => (

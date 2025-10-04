@@ -81,14 +81,16 @@ model Job {
 }
 
 model Section {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  heading   String?
-  content   String?
-  imageId   String?
-  image     Asset?   @relation("SectionImage", fields: [imageId], references: [id])
-  enabled   Boolean  @default(true)
-  order     Int?
+  id         String   @id @default(cuid())
+  key        String   @unique
+  heading    String?
+  subheading String?
+  content    String?
+  data       Json?
+  imageId    String?
+  image      Asset?   @relation("SectionImage", fields: [imageId], references: [id])
+  enabled    Boolean  @default(true)
+  order      Int?
 }
 
 model Asset {

@@ -142,10 +142,7 @@ export default function About() {
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
           <p className="mt-6 text-lg text-foreground/90 max-w-2xl mx-auto">
-            {loading
-              ? "Loading..."
-              : about?.description ||
-                "We are a compact team focused on clarity, velocity, and outcomes. Building the future through innovation and excellence."}
+            {loading ? "Loading..." : about?.description || ""}
           </p>
         </div>
       </Section>

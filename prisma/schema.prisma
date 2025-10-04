@@ -88,6 +88,7 @@ model Section {
   subheading String?
   content    String?
   data       Json?
+  imageUrl   String?
   imageId    String?
   image      Asset?   @relation("SectionImage", fields: [imageId], references: [id])
   enabled    Boolean  @default(true)

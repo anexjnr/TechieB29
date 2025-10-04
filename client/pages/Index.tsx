@@ -102,6 +102,66 @@ export default function Index() {
     testimonials: any[];
   };
 
+  const defaultNews = [
+    {
+      id: "s1",
+      title: "Q4 Highlights",
+      excerpt: "Milestones across platform and growth.",
+      image:
+        "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F9aebb7e90f334acbb611405deeab415d?format=webp&width=1200&q=80",
+    },
+    {
+      id: "s2",
+      title: "New Office",
+      excerpt: "We expanded to Berlin.",
+      image:
+        "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      id: "s3",
+      title: "Open Roles",
+      excerpt: "We're hiring across the stack.",
+      image:
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    },
+  ];
+  const defaultTestimonials = [
+    {
+      id: "tt1",
+      author: "Alex M.",
+      role: "CTO, Nimbus",
+      quote: "They move fast without breaking clarity.",
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+    },
+    {
+      id: "tt2",
+      author: "Priya S.",
+      role: "VP Eng, Northstar",
+      quote: "A true partner from strategy to delivery.",
+      avatar:
+        "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
+    },
+  ];
+
+  const [newsItems, setNewsItems] = useState<any[]>(news && news.length ? news : defaultNews);
+  const [testiItems, setTestiItems] = useState<any[]>(testimonials && testimonials.length ? testimonials : defaultTestimonials);
+
+  useEffect(() => {
+    let aborted = false;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1800);
+    Promise.all([
+      fetch("/api/news", { signal: controller.signal }).then((r) => r.ok ? r.json() : [] as any[]).catch(() => []),
+      fetch("/api/testimonials", { signal: controller.signal }).then((r) => r.ok ? r.json() : [] as any[]).catch(() => []),
+    ]).then(([n, t]) => {
+      if (aborted) return;
+      if (Array.isArray(n) && n.length) setNewsItems(n);
+      if (Array.isArray(t) && t.length) setTestiItems(t);
+    }).finally(() => clearTimeout(timer));
+    return () => { aborted = true; controller.abort(); };
+  }, []);
+
   return (
     <div>
       {/* Hero */}

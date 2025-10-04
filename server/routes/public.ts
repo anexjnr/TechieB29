@@ -36,10 +36,22 @@ router.get("/testimonials", async (_req, res) => {
   );
   try {
     const items = await prisma.testimonial.findMany({
-      include: { avatar: true } as any,
+      include: { avatar: { select: { id: true } } } as any,
+      orderBy: { author: "asc" } as any,
     });
     if (!items || items.length === 0) return res.json(memoryDb.testimonials);
-    res.json(items);
+    const normalized = items.map((item: any) => ({
+      id: item.id,
+      author: item.author,
+      title: item.title,
+      company: item.company,
+      quote: item.quote,
+      avatar:
+        item?.avatar && item.avatar?.id
+          ? `/api/assets/${item.avatar.id}`
+          : null,
+    }));
+    res.json(normalized);
   } catch (e) {
     console.warn(
       "Prisma testimonials failed, using memory store",
@@ -98,15 +110,30 @@ router.get("/sections", async (_req, res) => {
         id: true,
         key: true,
         heading: true,
+        subheading: true,
         content: true,
+        data: true,
         enabled: true,
         order: true,
+        imageId: true,
+        image: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (!items || items.length === 0) {
       return res.json(memoryDb.sections || []);
     }
-    res.json(items);
+    const normalized = items.map((item: any) => ({
+      ...item,
+      image:
+        item?.image && typeof item.image === "object" && item.image?.id
+          ? `/api/assets/${item.image.id}`
+          : null,
+    }));
+    res.json(normalized);
   } catch (e) {
     console.warn("Prisma sections failed, using memory store", e.message || e);
     res.json(memoryDb.sections || []);

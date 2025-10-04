@@ -945,8 +945,8 @@ export default function About() {
                     <TiltCard className="p-6">
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                          <div className="w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center">
-                            <Icon className="h-6 w-6 text-primary/100" />
+                          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)' }}>
+                            <Icon className="h-8 w-8 text-white" />
                           </div>
                         </div>
                         <div>

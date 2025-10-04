@@ -187,9 +187,6 @@ export default function About() {
             text={loading ? "About Us" : about?.heading || "About Us"}
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
-          <p className="mt-6 text-lg text-foreground/90 max-w-2xl mx-auto">
-            {loading ? "Loading..." : description}
-          </p>
         </div>
       </Section>
 

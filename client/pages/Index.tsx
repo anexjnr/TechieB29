@@ -475,7 +475,7 @@ export default function Index() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {[
-              ...(testimonials || []),
+              ...(testiItems || []),
               {
                 id: "tt_extra",
                 author: "Alex J.",
@@ -617,7 +617,7 @@ export default function Index() {
           </h2>
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {news.map((n: any, idx: number) => (
+          {newsItems.map((n: any, idx: number) => (
             <article
               key={n.id}
               className="rounded-2xl border border-primary/20 bg-transparent overflow-hidden glass-card"

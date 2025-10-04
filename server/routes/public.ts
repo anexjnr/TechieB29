@@ -36,10 +36,20 @@ router.get("/testimonials", async (_req, res) => {
   );
   try {
     const items = await prisma.testimonial.findMany({
-      include: { avatar: true } as any,
+      include: { avatar: { select: { id: true } } } as any,
+      orderBy: { createdAt: "asc" } as any,
     });
     if (!items || items.length === 0) return res.json(memoryDb.testimonials);
-    res.json(items);
+    const normalized = items.map((item: any) => ({
+      id: item.id,
+      author: item.author,
+      title: item.title,
+      company: item.company,
+      quote: item.quote,
+      avatar:
+        item?.avatar && item.avatar?.id ? `/api/assets/${item.avatar.id}` : null,
+    }));
+    res.json(normalized);
   } catch (e) {
     console.warn(
       "Prisma testimonials failed, using memory store",

@@ -87,7 +87,7 @@ function AnimatedCounter({
 export default function About() {
   const [about, setAbout] = useState<AboutData>({
     heading: "About Us",
-    description: "We are a compact team focused on clarity, velocity, and outcomes. Building the future through innovation and excellence.",
+    description: "",
     content: "Senior engineers and designers working as one unit. Fewer handoffs, more accountability. We operate with lean process and a bias for action.",
     image: null // Add image property to initial state
   });
@@ -150,35 +150,6 @@ export default function About() {
         </div>
       </Section>
 
-      {/* Company Stats */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" delay={0.1}>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center">
-          <div className="rounded-lg glass-card border border-primary/20 p-6">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={7} suffix="+" duration={1200} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Years Experience</div>
-          </div>
-          <div className="rounded-lg glass-card border border-primary/20 p-6">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={150} suffix="+" duration={1400} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Projects Completed</div>
-          </div>
-          <div className="rounded-lg glass-card border border-primary/20 p-6">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={50} suffix="+" duration={1000} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Team Members</div>
-          </div>
-          <div className="rounded-lg glass-card border border-primary/20 p-6">
-            <div className="text-4xl font-extrabold text-foreground">
-              <AnimatedCounter target={15} suffix="+" duration={1600} />
-            </div>
-            <div className="mt-2 text-sm text-foreground/85">Countries Served</div>
-          </div>
-        </div>
-      </Section>
 
       {/* Who We Are Section */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.15}>

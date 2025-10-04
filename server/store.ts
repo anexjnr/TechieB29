@@ -34,7 +34,8 @@ export interface NewsItem {
 export interface TestimonialItem {
   id: ID;
   author: string;
-  role?: string;
+  title?: string;
+  company?: string;
   quote: string;
   avatar?: string;
 }
@@ -60,7 +61,9 @@ export interface SectionItem {
   id: ID;
   key: string;
   heading?: string;
+  subheading?: string;
   content?: string;
+  data?: any;
   image?: string;
   enabled?: boolean;
   order?: number;

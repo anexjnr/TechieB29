@@ -449,10 +449,12 @@ export default function Index() {
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
         delay={0.14}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
           <div className="group block rounded-lg">
-            <div className="text-4xl font-extrabold text-foreground">🌍</div>
-            <div className="mt-2 text-sm text-foreground/85">
+            <div className="flex items-center justify-center">
+              <Globe className="h-12 w-12 text-primary/90" />
+            </div>
+            <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
               Presence across India &amp; the Middle East
             </div>
           </div>

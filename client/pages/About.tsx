@@ -32,8 +32,10 @@ import TiltCard from "../components/site/TiltCard";
 import { Link } from "react-router-dom";
 
 const BACKEND_URL =
-  (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_BACKEND_URL) ||
-  (typeof process !== "undefined" && (process as any).env?.REACT_APP_BACKEND_URL) ||
+  (typeof import.meta !== "undefined" &&
+    (import.meta as any).env?.VITE_BACKEND_URL) ||
+  (typeof process !== "undefined" &&
+    (process as any).env?.REACT_APP_BACKEND_URL) ||
   "";
 
 interface AboutData {
@@ -49,7 +51,11 @@ interface AnimatedCounterProps {
   duration?: number;
 }
 
-function AnimatedCounter({ target, suffix = "", duration = 1500, }: AnimatedCounterProps) {
+function AnimatedCounter({
+  target,
+  suffix = "",
+  duration = 1500,
+}: AnimatedCounterProps) {
   const [value, setValue] = useState<number>(0);
   const ref = React.useRef<HTMLSpanElement | null>(null);
   const startedRef = React.useRef<boolean>(false);
@@ -124,7 +130,8 @@ export default function About() {
 
   const renderImage = (): JSX.Element => {
     const img = about?.image;
-    const fallbackImg = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80";
+    const fallbackImg =
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80";
 
     let imageSrc = fallbackImg;
 
@@ -162,13 +169,17 @@ export default function About() {
       </Section>
 
       {/* Who We Are Section */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.15}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.15}
+      >
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-6">
             Who We Are
           </h2>
           <p className="text-lg text-foreground/85 max-w-3xl mx-auto">
-            Discover our leadership, team, and the people who drive our success forward every day.
+            Discover our leadership, team, and the people who drive our success
+            forward every day.
           </p>
         </div>
 
@@ -177,7 +188,10 @@ export default function About() {
             <div className="space-y-4 text-foreground/85 max-w-prose">
               <p>{loading ? "" : about?.content || ""}</p>
               <p>
-                We are a team of passionate professionals who believe in the power of technology to transform businesses. Our diverse backgrounds in engineering, design, and strategy enable us to deliver comprehensive solutions that drive real results.
+                We are a team of passionate professionals who believe in the
+                power of technology to transform businesses. Our diverse
+                backgrounds in engineering, design, and strategy enable us to
+                deliver comprehensive solutions that drive real results.
               </p>
             </div>
             <div className="mt-8">
@@ -198,23 +212,48 @@ export default function About() {
         </div>
 
         {/* Awards Section */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-120px" }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } }, }} className="mb-16">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="mb-16"
+        >
           <div className="flex items-center gap-3 mb-8">
             <Trophy className="h-8 w-8 text-primary/100" />
-            <h3 className="text-3xl font-bold text-foreground">Awards & Recognition</h3>
+            <h3 className="text-3xl font-bold text-foreground">
+              Awards & Recognition
+            </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { award: "Tech Innovation Award", year: "2023", org: "TechCrunch" },
+              {
+                award: "Tech Innovation Award",
+                year: "2023",
+                org: "TechCrunch",
+              },
               { award: "Best UX Design", year: "2022", org: "Awwwards" },
               { award: "Startup of the Year", year: "2021", org: "Forbes" },
               { award: "Excellence in AI", year: "2023", org: "AI Summit" },
             ].map((award, idx) => (
-              <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }, }}>
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 12 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                }}
+              >
                 <TiltCard className="text-center h-full">
                   <Award className="h-10 w-10 text-primary/100 mx-auto mb-3" />
-                  <h4 className="font-semibold text-foreground mb-2">{award.award}</h4>
-                  <p className="text-sm text-foreground/80">{award.org} • {award.year}</p>
+                  <h4 className="font-semibold text-foreground mb-2">
+                    {award.award}
+                  </h4>
+                  <p className="text-sm text-foreground/80">
+                    {award.org} • {award.year}
+                  </p>
                 </TiltCard>
               </motion.div>
             ))}
@@ -222,54 +261,143 @@ export default function About() {
         </motion.div>
 
         {/* Leadership */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-120px" }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } }, }} className="mb-16">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="mb-16"
+        >
           <div className="flex items-center gap-3 mb-8">
             <User className="h-8 w-8 text-primary/100" />
-            <h3 className="text-3xl font-bold text-foreground">Leadership Team</h3>
+            <h3 className="text-3xl font-bold text-foreground">
+              Leadership Team
+            </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { name: "Sarah Johnson", role: "CEO & Co-Founder", bio: "Former VP at Google, leading our vision and strategy", image: "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80" },
-              { name: "Michael Chen", role: "CTO & Co-Founder", bio: "Ex-Tesla engineer, driving our technical innovation", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80" },
-              { name: "Emily Rodriguez", role: "VP of Design", bio: "Award-winning designer with 15+ years experience", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80" },
+              {
+                name: "Sarah Johnson",
+                role: "CEO & Co-Founder",
+                bio: "Former VP at Google, leading our vision and strategy",
+                image:
+                  "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
+              },
+              {
+                name: "Michael Chen",
+                role: "CTO & Co-Founder",
+                bio: "Ex-Tesla engineer, driving our technical innovation",
+                image:
+                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+              },
+              {
+                name: "Emily Rodriguez",
+                role: "VP of Design",
+                bio: "Award-winning designer with 15+ years experience",
+                image:
+                  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+              },
             ].map((leader, idx) => (
-              <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }, }}>
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                }}
+              >
                 <TiltCard className="text-center">
-                  <img src={leader.image} alt={leader.name} className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20" />
-                  <h4 className="text-xl font-semibold text-foreground mb-1">{leader.name}</h4>
-                  <p className="text-primary/100 font-medium mb-3">{leader.role}</p>
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
+                  />
+                  <h4 className="text-xl font-semibold text-foreground mb-1">
+                    {leader.name}
+                  </h4>
+                  <p className="text-primary/100 font-medium mb-3">
+                    {leader.role}
+                  </p>
                   <p className="text-sm text-foreground/80">{leader.bio}</p>
                 </TiltCard>
               </motion.div>
             ))}
           </div>
         </motion.div>
-
       </Section>
 
       {/* Purpose & Values */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.25}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.25}
+      >
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Our Purpose & Values</h2>
-          <p className="mt-4 text-foreground/85 max-w-2xl mx-auto">The principles that guide everything we do and shape the way we work with our clients.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+            Our Purpose & Values
+          </h2>
+          <p className="mt-4 text-foreground/85 max-w-2xl mx-auto">
+            The principles that guide everything we do and shape the way we work
+            with our clients.
+          </p>
         </div>
 
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-120px" }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } }, }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {[
-            { icon: Target, title: "Purpose-Driven", description: "Every solution we build serves a meaningful purpose and creates lasting impact." },
-            { icon: Zap, title: "Innovation First", description: "We embrace cutting-edge technologies and creative approaches to solve complex challenges." },
-            { icon: Heart, title: "Client-Centric", description: "Our clients' success is our success. We build long-term partnerships based on trust." },
-            { icon: Shield, title: "Quality Excellence", description: "We maintain the highest standards in everything we deliver, ensuring reliability and scalability." },
+            {
+              icon: Target,
+              title: "Purpose-Driven",
+              description:
+                "Every solution we build serves a meaningful purpose and creates lasting impact.",
+            },
+            {
+              icon: Zap,
+              title: "Innovation First",
+              description:
+                "We embrace cutting-edge technologies and creative approaches to solve complex challenges.",
+            },
+            {
+              icon: Heart,
+              title: "Client-Centric",
+              description:
+                "Our clients' success is our success. We build long-term partnerships based on trust.",
+            },
+            {
+              icon: Shield,
+              title: "Quality Excellence",
+              description:
+                "We maintain the highest standards in everything we deliver, ensuring reliability and scalability.",
+            },
           ].map((value, idx) => {
             const Icon = value.icon as any;
             return (
-              <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }, }}>
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 18 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                }}
+              >
                 <TiltCard className="h-full p-6 text-center">
                   <div className="mx-auto w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary/100" />
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">{value.title}</h3>
-                  <p className="text-sm text-foreground/80">{value.description}</p>
+                  <h3 className="font-semibold text-foreground mb-2">
+                    {value.title}
+                  </h3>
+                  <p className="text-sm text-foreground/80">
+                    {value.description}
+                  </p>
                 </TiltCard>
               </motion.div>
             );
@@ -278,39 +406,107 @@ export default function About() {
       </Section>
 
       {/* How We Serve - Enhanced Timeline */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.3}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.3}
+      >
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">How We Serve</h2>
-          <p className="mt-4 text-foreground/85 max-w-2xl mx-auto">Our proven methodology that ensures successful project delivery from concept to completion.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+            How We Serve
+          </h2>
+          <p className="mt-4 text-foreground/85 max-w-2xl mx-auto">
+            Our proven methodology that ensures successful project delivery from
+            concept to completion.
+          </p>
         </div>
 
         <div className="relative max-w-4xl mx-auto">
           <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/80 to-primary/50" />
 
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-120px" }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } }, }} className="space-y-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.08 } },
+            }}
+            className="space-y-12"
+          >
             {[
-              { phase: "01", title: "Discover", description: "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.", icon: Target, position: "left" },
-              { phase: "02", title: "Design", description: "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.", icon: Globe, position: "right" },
-              { phase: "03", title: "Build", description: "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.", icon: TrendingUp, position: "left" },
-              { phase: "04", title: "Evolve", description: "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.", icon: Zap, position: "right" },
+              {
+                phase: "01",
+                title: "Discover",
+                description:
+                  "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
+                icon: Target,
+                position: "left",
+              },
+              {
+                phase: "02",
+                title: "Design",
+                description:
+                  "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
+                icon: Globe,
+                position: "right",
+              },
+              {
+                phase: "03",
+                title: "Build",
+                description:
+                  "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
+                icon: TrendingUp,
+                position: "left",
+              },
+              {
+                phase: "04",
+                title: "Evolve",
+                description:
+                  "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
+                icon: Zap,
+                position: "right",
+              },
             ].map((step, idx) => {
               const Icon = step.icon as any;
               const isLeft = step.position === "left";
               return (
-                <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }, }} className={`relative flex items-center ${isLeft ? "justify-start" : "justify-end"}`}>
+                <motion.div
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 18 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.45 },
+                    },
+                  }}
+                  className={`relative flex items-center ${isLeft ? "justify-start" : "justify-end"}`}
+                >
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-10" />
                   <div className={`w-5/12 ${isLeft ? "pr-8" : "pl-8"}`}>
                     <TiltCard className="p-6">
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)' }}>
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center"
+                            style={{
+                              background:
+                                "linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)",
+                            }}
+                          >
                             <Icon className="h-8 w-8 text-white" />
                           </div>
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-primary/100 mb-1">PHASE {step.phase}</div>
-                          <h3 className="text-xl font-bold text-foreground mb-2">{step.title}</h3>
-                          <p className="text-sm text-foreground/80">{step.description}</p>
+                          <div className="text-xs font-bold text-primary/100 mb-1">
+                            PHASE {step.phase}
+                          </div>
+                          <h3 className="text-xl font-bold text-foreground mb-2">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm text-foreground/80">
+                            {step.description}
+                          </p>
                         </div>
                       </div>
                     </TiltCard>
@@ -323,13 +519,31 @@ export default function About() {
       </Section>
 
       {/* Call to Action */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.35}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.35}
+      >
         <div className="text-center rounded-3xl glass-card border border-primary/20 p-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-4">Ready to Build Something Amazing?</h2>
-          <p className="text-foreground/85 max-w-2xl mx-auto mb-8">Let's discuss your project and discover how we can help you achieve your goals with innovative technology solutions.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-4">
+            Ready to Build Something Amazing?
+          </h2>
+          <p className="text-foreground/85 max-w-2xl mx-auto mb-8">
+            Let's discuss your project and discover how we can help you achieve
+            your goals with innovative technology solutions.
+          </p>
           <div className="flex items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg">Get in touch</Link>
-            <Link to="/services" className="text-sm font-semibold text-foreground/90 hover:text-foreground">Explore services</Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg"
+            >
+              Get in touch
+            </Link>
+            <Link
+              to="/services"
+              className="text-sm font-semibold text-foreground/90 hover:text-foreground"
+            >
+              Explore services
+            </Link>
           </div>
         </div>
       </Section>

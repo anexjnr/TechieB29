@@ -94,17 +94,30 @@ export async function loader() {
     // Attempt to fetch latest tech news from TechCrunch (public WP JSON API). If unavailable, fall back to internal news.
     let news: any[] = [];
     try {
-      const externalRes = await fetch("https://techcrunch.com/wp-json/wp/v2/posts?per_page=3&_embed");
+      const externalRes = await fetch(
+        "https://techcrunch.com/wp-json/wp/v2/posts?per_page=3&_embed",
+      );
       if (externalRes.ok) {
         const extData = await externalRes.json();
         if (Array.isArray(extData) && extData.length) {
           news = extData.map((it: any) => {
-            const media = it._embedded && it._embedded['wp:featuredmedia'] && it._embedded['wp:featuredmedia'][0];
-            const imageUrl = media ? (media.source_url || media.media_details?.sizes?.full?.source_url) : (it.jetpack_featured_media_url || null);
+            const media =
+              it._embedded &&
+              it._embedded["wp:featuredmedia"] &&
+              it._embedded["wp:featuredmedia"][0];
+            const imageUrl = media
+              ? media.source_url || media.media_details?.sizes?.full?.source_url
+              : it.jetpack_featured_media_url || null;
             return {
               id: String(it.id),
-              title: (it.title && it.title.rendered) ? it.title.rendered.replace(/<[^>]+>/g, "") : it.title || "",
-              excerpt: (it.excerpt && it.excerpt.rendered) ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180) : "",
+              title:
+                it.title && it.title.rendered
+                  ? it.title.rendered.replace(/<[^>]+>/g, "")
+                  : it.title || "",
+              excerpt:
+                it.excerpt && it.excerpt.rendered
+                  ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180)
+                  : "",
               link: it.link || "",
               image: imageUrl || null,
             };
@@ -347,7 +360,10 @@ export default function Index() {
       ) : null}
 
       {/* What We Do: 3-column intro */}
-      <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.05}>
+      <Section
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
+        delay={0.05}
+      >
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
             What We Do
@@ -370,7 +386,8 @@ export default function Index() {
               Enterprise Products
             </div>
             <div className="text-sm text-primary/80 mt-2">
-              Future-ready platforms across Retail, NBFC, MEP, and Data Transfer.
+              Future-ready platforms across Retail, NBFC, MEP, and Data
+              Transfer.
             </div>
           </TiltCard>
 
@@ -380,7 +397,8 @@ export default function Index() {
               Technology Services
             </div>
             <div className="text-sm text-primary/80 mt-2">
-              Architecture review, cloud enablement, AI augmentation, and enterprise security.
+              Architecture review, cloud enablement, AI augmentation, and
+              enterprise security.
             </div>
           </TiltCard>
         </div>

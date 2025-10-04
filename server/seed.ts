@@ -251,6 +251,62 @@ export async function seed() {
         ],
       });
     }
+
+    // Ensure compact What We Do section exists/updated
+    await prisma.section.upsert({
+      where: { key: "what-we-do-compact" },
+      update: {
+        heading: "What We Do",
+        subheading: "",
+        data: [
+          {
+            icon: "target",
+            heading: "AI & Digital Transformation",
+            subheading: "Reimagine processes with intelligence and automation.",
+          },
+          {
+            icon: "bar-chart-3",
+            heading: "Enterprise Products",
+            subheading:
+              "Future-ready platforms across Retail, NBFC, MEP, and Data Transfer.",
+          },
+          {
+            icon: "cpu",
+            heading: "Technology Services",
+            subheading:
+              "Architecture review, cloud enablement, AI augmentation, and enterprise security.",
+          },
+        ],
+        order: 4,
+        enabled: true,
+      },
+      create: {
+        key: "what-we-do-compact",
+        heading: "What We Do",
+        subheading: "",
+        data: [
+          {
+            icon: "target",
+            heading: "AI & Digital Transformation",
+            subheading: "Reimagine processes with intelligence and automation.",
+          },
+          {
+            icon: "bar-chart-3",
+            heading: "Enterprise Products",
+            subheading:
+              "Future-ready platforms across Retail, NBFC, MEP, and Data Transfer.",
+          },
+          {
+            icon: "cpu",
+            heading: "Technology Services",
+            subheading:
+              "Architecture review, cloud enablement, AI augmentation, and enterprise security.",
+          },
+        ],
+        order: 4,
+        enabled: true,
+      },
+    });
   } catch (e) {
     console.warn("Seeding failed:", e);
   }

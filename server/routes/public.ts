@@ -72,6 +72,9 @@ router.get("/sections", async (_req, res) => {
       orderBy: { order: "asc" },
       include: { image: true } as any,
     });
+    if (!items || items.length === 0) {
+      return res.json(memoryDb.sections || []);
+    }
     res.json(items);
   } catch (e) {
     console.warn("Prisma sections failed, using memory store", e.message || e);

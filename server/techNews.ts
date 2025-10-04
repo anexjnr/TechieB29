@@ -8,24 +8,27 @@ export type TechNewsItem = {
   publishedAt: Date;
 };
 
-async function fetchFromHackerNews(): Promise<TechNewsItem[]> {
+async function fetchFromDevTo(tags: string[] = ["technology", "programming", "ai"]): Promise<TechNewsItem[]> {
   try {
-    const endpoint =
-      "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=20&query=technology";
-    const res = await fetch(endpoint, { headers: { "User-Agent": "fusion-starter/technews" } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    const hits: any[] = Array.isArray(data?.hits) ? data.hits : [];
-    return hits
-      .map((h) => {
-        const title: string = h.title || h.story_title || "";
-        const url: string = h.url || h.story_url || "";
-        const publishedAt: Date = h.created_at ? new Date(h.created_at) : new Date();
-        const excerpt: string | null = h._highlightResult?.title?.value
-          ? String(h._highlightResult.title.value).replace(/<[^>]+>/g, "")
-          : null;
-        return title && url
-          ? ({ title, url, publishedAt, excerpt, imageUrl: null } as TechNewsItem)
+    const headers = { "User-Agent": "fusion-starter/technews" } as Record<string, string>;
+    const lists = await Promise.all(
+      tags.map(async (tag) => {
+        const url = `https://dev.to/api/articles?per_page=20&tag=${encodeURIComponent(tag)}`;
+        const res = await fetch(url, { headers });
+        if (!res.ok) return [] as any[];
+        return (await res.json()) as any[];
+      }),
+    );
+    const articles = lists.flat();
+    return articles
+      .map((a: any) => {
+        const title: string = a?.title || "";
+        const url: string = a?.url || "";
+        const publishedAt: Date = a?.published_at ? new Date(a.published_at) : new Date();
+        const excerpt: string | null = a?.description || null;
+        const imageUrl: string | null = a?.cover_image || a?.social_image || null;
+        return title && url && imageUrl
+          ? ({ title, url, publishedAt, excerpt, imageUrl } as TechNewsItem)
           : null;
       })
       .filter(Boolean) as TechNewsItem[];

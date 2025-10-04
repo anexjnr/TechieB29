@@ -200,43 +200,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* Journey Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-120px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.08 } },
-          }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <Calendar className="h-8 w-8 text-primary/100" />
-            <h3 className="text-3xl font-bold text-foreground">Our Journey</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { year: "2018", title: "Founded", description: "Started with a vision to revolutionize digital experiences" },
-              { year: "2020", title: "Global Expansion", description: "Expanded operations to serve clients across 15 countries" },
-              { year: "2023", title: "Innovation Hub", description: "Established our AI and emerging technologies center" }
-            ].map((milestone, idx) => (
-              <motion.div
-                key={idx}
-                variants={{
-                  hidden: { opacity: 0, y: 18 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-                }}
-              >
-                <TiltCard className="text-center h-full">
-                  <div className="text-2xl font-bold text-primary/100 mb-2">{milestone.year}</div>
-                  <h4 className="text-xl font-semibold text-foreground mb-3">{milestone.title}</h4>
-                  <p className="text-sm text-foreground/80">{milestone.description}</p>
-                </TiltCard>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Awards Section */}
         <motion.div

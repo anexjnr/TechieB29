@@ -38,14 +38,22 @@ export default function HomepageAdmin() {
     }
   };
 
-  const startEdit = (s: any) =>
+  const startEdit = (s: any) => {
+    const existingImageUrl =
+      typeof s.imageUrl === "string" && s.imageUrl.trim().length
+        ? s.imageUrl.trim()
+        : typeof s.image === "string" && s.image.trim().length
+          ? s.image.trim()
+          : "";
     setEditing({
       [s.id]: {
         heading: s.heading || "",
         content: s.content || "",
         order: s.order ?? "",
+        imageUrl: existingImageUrl,
       },
     });
+  };
   const cancelEdit = () => setEditing({});
   const onEditChange = (id: string, field: string, value: any) =>
     setEditing((prev) => ({

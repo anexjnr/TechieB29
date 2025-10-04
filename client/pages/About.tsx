@@ -48,7 +48,7 @@ const DEFAULT_ABOUT_PARAGRAPHS = [
 
 interface AboutData {
   heading: string;
-  description: string;
+  description?: string;
   content: string;
   image?: string | { id: string } | null;
 }

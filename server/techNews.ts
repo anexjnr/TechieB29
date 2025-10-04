@@ -38,7 +38,7 @@ async function fetchFromDevTo(tags: string[] = ["technology", "programming", "ai
 }
 
 async function fetchAllSources(): Promise<TechNewsItem[]> {
-  const lists = await Promise.all([fetchFromHackerNews()]);
+  const lists = await Promise.all([fetchFromDevTo()]);
   const all = lists.flat();
   // de-duplicate by url
   const seen = new Set<string>();

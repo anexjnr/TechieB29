@@ -37,7 +37,7 @@ router.get("/testimonials", async (_req, res) => {
   try {
     const items = await prisma.testimonial.findMany({
       include: { avatar: { select: { id: true } } } as any,
-      orderBy: { createdAt: "asc" } as any,
+      orderBy: { author: "asc" } as any,
     });
     if (!items || items.length === 0) return res.json(memoryDb.testimonials);
     const normalized = items.map((item: any) => ({

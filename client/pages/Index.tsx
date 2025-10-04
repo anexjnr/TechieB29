@@ -209,25 +209,26 @@ export default function Index() {
               <AnimatedTitle
                 text={
                   sections.hero?.heading ||
-                  "Building clear, resilient products for modern companies"
+                  "Transforming Businesses with AI, Digital Innovation and Enterprise-Grade Solutions"
                 }
                 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
               />
               <p className="mt-6 text-lg text-foreground/90 max-w-xl">
-                {sections.hero?.content}
+                {sections.hero?.content ||
+                  "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions."}
               </p>
               <div className="mt-8 flex items-center gap-4">
                 <Link
-                  to="/contact"
+                  to="/products"
                   className="inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg"
                 >
-                  Start a project <ArrowRight className="ml-3 h-4 w-4" />
+                  Explore Products <ArrowRight className="ml-3 h-4 w-4" />
                 </Link>
                 <Link
-                  to="/services"
+                  to="/contact"
                   className="text-sm font-semibold text-foreground/90 hover:text-foreground"
                 >
-                  See services
+                  Speak to an Expert
                 </Link>
               </div>
             </div>

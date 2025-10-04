@@ -138,12 +138,6 @@ export default function About() {
     })();
   }, []);
 
-  const description = useMemo(() => {
-    const raw = typeof about?.description === "string" ? about.description : "";
-    const trimmed = raw.trim();
-    return trimmed.length ? trimmed : DEFAULT_ABOUT_DESCRIPTION;
-  }, [about?.description]);
-
   const contentParagraphs = useMemo(() => {
     const raw = typeof about?.content === "string" ? about.content : "";
     const paragraphs = raw
@@ -152,6 +146,24 @@ export default function About() {
       .filter(Boolean);
     return paragraphs.length ? paragraphs : DEFAULT_ABOUT_PARAGRAPHS;
   }, [about?.content]);
+
+  const description = useMemo(() => {
+    const raw = typeof about?.description === "string" ? about.description : "";
+    const trimmed = raw.trim();
+    if (trimmed.length) return trimmed;
+    if (contentParagraphs.length) return contentParagraphs[0];
+    return DEFAULT_ABOUT_DESCRIPTION;
+  }, [about?.description, contentParagraphs]);
+
+  const detailParagraphs = useMemo(() => {
+    const desc = description.trim();
+    return contentParagraphs.filter((paragraph, index) => {
+      if (index === 0 && paragraph.trim() === desc) {
+        return false;
+      }
+      return true;
+    });
+  }, [contentParagraphs, description]);
 
   const renderImage = (): JSX.Element => {
     const img = about?.image;
@@ -206,7 +218,7 @@ export default function About() {
               </p>
             </div>
             <div className="space-y-4 text-foreground/85 max-w-prose">
-              {contentParagraphs.map((paragraph, idx) => (
+              {detailParagraphs.map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
               ))}
             </div>

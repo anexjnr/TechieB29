@@ -609,7 +609,7 @@ export default function Index() {
         </Section>
       ) : null}
 
-      {(whoWeAre?.heading || whoParagraphs.length) ? (
+      {(whoWeAre?.heading || whoParagraphs.length || whoWeAreImage) ? (
         <Section
           className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
           delay={0.1}
@@ -636,6 +636,50 @@ export default function Index() {
                 </Link>
               </div>
             </div>
+            {whoWeAreImage ? (
+              <div className="relative flex items-center justify-center">
+                <div
+                  aria-hidden
+                  className="absolute rounded-full pointer-events-none"
+                  style={{
+                    width: "64%",
+                    height: "80%",
+                    transform: "translateY(6%)",
+                    background:
+                      "radial-gradient(circle at 40% 30%, rgba(124,58,237,0.36) 0%, rgba(167,139,250,0.12) 35%, transparent 70%)",
+                    filter: "blur(38px) brightness(0.95)",
+                    zIndex: 10,
+                  }}
+                />
+
+                <img
+                  src={whoWeAreImage}
+                  alt={typeof whoWeAre?.heading === "string" ? whoWeAre.heading : ""}
+                  className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
+                  style={{
+                    filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
+                    zIndex: 20,
+                  }}
+                />
+
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    bottom: 0,
+                    width: "70%",
+                    height: "160px",
+                    zIndex: 25,
+                    background:
+                      "linear-gradient(180deg, rgba(124,58,237,0) 0%, rgba(124,58,237,0.18) 40%, rgba(124,58,237,0.6) 85%, rgba(167,139,250,0.8) 100%)",
+                    filter: "blur(14px)",
+                    borderRadius: "40px",
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         </Section>
       ) : null}

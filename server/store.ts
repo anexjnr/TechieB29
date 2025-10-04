@@ -181,61 +181,130 @@ class MemoryDB {
           id: uid(),
           key: "hero",
           heading: "Transforming Businesses with AI and Digital Innovation",
+          subheading:
+            "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions.",
           content:
             "We partner with organizations to drive efficiency, accelerate growth, and deliver measurable outcomes through AI-powered platforms, digital transformation, and next-generation software solutions.",
+          data: {
+            ctas: [
+              { label: "Explore Products", href: "/products" },
+              { label: "Speak to an Expert", href: "/contact" },
+            ],
+          },
           image:
-            "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
+            "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800",
           enabled: true,
           order: 1,
         },
         {
           id: uid(),
-          key: "flowchart",
+          key: "info-cards",
           heading: "Capabilities",
-          content: JSON.stringify([
-            {
-              icon: "target",
-              label: "Strategy",
-              desc: "Crisp systems that scale.",
-            },
-            {
-              icon: "palette",
-              label: "Design",
-              desc: "Crisp systems that scale.",
-            },
-            {
-              icon: "cpu",
-              label: "Engineering",
-              desc: "Crisp systems that scale.",
-            },
-            {
-              icon: "bar-chart-3",
-              label: "Analytics",
-              desc: "Crisp systems that scale.",
-            },
-          ]),
-          enabled: true,
-          order: 1,
-        },
-        {
-          id: uid(),
-          key: "who",
-          heading: "Who We Are",
-          content:
-            "A senior, cross‑functional team with a bias for clarity. We operate with lean process, bold typography, and a focus on measurable outcomes.",
-          image:
-            "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
+          subheading: "Where we focus impact",
+          data: {
+            cards: [
+              {
+                icon: "target",
+                title: "Strategy",
+                subtitle: "From discovery to roadmap, we align teams on outcomes.",
+              },
+              {
+                icon: "palette",
+                title: "Design",
+                subtitle: "Accessible, modern interfaces with purpose.",
+              },
+              {
+                icon: "cpu",
+                title: "Engineering",
+                subtitle: "Robust web apps, APIs, and infra.",
+              },
+              {
+                icon: "bar-chart-3",
+                title: "Analytics",
+                subtitle: "Ship, learn, iterate with data.",
+              },
+            ],
+          },
           enabled: true,
           order: 2,
         },
         {
           id: uid(),
-          key: "services",
-          heading: "What We Do",
-          content: null as any,
-          image: null as any,
+          key: "who-we-are",
+          heading: "Who We Are",
+          subheading:
+            "A senior, cross-functional team with a bias for clarity and measurable outcomes.",
+          content:
+            "Operating as a remote-first company with strategic offices globally, we emphasize clarity, fast feedback loops, and long-term partnerships that prioritize user value and technical excellence.",
+          data: {
+            paragraphs: [
+              "A senior, cross-functional team that designs, builds, and scales products people love. We blend strategy, design, engineering, and analytics to deliver measurable impact.",
+              "We partner with leadership to translate uncertain opportunities into clear roadmaps — combining user research, pragmatic engineering, and measurable outcomes.",
+              "Operating as a remote-first company with strategic offices globally, we emphasize clarity, fast feedback loops, and long-term partnerships that prioritize user value and technical excellence.",
+            ],
+          },
+          image:
+            "https://cdn.builder.io/api/v1/image/assets%2Fee358a6e64744467b38bd6a3468eaeb9%2F4ed1abb4e7b8432696da3fc4bf216ad1?format=webp&width=800",
           enabled: true,
           order: 3,
+        },
+        {
+          id: uid(),
+          key: "what-we-do",
+          heading: "What We Do",
+          subheading: "Integrated consulting, product, and engineering partnerships.",
+          data: {
+            tiles: [
+              {
+                icon: "target",
+                title: "AI & Digital Transformation",
+                subtitle: "Reimagine processes with intelligence and automation.",
+              },
+              {
+                icon: "bar-chart-3",
+                title: "Enterprise Products",
+                subtitle:
+                  "Future-ready platforms across Retail, NBFC, MEP, and Data Transfer.",
+              },
+              {
+                icon: "cpu",
+                title: "Technology Services",
+                subtitle:
+                  "Architecture review, cloud enablement, AI augmentation, and enterprise security.",
+              },
+            ],
+          },
+          enabled: true,
+          order: 4,
+        },
+        {
+          id: uid(),
+          key: "impact",
+          heading: "Impact Snapshot",
+          data: {
+            items: [
+              {
+                type: "description",
+                icon: "globe",
+                heading: "Presence across India & the Middle East",
+              },
+              {
+                type: "stat",
+                value: 45,
+                suffix: "+",
+                label: "Clients served",
+                href: "/clients",
+              },
+              {
+                type: "stat",
+                value: 4,
+                label: "Flagship enterprise products",
+                href: "/products",
+              },
+            ],
+          },
+          enabled: true,
+          order: 5,
         },
         // default editable navigation
         {
@@ -260,7 +329,8 @@ class MemoryDB {
         {
           id: uid(),
           author: "Alex M.",
-          role: "CTO, Nimbus",
+          title: "Chief Technology Officer",
+          company: "Nimbus",
           quote: "They move fast without breaking clarity.",
           avatar:
             "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
@@ -268,8 +338,27 @@ class MemoryDB {
         {
           id: uid(),
           author: "Priya S.",
-          role: "VP Eng, Northstar",
+          title: "VP Engineering",
+          company: "Northstar",
           quote: "A true partner from strategy to delivery.",
+          avatar:
+            "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
+        },
+        {
+          id: uid(),
+          author: "Alex J.",
+          title: "CEO",
+          company: "Inn Solutions",
+          quote: "Working with AUIO was a game-changer.",
+          avatar:
+            "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80",
+        },
+        {
+          id: uid(),
+          author: "Sam R.",
+          title: "Product Lead",
+          company: "Gamma",
+          quote: "A focused team that delivers measurable outcomes.",
           avatar:
             "https://images.unsplash.com/photo-1531123414780-f0b5f9d9d0a6?auto=format&fit=crop&w=400&q=80",
         },

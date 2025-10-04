@@ -94,7 +94,7 @@ export async function loader() {
     // Attempt to fetch latest tech news from TechCrunch (public WP JSON API). If unavailable, fall back to internal news.
     let news: any[] = [];
     try {
-      const externalRes = await fetch("https://techcrunch.com/wp-json/wp/v2/posts?per_page=3");
+      const externalRes = await fetch("https://techcrunch.com/wp-json/wp/v2/posts?per_page=3&_embed");
       if (externalRes.ok) {
         const extData = await externalRes.json();
         if (Array.isArray(extData) && extData.length) {

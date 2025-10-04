@@ -50,25 +50,67 @@ async function fetchAllSources(): Promise<TechNewsItem[]> {
   return unique.slice(0, 12);
 }
 
+async function fetchOpenGraphImage(targetUrl: string): Promise<string | null> {
+  try {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 5000);
+    const res = await fetch(targetUrl, {
+      signal: controller.signal,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; FusionBot/1.0; +https://example.com/bot)",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      redirect: "follow",
+    });
+    clearTimeout(t);
+    if (!res.ok) return null;
+    const html = await res.text();
+    const rel = (name: string) => new RegExp(`<meta[^>]+property=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1] ||
+      new RegExp(`<meta[^>]+name=[\"']${name}[\"'][^>]+content=[\"']([^\"']+)[\"']`, "i").exec(html)?.[1];
+    const candidates = [
+      rel("og:image:secure_url"),
+      rel("og:image"),
+      rel("twitter:image"),
+    ].filter(Boolean) as string[];
+    let img = candidates[0] || null;
+    if (img && img.startsWith("//")) {
+      const u = new URL(targetUrl);
+      img = `${u.protocol}${img}`;
+    } else if (img && img.startsWith("/")) {
+      const u = new URL(targetUrl);
+      img = `${u.origin}${img}`;
+    }
+    return img || null;
+  } catch {
+    return null;
+  }
+}
+
 export async function refreshTechNews() {
   const items = await fetchAllSources();
   if (!items.length) return;
-  // Upsert by url
   for (const n of items) {
     try {
+      // find existing
+      const existing = await prisma.techNews.findUnique({ where: { url: n.url } });
+      let imageUrl = existing?.imageUrl || n.imageUrl || null;
+      if (!imageUrl) {
+        imageUrl = await fetchOpenGraphImage(n.url);
+      }
+
       await prisma.techNews.upsert({
         where: { url: n.url },
         create: {
           title: n.title,
           excerpt: n.excerpt || null,
           url: n.url,
-          imageUrl: n.imageUrl || null,
+          imageUrl: imageUrl || null,
           publishedAt: n.publishedAt,
         },
         update: {
           title: n.title,
           excerpt: n.excerpt || null,
-          imageUrl: n.imageUrl || null,
+          imageUrl: imageUrl || null,
           publishedAt: n.publishedAt,
           updatedAt: new Date(),
         },
@@ -78,20 +120,13 @@ export async function refreshTechNews() {
     }
   }
 
-  // Keep max 6 rows, delete older ones
   try {
-    const all = await prisma.techNews.findMany({
-      orderBy: { publishedAt: "desc" },
-    });
+    const all = await prisma.techNews.findMany({ orderBy: { publishedAt: "desc" } });
     if (all.length > 6) {
       const toDelete = all.slice(6).map((x) => x.id);
-      if (toDelete.length) {
-        await prisma.techNews.deleteMany({ where: { id: { in: toDelete } } });
-      }
+      if (toDelete.length) await prisma.techNews.deleteMany({ where: { id: { in: toDelete } } });
     }
-  } catch {
-    // ignore cleanup errors
-  }
+  } catch {}
 }
 
 let started = false;

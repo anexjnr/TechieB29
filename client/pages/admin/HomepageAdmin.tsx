@@ -64,6 +64,8 @@ export default function HomepageAdmin() {
   const saveEdit = async (id: string) => {
     const payload = editing[id] || {};
     try {
+      const normalizedImageUrl =
+        typeof payload.imageUrl === "string" ? payload.imageUrl.trim() : "";
       const res = await fetch(`/api/admin/sections/${id}`, {
         method: "PUT",
         headers: {
@@ -74,6 +76,7 @@ export default function HomepageAdmin() {
           heading: payload.heading,
           content: payload.content,
           order: payload.order === "" ? undefined : Number(payload.order),
+          imageUrl: normalizedImageUrl.length ? normalizedImageUrl : null,
         }),
       });
       if (res.ok) {

@@ -331,6 +331,7 @@ export default function Index() {
   const impact = sections["impact"];
   const flowchartSection = sections["flowchart"] ?? sections["capabilities"];
   const whatWeDoCompact = sections["what-we-do-compact"];
+  const whoSection = sections["who"];
 
   const flowSteps = useMemo(() => {
     const raw = (flowchartSection as any)?.data;
@@ -396,6 +397,24 @@ export default function Index() {
       })
       .filter(Boolean) as { title: string; subtitle: string; icon: any }[];
   }, [whatWeDoCompact?.data]);
+
+  const whoParagraphs2 = useMemo(() => {
+    const arr = Array.isArray((whoSection as any)?.data?.paragraphs)
+      ? (whoSection as any).data.paragraphs
+      : [];
+    if (arr.length) return arr.filter((p: any) => typeof p === "string" && p.trim().length);
+    const s = typeof whoSection?.content === "string" ? whoSection.content : "";
+    return s
+      .split(/\n+/)
+      .map((x) => x.trim())
+      .filter((x) => x.length);
+  }, [whoSection?.data, whoSection?.content]);
+
+  const whoImage2 = useMemo(() => {
+    if (typeof (whoSection as any)?.image === "string" && (whoSection as any).image) return (whoSection as any).image as string;
+    if (typeof (whoSection as any)?.imageId === "string" && (whoSection as any).imageId) return `/api/assets/${(whoSection as any).imageId}`;
+    return null;
+  }, [whoSection]);
 
   const heroCtas = useMemo(() => {
     const raw = hero?.data?.ctas;
@@ -869,6 +888,35 @@ export default function Index() {
           </div>
           <div className="mt-8">
             <FlowGrid items={whatWeDoCompactItems} columns={3} limit={3} />
+          </div>
+        </Section>
+      ) : null}
+
+      {whoSection?.heading || whoParagraphs2.length || whoImage2 ? (
+        <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" delay={0.24}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              {typeof whoSection?.heading === "string" && whoSection.heading.trim().length ? (
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">{whoSection.heading}</h2>
+              ) : null}
+              <div className="mt-4 text-foreground/85 max-w-prose space-y-4">
+                {whoParagraphs2.map((paragraph, idx) => (
+                  <p key={`${paragraph}-${idx}`}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="mt-6">
+                <Link className="inline-flex items-center rounded-full glass-card px-5 py-2 text-sm font-semibold" to="/about">
+                  Learn more about us
+                </Link>
+              </div>
+            </div>
+            {whoImage2 ? (
+              <div className="relative flex items-center justify-center">
+                <div aria-hidden className="absolute rounded-full pointer-events-none" style={{ width: "64%", height: "80%", transform: "translateY(6%)", background: "radial-gradient(circle at 40% 30%, rgba(124,58,237,0.36) 0%, rgba(167,139,250,0.12) 35%, transparent 70%)", filter: "blur(38px) brightness(0.95)", zIndex: 10 }} />
+                <img src={whoImage2} alt={typeof whoSection?.heading === "string" ? whoSection.heading : ""} className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent" style={{ filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))", zIndex: 20 }} />
+                <div aria-hidden className="absolute pointer-events-none" style={{ left: "50%", transform: "translateX(-50%)", bottom: 0, width: "70%", height: "160px", zIndex: 25, background: "linear-gradient(180deg, rgba(124,58,237,0) 0%, rgba(124,58,237,0.18) 40%, rgba(124,58,237,0.6) 85%, rgba(167,139,250,0.8) 100%)", filter: "blur(14px)", borderRadius: "40px" }} />
+              </div>
+            ) : null}
           </div>
         </Section>
       ) : null}

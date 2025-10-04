@@ -103,6 +103,7 @@ router.get("/sections", async (_req, res) => {
         data: true,
         enabled: true,
         order: true,
+        imageId: true,
         image: {
           select: {
             id: true,

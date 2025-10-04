@@ -98,13 +98,17 @@ export async function loader() {
       if (externalRes.ok) {
         const extData = await externalRes.json();
         if (Array.isArray(extData) && extData.length) {
-          news = extData.map((it: any) => ({
-            id: String(it.id),
-            title: (it.title && it.title.rendered) ? it.title.rendered.replace(/<[^>]+>/g, "") : it.title || "",
-            excerpt: (it.excerpt && it.excerpt.rendered) ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180) : "",
-            link: it.link || "",
-            image: (it.featured_media && it._links && it._links['wp:featuredmedia']) ? undefined : undefined,
-          }));
+          news = extData.map((it: any) => {
+            const media = it._embedded && it._embedded['wp:featuredmedia'] && it._embedded['wp:featuredmedia'][0];
+            const imageUrl = media ? (media.source_url || media.media_details?.sizes?.full?.source_url) : (it.jetpack_featured_media_url || null);
+            return {
+              id: String(it.id),
+              title: (it.title && it.title.rendered) ? it.title.rendered.replace(/<[^>]+>/g, "") : it.title || "",
+              excerpt: (it.excerpt && it.excerpt.rendered) ? it.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 180) : "",
+              link: it.link || "",
+              image: imageUrl || null,
+            };
+          });
         }
       }
     } catch (e) {

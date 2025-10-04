@@ -6,6 +6,7 @@ import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";
 import LoadingScreen from "@/components/site/LoadingScreen";
+import HowWeServeInfographic from "@/components/site/HowWeServeInfographic";
 import { getIconByName } from "@/lib/iconMap";
 
 type SectionPayload = {
@@ -328,6 +329,40 @@ export default function Index() {
   const whatWeDo = sections["what-we-do"];
   const whoWeAre = sections["who-we-are"];
   const impact = sections["impact"];
+  const flowchartSection = sections["flowchart"];
+
+  const flowSteps = useMemo(() => {
+    const raw = (flowchartSection as any)?.data;
+    const arr = Array.isArray(raw)
+      ? raw
+      : raw && Array.isArray((raw as any).items)
+        ? (raw as any).items
+        : [];
+    return (arr as any[])
+      .map((item: any, idx: number) => {
+        const titleCandidate =
+          typeof item?.label === "string" && item.label.trim().length
+            ? item.label
+            : typeof item?.title === "string" && item.title.trim().length
+              ? item.title
+              : typeof item?.heading === "string" && item.heading.trim().length
+                ? item.heading
+                : null;
+        if (!titleCandidate) return null;
+        const descCandidate =
+          typeof item?.desc === "string" && item.desc.trim().length
+            ? item.desc
+            : typeof item?.description === "string" && item.description.trim().length
+              ? item.description
+              : typeof item?.subtitle === "string" && item.subtitle.trim().length
+                ? item.subtitle
+                : "";
+        const Icon =
+          getIconByName(item?.icon) || [Target, BarChart3, Cpu, Globe][idx % 4] || Target;
+        return { title: titleCandidate, desc: descCandidate, icon: Icon };
+      })
+      .filter(Boolean) as { title: string; desc: string; icon: any }[];
+  }, [flowchartSection?.data]);
 
   const heroCtas = useMemo(() => {
     const raw = hero?.data?.ctas;
@@ -484,7 +519,21 @@ export default function Index() {
             </div>
             <div className="relative">
               <div className="rounded-3xl glass-card border border-primary/20 p-4 sm:p-6 md:p-8">
-                {infoCards.length ? (
+                {flowSteps.length ? (
+                  <HowWeServeInfographic
+                    items={flowSteps}
+                    centerTitle={
+                      typeof flowchartSection?.heading === "string" && flowchartSection.heading.trim().length
+                        ? (flowchartSection?.heading as string)
+                        : undefined
+                    }
+                    centerSubtitle={
+                      typeof flowchartSection?.subheading === "string" && flowchartSection.subheading!.trim().length
+                        ? (flowchartSection?.subheading as string)
+                        : undefined
+                    }
+                  />
+                ) : infoCards.length ? (
                   <motion.div
                     initial="hidden"
                     whileInView="visible"

@@ -131,7 +131,9 @@ function normalizeNews(items: any[] | null | undefined): NewsItem[] {
     .filter(Boolean) as NewsItem[];
 }
 
-function normalizeTestimonials(items: any[] | null | undefined): TestimonialItem[] {
+function normalizeTestimonials(
+  items: any[] | null | undefined,
+): TestimonialItem[] {
   return (Array.isArray(items) ? items : [])
     .map((item) => {
       const id = typeof item?.id === "string" ? item.id : null;
@@ -334,8 +336,7 @@ export default function Index() {
         .map((cta: any) => {
           const label =
             typeof cta?.label === "string" ? cta.label.trim() : null;
-          const href =
-            typeof cta?.href === "string" ? cta.href.trim() : null;
+          const href = typeof cta?.href === "string" ? cta.href.trim() : null;
           if (!label || !href) return null;
           return { label, href };
         })
@@ -391,10 +392,7 @@ export default function Index() {
     () =>
       impactItems.filter((item: any) => {
         if (item?.type !== "stat") return false;
-        if (
-          typeof item?.label !== "string" ||
-          item.label.trim().length === 0
-        ) {
+        if (typeof item?.label !== "string" || item.label.trim().length === 0) {
           return false;
         }
         return item.value != null;
@@ -407,7 +405,8 @@ export default function Index() {
       impactItems.find(
         (item: any) =>
           item?.type === "description" &&
-          (typeof item?.heading === "string" || typeof item?.title === "string"),
+          (typeof item?.heading === "string" ||
+            typeof item?.title === "string"),
       ),
     [impactItems],
   );
@@ -459,7 +458,8 @@ export default function Index() {
         <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              {typeof hero.heading === "string" && hero.heading.trim().length ? (
+              {typeof hero.heading === "string" &&
+              hero.heading.trim().length ? (
                 <AnimatedTitle
                   text={hero.heading}
                   className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
@@ -497,20 +497,24 @@ export default function Index() {
                   >
                     {infoCards.map((card: any, idx: number) => {
                       const title =
-                        typeof card.title === "string" && card.title.trim().length
+                        typeof card.title === "string" &&
+                        card.title.trim().length
                           ? card.title
-                          : typeof card.label === "string" && card.label.trim().length
+                          : typeof card.label === "string" &&
+                              card.label.trim().length
                             ? card.label
                             : null;
                       if (!title) return null;
 
                       const subtitle =
-                        typeof card.subtitle === "string" && card.subtitle.trim().length
+                        typeof card.subtitle === "string" &&
+                        card.subtitle.trim().length
                           ? card.subtitle
                           : typeof card.description === "string" &&
                               card.description.trim().length
                             ? card.description
-                            : typeof card.desc === "string" && card.desc.trim().length
+                            : typeof card.desc === "string" &&
+                                card.desc.trim().length
                               ? card.desc
                               : null;
                       const Icon =
@@ -535,7 +539,9 @@ export default function Index() {
                               {title}
                             </div>
                             {subtitle ? (
-                              <div className="text-sm text-primary/80">{subtitle}</div>
+                              <div className="text-sm text-primary/80">
+                                {subtitle}
+                              </div>
                             ) : null}
                           </TiltCard>
                         </motion.div>
@@ -549,7 +555,7 @@ export default function Index() {
         </Section>
       ) : null}
 
-      {(whatWeDo?.heading || whatWeDo?.subheading || whatWeDoTiles.length) ? (
+      {whatWeDo?.heading || whatWeDo?.subheading || whatWeDoTiles.length ? (
         <Section
           className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
           delay={0.05}
@@ -574,12 +580,14 @@ export default function Index() {
                 const title =
                   typeof tile.title === "string" && tile.title.trim().length
                     ? tile.title
-                    : typeof tile.heading === "string" && tile.heading.trim().length
+                    : typeof tile.heading === "string" &&
+                        tile.heading.trim().length
                       ? tile.heading
                       : null;
                 if (!title) return null;
                 const subtitle =
-                  typeof tile.subtitle === "string" && tile.subtitle.trim().length
+                  typeof tile.subtitle === "string" &&
+                  tile.subtitle.trim().length
                     ? tile.subtitle
                     : typeof tile.description === "string" &&
                         tile.description.trim().length
@@ -599,7 +607,9 @@ export default function Index() {
                       {title}
                     </div>
                     {subtitle ? (
-                      <div className="text-sm text-primary/80 mt-2">{subtitle}</div>
+                      <div className="text-sm text-primary/80 mt-2">
+                        {subtitle}
+                      </div>
                     ) : null}
                   </TiltCard>
                 );
@@ -609,7 +619,7 @@ export default function Index() {
         </Section>
       ) : null}
 
-      {(whoWeAre?.heading || whoParagraphs.length || whoWeAreImage) ? (
+      {whoWeAre?.heading || whoParagraphs.length || whoWeAreImage ? (
         <Section
           className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
           delay={0.1}
@@ -654,7 +664,11 @@ export default function Index() {
 
                 <img
                   src={whoWeAreImage}
-                  alt={typeof whoWeAre?.heading === "string" ? whoWeAre.heading : ""}
+                  alt={
+                    typeof whoWeAre?.heading === "string"
+                      ? whoWeAre.heading
+                      : ""
+                  }
                   className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
                   style={{
                     filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
@@ -695,7 +709,9 @@ export default function Index() {
                 <div className="flex items-center justify-center">
                   {(() => {
                     const PresenceIcon = getIconByName(presence?.icon) || Globe;
-                    return <PresenceIcon className="h-12 w-12 text-primary/90" />;
+                    return (
+                      <PresenceIcon className="h-12 w-12 text-primary/90" />
+                    );
                   })()}
                 </div>
                 <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
@@ -703,8 +719,8 @@ export default function Index() {
                   presence.heading.trim().length
                     ? presence.heading
                     : typeof presence?.title === "string"
-                        ? presence.title
-                        : ""}
+                      ? presence.title
+                      : ""}
                 </div>
               </div>
             ) : null}
@@ -714,15 +730,15 @@ export default function Index() {
               if (!Number.isFinite(valueNumber)) return null;
               const suffix =
                 typeof item?.suffix === "string" ? item.suffix : "";
-              const label =
-                typeof item?.label === "string" ? item.label : "";
+              const label = typeof item?.label === "string" ? item.label : "";
               if (!label.trim().length) return null;
               const href =
                 typeof item?.href === "string" && item.href.trim().length
                   ? item.href.trim()
                   : undefined;
               const isExternal =
-                href && (href.startsWith("http://") || href.startsWith("https://"));
+                href &&
+                (href.startsWith("http://") || href.startsWith("https://"));
               const content = (
                 <>
                   <div className="text-4xl font-extrabold text-foreground">
@@ -737,7 +753,10 @@ export default function Index() {
               );
               if (!href) {
                 return (
-                  <div key={`${label}-${idx}`} className="group block rounded-lg">
+                  <div
+                    key={`${label}-${idx}`}
+                    className="group block rounded-lg"
+                  >
                     {content}
                   </div>
                 );
@@ -796,7 +815,9 @@ export default function Index() {
             >
               {testimonials.slice(0, 4).map((testimonial) => {
                 const roleLabel = [testimonial.title, testimonial.company]
-                  .filter((value) => typeof value === "string" && value.trim().length)
+                  .filter(
+                    (value) => typeof value === "string" && value.trim().length,
+                  )
                   .join(", ");
                 return (
                   <motion.article
@@ -935,7 +956,9 @@ export default function Index() {
                   <div className="p-6">
                     <h3 className="font-semibold text-foreground">{title}</h3>
                     {excerpt ? (
-                      <p className="mt-2 text-sm text-foreground/90">{excerpt}</p>
+                      <p className="mt-2 text-sm text-foreground/90">
+                        {excerpt}
+                      </p>
                     ) : null}
                     {readMore}
                   </div>

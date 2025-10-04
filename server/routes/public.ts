@@ -138,4 +138,16 @@ router.get("/assets/:id", async (req, res) => {
   }
 });
 
+// Manual refresh endpoint (for admins/operators). Triggers fetch + upsert.
+router.get("/technews/refresh", async (_req, res) => {
+  try {
+    const { refreshTechNews } = await import("../techNews");
+    await refreshTechNews();
+    const count = await prisma.techNews.count();
+    res.json({ ok: true, count });
+  } catch (e: any) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
 export default router;

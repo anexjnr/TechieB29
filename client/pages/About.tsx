@@ -119,7 +119,7 @@ export default function About() {
     content: DEFAULT_ABOUT_PARAGRAPHS.join("\n\n"),
     image: null,
   });
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;

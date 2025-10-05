@@ -245,6 +245,22 @@ class MemoryDB {
         },
       );
     }
+
+    if (this.clients.length === 0) {
+      this.clients.push({
+        id: uid(),
+        heading: "Clients & Reach",
+        subheading: "Trusted by forward-looking organizations across industries:",
+        details: [
+          { industry: "Retail", count: "35+", region: "India" },
+          { industry: "Financial Services (NBFCs)", count: "5", region: "India & Dubai" },
+          { industry: "Engineering (MEP)", count: "2", region: "Dubai, Abu Dhabi & Qatar" },
+          { industry: "Data & Infrastructure", count: "5", region: "Middle East" },
+        ],
+        enabled: true,
+        order: 0,
+      });
+    }
     if (this.serve.length === 0) {
       this.serve.push(
         {

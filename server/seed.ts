@@ -133,20 +133,27 @@ export async function seed() {
       await prisma.service.createMany({
         data: [
           {
-            title: "Strategy",
-            description: "From discovery to roadmap, aligning on outcomes.",
+            title: "Enterprise Architecture Services",
+            description:
+              "Align technology with business objectives for scale, security, and agility.",
+            icon: "cpu",
           },
           {
-            title: "Design",
-            description: "Accessible, modern interfaces with purpose.",
+            title: "Cloud Enablement",
+            description: "Drive cloud adoption, optimization, and resilience.",
+            icon: "cloud",
           },
           {
-            title: "Engineering",
-            description: "Robust web apps, APIs, and infra.",
+            title: "AI Augmentation",
+            description:
+              "Integrate intelligence into decision-making and operations.",
+            icon: "zap",
           },
           {
-            title: "Analytics",
-            description: "Ship, learn, iterate with data.",
+            title: "Cybersecurity & Vulnerability Assessments",
+            description:
+              "Protect your enterprise with proactive risk management.",
+            icon: "shield",
           },
         ],
       });
@@ -160,6 +167,40 @@ export async function seed() {
           content:
             "We are a compact team focused on clarity, velocity, and measurable outcomes.",
           imageId: asset.id,
+          // How We Serve timeline
+          serveHeading: "How We Serve",
+          serveSubheading:
+            "Our proven methodology that ensures successful project delivery from concept to completion.",
+          serveSteps: [
+            {
+              phase: "01",
+              title: "Discover",
+              description:
+                "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
+              icon: "target",
+            },
+            {
+              phase: "02",
+              title: "Design",
+              description:
+                "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
+              icon: "globe",
+            },
+            {
+              phase: "03",
+              title: "Build",
+              description:
+                "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
+              icon: "trending-up",
+            },
+            {
+              phase: "04",
+              title: "Evolve",
+              description:
+                "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
+              icon: "zap",
+            },
+          ],
           awards: [
             {
               icon: "award",
@@ -259,6 +300,40 @@ export async function seed() {
                 icon: "trophy",
                 title: "Excellence in Delivery",
                 subtitle: "Consistently meeting global benchmarks",
+              },
+            ],
+            // How We Serve timeline
+            serveHeading: "How We Serve",
+            serveSubheading:
+              "Our proven methodology that ensures successful project delivery from concept to completion.",
+            serveSteps: [
+              {
+                phase: "01",
+                title: "Discover",
+                description:
+                  "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
+                icon: "target",
+              },
+              {
+                phase: "02",
+                title: "Design",
+                description:
+                  "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
+                icon: "globe",
+              },
+              {
+                phase: "03",
+                title: "Build",
+                description:
+                  "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
+                icon: "trending-up",
+              },
+              {
+                phase: "04",
+                title: "Evolve",
+                description:
+                  "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
+                icon: "zap",
               },
             ],
           },

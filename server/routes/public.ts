@@ -63,12 +63,27 @@ router.get("/testimonials", async (_req, res) => {
 
 router.get("/services", async (_req, res) => {
   try {
-    const items = await prisma.service.findMany();
-    if (!items || items.length === 0) return res.json(memoryDb.services);
+    const items = await prisma.service.findMany({
+      orderBy: { order: "asc" } as any,
+    });
+    if (!items || items.length === 0)
+      return res.json(
+        Array.isArray(memoryDb.services)
+          ? [...memoryDb.services].sort(
+              (a: any, b: any) => (a.order || 0) - (b.order || 0),
+            )
+          : memoryDb.services,
+      );
     res.json(items);
   } catch (e) {
     console.warn("Prisma services failed, using memory store", e.message || e);
-    res.json(memoryDb.services);
+    res.json(
+      Array.isArray(memoryDb.services)
+        ? [...memoryDb.services].sort(
+            (a: any, b: any) => (a.order || 0) - (b.order || 0),
+          )
+        : memoryDb.services,
+    );
   }
 });
 
@@ -82,6 +97,40 @@ router.get("/projects", async (_req, res) => {
   } catch (e) {
     console.warn("Prisma projects failed, using memory store", e.message || e);
     res.json(memoryDb.projects);
+  }
+});
+
+router.get("/clients", async (_req, res) => {
+  res.setHeader(
+    "Cache-Control",
+    "public, max-age=60, stale-while-revalidate=120",
+  );
+  try {
+    const items = await prisma.clientSection.findMany({
+      orderBy: { order: "asc" } as any,
+      include: { image: true } as any,
+    });
+    if (!items || items.length === 0) return res.json(memoryDb.clients || []);
+    const normalized = items.map((item: any) => {
+      const assetUrl =
+        item?.image && item.image?.id ? `/api/assets/${item.image.id}` : null;
+      const explicitUrl =
+        typeof item?.imageUrl === "string" ? item.imageUrl.trim() : null;
+      const image = explicitUrl && explicitUrl.length ? explicitUrl : assetUrl;
+      return {
+        id: item.id,
+        heading: item.heading,
+        subheading: item.subheading,
+        details: item.details || null,
+        image,
+        enabled: item.enabled,
+        order: item.order,
+      };
+    });
+    res.json(normalized);
+  } catch (e) {
+    console.warn("Prisma clients failed, using memory store", e.message || e);
+    res.json(memoryDb.clients || []);
   }
 });
 
@@ -117,6 +166,10 @@ router.get("/about", async (_req, res) => {
         valuesHeading: (item as any).valuesHeading || null,
         valuesSubheading: (item as any).valuesSubheading || null,
         valuesCards: (item as any).valuesCards || null,
+        // How We Serve timeline
+        serveHeading: (item as any).serveHeading || null,
+        serveSubheading: (item as any).serveSubheading || null,
+        serveSteps: (item as any).serveSteps || null,
       };
     });
 

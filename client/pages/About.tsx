@@ -228,7 +228,12 @@ export default function About() {
     if (!imageSrc) return null;
 
     let versionKey: string | null = null;
-    if (typeof img === "object" && img && "id" in img && typeof img.id === "string") {
+    if (
+      typeof img === "object" &&
+      img &&
+      "id" in img &&
+      typeof img.id === "string"
+    ) {
       versionKey = img.id;
     } else if (typeof imageSrc === "string") {
       const match = imageSrc.match(/\/api\/assets\/(.+?)(?:[/?].*)?$/);

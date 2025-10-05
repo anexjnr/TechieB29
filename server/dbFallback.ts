@@ -11,7 +11,9 @@ function applyFallbackCaching(
   mtimeMs: number,
 ) {
   const etag = `"fallback-${id}-${buffer.length}-${Math.floor(mtimeMs)}"`;
-  const requester = (res as any)?.req as { headers?: Record<string, string> } | undefined;
+  const requester = (res as any)?.req as
+    | { headers?: Record<string, string> }
+    | undefined;
   if (requester?.headers && requester.headers["if-none-match"] === etag) {
     res.status(304).end();
     return true;

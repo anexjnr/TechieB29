@@ -23,7 +23,9 @@ export function createServer() {
   prisma
     .$connect()
     .then(() => {
-      const seedFlag = String(process.env.RUN_SEED_ON_START ?? "").toLowerCase();
+      const seedFlag = String(
+        process.env.RUN_SEED_ON_START ?? "",
+      ).toLowerCase();
       const shouldSeed = seedFlag === "1" || seedFlag === "true";
       if (shouldSeed) {
         // lazy import to avoid top-level module cycles

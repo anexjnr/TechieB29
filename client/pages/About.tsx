@@ -245,9 +245,7 @@ export default function About() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
           <div className="flex flex-col gap-6">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
-                Who We Are
-              </h2>
+              <h2 className="sr-only">{about?.heading || 'Who We Are'}</h2>
               <p className="mt-4 text-lg text-foreground/85 max-w-2xl">
                 {description}
               </p>

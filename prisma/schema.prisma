@@ -118,6 +118,19 @@ model Section {
   order      Int?
 }
 
+model Product {
+  id                   String  @id @default(cuid())
+  name                 String
+  tagline              String?
+  description          String?
+  keyCapabilities      Json?
+  technology           String?
+  clientsCountDisplay  String?
+  clientsRegion        String?
+  order                Int?
+  enabled              Boolean @default(true)
+}
+
 model Asset {
   id        String   @id @default(cuid())
   filename  String

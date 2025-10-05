@@ -506,7 +506,7 @@ export default function Index() {
   const stats = useMemo(
     () =>
       impactItems.filter((item: any) => {
-        if (item?.type !== "stat") return false;
+        if (!(item?.type === "stat" || item?.type === "counter")) return false;
         if (typeof item?.label !== "string" || item.label.trim().length === 0) {
           return false;
         }
@@ -517,12 +517,12 @@ export default function Index() {
 
   const presence = useMemo(
     () =>
-      impactItems.find(
-        (item: any) =>
-          item?.type === "description" &&
-          (typeof item?.heading === "string" ||
-            typeof item?.title === "string"),
-      ),
+      impactItems.find((item: any) => {
+        if (!(item?.type === "description" || item?.type === "text")) return false;
+        return (
+          typeof item?.heading === "string" && item.heading.trim().length > 0
+        ) || typeof item?.title === "string" || typeof item?.label === "string";
+      }),
     [impactItems],
   );
 

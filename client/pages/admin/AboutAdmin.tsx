@@ -68,7 +68,10 @@ export default function AboutAdmin() {
   const createOrUpdate = async () => {
     try {
       let uploaded: any = null;
-      if (file) uploaded = await uploadFile(file);
+      if (file) {
+        const toUpload = await compressImage(file);
+        uploaded = await uploadFile(toUpload);
+      }
       const payload: any = { heading: title || 'Untitled', content, enabled };
       if (uploaded?.id) payload.imageId = uploaded.id;
 
@@ -79,7 +82,10 @@ export default function AboutAdmin() {
         const res = await fetch('/api/admin/about', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify(payload) });
         if (res.ok) { setTitle(''); setContent(''); setFile(null); setEnabled(true); fetchItems(); }
       }
-    } catch (e) { console.error(e); }
+    } catch (e) {
+      console.error(e);
+      alert('Upload failed. If the file is large, try a smaller image.');
+    }
   };
 
   const startEdit = (it: any) => { setEditingId(it.id); setTitle(it.heading || it.title || ''); setContent(it.content || it.description || ''); };

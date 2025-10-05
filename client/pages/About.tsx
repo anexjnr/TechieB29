@@ -475,9 +475,12 @@ export default function About() {
       </Section>
 
       {/* Purpose & Values */}
-      {((about?.valuesHeading && String(about.valuesHeading).trim().length > 0) ||
-        (about?.valuesSubheading && String(about.valuesSubheading).trim().length > 0) ||
-        (Array.isArray(about?.valuesCards) && (about!.valuesCards as any[]).length > 0)) && (
+      {((about?.valuesHeading &&
+        String(about.valuesHeading).trim().length > 0) ||
+        (about?.valuesSubheading &&
+          String(about.valuesSubheading).trim().length > 0) ||
+        (Array.isArray(about?.valuesCards) &&
+          (about!.valuesCards as any[]).length > 0)) && (
         <Section
           className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16"
           delay={0.25}
@@ -495,49 +498,52 @@ export default function About() {
             )}
           </div>
 
-          {Array.isArray(about?.valuesCards) && about.valuesCards.length > 0 && (
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-120px" }}
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.08 } },
-              }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
-              {about.valuesCards.map((card: any, idx: number) => {
-                const Icon = getIconByName(card?.icon) as any;
-                return (
-                  <motion.div
-                    key={idx}
-                    variants={{
-                      hidden: { opacity: 0, y: 18 },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        transition: { duration: 0.45 },
-                      },
-                    }}
-                  >
-                    <TiltCard className="h-full p-6 text-center">
-                      {Icon ? (
-                        <div className="mx-auto w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center mb-4">
-                          <Icon className="h-6 w-6 text-primary/100" />
-                        </div>
-                      ) : null}
-                      <h3 className="font-semibold text-foreground mb-2">
-                        {card.title}
-                      </h3>
-                      {card.subtitle && (
-                        <p className="text-sm text-foreground/80">{card.subtitle}</p>
-                      )}
-                    </TiltCard>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          )}
+          {Array.isArray(about?.valuesCards) &&
+            about.valuesCards.length > 0 && (
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-120px" }}
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.08 } },
+                }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              >
+                {about.valuesCards.map((card: any, idx: number) => {
+                  const Icon = getIconByName(card?.icon) as any;
+                  return (
+                    <motion.div
+                      key={idx}
+                      variants={{
+                        hidden: { opacity: 0, y: 18 },
+                        visible: {
+                          opacity: 1,
+                          y: 0,
+                          transition: { duration: 0.45 },
+                        },
+                      }}
+                    >
+                      <TiltCard className="h-full p-6 text-center">
+                        {Icon ? (
+                          <div className="mx-auto w-12 h-12 rounded-full glass-card border border-primary/20 flex items-center justify-center mb-4">
+                            <Icon className="h-6 w-6 text-primary/100" />
+                          </div>
+                        ) : null}
+                        <h3 className="font-semibold text-foreground mb-2">
+                          {card.title}
+                        </h3>
+                        {card.subtitle && (
+                          <p className="text-sm text-foreground/80">
+                            {card.subtitle}
+                          </p>
+                        )}
+                      </TiltCard>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
         </Section>
       )}
 

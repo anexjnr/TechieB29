@@ -347,29 +347,11 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah Johnson",
-                role: "CEO & Co-Founder",
-                bio: "Former VP at Google, leading our vision and strategy",
-                image:
-                  "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
-              },
-              {
-                name: "Michael Chen",
-                role: "CTO & Co-Founder",
-                bio: "Ex-Tesla engineer, driving our technical innovation",
-                image:
-                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
-              },
-              {
-                name: "Emily Rodriguez",
-                role: "VP of Design",
-                bio: "Award-winning designer with 15+ years experience",
-                image:
-                  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
-              },
-            ].map((leader, idx) => (
+            {(about?.leadership && about.leadership.length ? about.leadership : [
+              { name: "Sarah Johnson", role: "CEO & Co-Founder", bio: "Former VP at Google, leading our vision and strategy", avatar: "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80" },
+              { name: "Michael Chen", role: "CTO & Co-Founder", bio: "Ex-Tesla engineer, driving our technical innovation", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80" },
+              { name: "Emily Rodriguez", role: "VP of Design", bio: "Award-winning designer with 15+ years experience", avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80" },
+            ]).map((leader: any, idx: number) => (
               <motion.div
                 key={idx}
                 variants={{
@@ -379,16 +361,14 @@ export default function About() {
               >
                 <TiltCard className="text-center">
                   <img
-                    src={leader.image}
+                    src={typeof leader.avatar === 'string' ? leader.avatar : (leader.avatar && leader.avatar.id ? `/api/assets/${leader.avatar.id}` : '')}
                     alt={leader.name}
                     className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
                   />
                   <h4 className="text-xl font-semibold text-foreground mb-1">
                     {leader.name}
                   </h4>
-                  <p className="text-primary/100 font-medium mb-3">
-                    {leader.role}
-                  </p>
+                  <p className="text-primary/100 font-medium mb-3">{leader.role}</p>
                   <p className="text-sm text-foreground/80">{leader.bio}</p>
                 </TiltCard>
               </motion.div>

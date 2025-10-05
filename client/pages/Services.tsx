@@ -5,50 +5,17 @@ import { Cpu, Palette, Target, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Services() {
-  const [flowItems, setFlowItems] = useState<any[] | null>(null);
+  const [services, setServices] = useState<any[] | null>(null);
 
   useEffect(() => {
-    // load section with key 'flowchart' and use its data items for service tiles
     (async () => {
       try {
-        const sections = await fetch("/api/sections").then((r) => r.json());
-        const found = Array.isArray(sections)
-          ? sections.find((x: any) => x.key === "flowchart")
-          : null;
-        const raw = found?.data != null ? found.data : found?.content;
-        let arr: any[] = [];
-        if (raw) {
-          if (Array.isArray(raw)) arr = raw;
-          else if (Array.isArray((raw as any).items)) arr = (raw as any).items;
-          else if (typeof raw === "string") {
-            try {
-              const parsed = JSON.parse(raw);
-              if (Array.isArray(parsed)) arr = parsed;
-              else if (Array.isArray(parsed.items)) arr = parsed.items;
-            } catch (e) {
-              // ignore
-            }
-          }
-        }
-        if (arr.length === 0) {
-          setFlowItems(null);
-        } else {
-          const normalized = arr.map((it: any, idx: number) => {
-            const title = it.title || it.heading || it.label || `Item ${idx + 1}`;
-            const description = it.description || it.subtitle || it.desc || "";
-            const image =
-              it.image && typeof it.image === "string"
-                ? it.image
-                : it.image && typeof it.image === "object" && it.image.id
-                ? `/api/assets/${it.image.id}`
-                : it.imageUrl || null;
-            return { id: it.id ?? idx, title, description, image, icon: it.icon };
-          });
-          setFlowItems(normalized);
-        }
+        const s = await fetch('/api/services').then((r) => r.json());
+        const arr = Array.isArray(s) ? s.filter((x: any) => x.enabled !== false) : [];
+        setServices(arr);
       } catch (e) {
-        console.error("Failed loading flowchart section", e);
-        setFlowItems(null);
+        console.error('Failed to load services', e);
+        setServices(null);
       }
     })();
   }, []);

@@ -238,13 +238,21 @@ export default function About() {
     );
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black/60">
+        <LoadingIcon size={72} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-6">
         <div className="text-center">
           <AnimatedTitle
-            text={loading ? "About Us" : about?.heading || "About Us"}
+            text={about?.heading || "About Us"}
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
         </div>
@@ -274,8 +282,7 @@ export default function About() {
 
           <div className="relative">
             <div className="rounded-3xl glass-card border border-primary/20 p-6 overflow-hidden flex items-center justify-center">
-              {loading && !(about as any)?.image && <LoadingIcon />}
-              {!loading && renderImage()}
+              {renderImage()}
             </div>
           </div>
         </div>

@@ -47,11 +47,28 @@ const DEFAULT_ABOUT_PARAGRAPHS = [
   "We are a team of passionate professionals who believe in the power of technology to transform businesses. Our diverse backgrounds in engineering, design, and strategy enable us to deliver comprehensive solutions that drive real results.",
 ];
 
+import { getIconByName } from "../lib/iconMap";
+
+interface AwardItem {
+  icon?: string;
+  title: string;
+  subtitle?: string;
+}
+
+interface LeaderItem {
+  name: string;
+  role?: string;
+  bio?: string;
+  avatar?: string | { id: string } | null;
+}
+
 interface AboutData {
   heading: string;
   description?: string;
   content: string;
   image?: string | { id: string } | null;
+  awards?: AwardItem[] | null;
+  leadership?: LeaderItem[] | null;
 }
 
 interface AnimatedCounterProps {

@@ -35,6 +35,10 @@ model About {
   valuesHeading    String?
   valuesSubheading String?
   valuesCards      Json?
+  // How We Serve timeline
+  serveHeading     String?
+  serveSubheading  String?
+  serveSteps       Json?
   enabled          Boolean @default(true)
 }
 

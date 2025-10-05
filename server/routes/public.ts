@@ -117,6 +117,10 @@ router.get("/about", async (_req, res) => {
         valuesHeading: (item as any).valuesHeading || null,
         valuesSubheading: (item as any).valuesSubheading || null,
         valuesCards: (item as any).valuesCards || null,
+        // How We Serve timeline
+        serveHeading: (item as any).serveHeading || null,
+        serveSubheading: (item as any).serveSubheading || null,
+        serveSteps: (item as any).serveSteps || null,
       };
     });
 

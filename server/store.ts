@@ -51,6 +51,14 @@ export interface AboutContent {
   heading: string;
   content: string;
   image?: string;
+  awards?: any[];
+  leadership?: any[];
+  valuesHeading?: string;
+  valuesSubheading?: string;
+  valuesCards?: any[];
+  serveHeading?: string;
+  serveSubheading?: string;
+  serveSteps?: any[];
 }
 export interface ServeStep {
   id: ID;
@@ -120,6 +128,40 @@ class MemoryDB {
           "We are a compact team focused on clarity, velocity, and measurable outcomes.",
         image:
           "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
+        // How We Serve defaults
+        serveHeading: "How We Serve",
+        serveSubheading:
+          "Our proven methodology that ensures successful project delivery from concept to completion.",
+        serveSteps: [
+          {
+            phase: "01",
+            title: "Discover",
+            description:
+              "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
+            icon: "target",
+          },
+          {
+            phase: "02",
+            title: "Design",
+            description:
+              "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
+            icon: "globe",
+          },
+          {
+            phase: "03",
+            title: "Build",
+            description:
+              "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
+            icon: "trending-up",
+          },
+          {
+            phase: "04",
+            title: "Evolve",
+            description:
+              "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
+            icon: "zap",
+          },
+        ],
         awards: [
           {
             icon: "trophy",

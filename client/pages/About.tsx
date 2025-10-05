@@ -72,6 +72,9 @@ interface AboutData {
   valuesHeading?: string | null;
   valuesSubheading?: string | null;
   valuesCards?: AwardItem[] | null;
+  serveHeading?: string | null;
+  serveSubheading?: string | null;
+  serveSteps?: any[] | null;
 }
 
 interface AnimatedCounterProps {
@@ -554,11 +557,11 @@ export default function About() {
       >
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
-            How We Serve
+            {about?.serveHeading || "How We Serve"}
           </h2>
           <p className="mt-4 text-foreground/85 max-w-2xl mx-auto">
-            Our proven methodology that ensures successful project delivery from
-            concept to completion.
+            {about?.serveSubheading ||
+              "Our proven methodology that ensures successful project delivery from concept to completion."}
           </p>
         </div>
 
@@ -575,42 +578,42 @@ export default function About() {
             }}
             className="space-y-12"
           >
-            {[
-              {
-                phase: "01",
-                title: "Discover",
-                description:
-                  "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
-                icon: Target,
-                position: "left",
-              },
-              {
-                phase: "02",
-                title: "Design",
-                description:
-                  "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
-                icon: Globe,
-                position: "right",
-              },
-              {
-                phase: "03",
-                title: "Build",
-                description:
-                  "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
-                icon: TrendingUp,
-                position: "left",
-              },
-              {
-                phase: "04",
-                title: "Evolve",
-                description:
-                  "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
-                icon: Zap,
-                position: "right",
-              },
-            ].map((step, idx) => {
-              const Icon = step.icon as any;
-              const isLeft = step.position === "left";
+            {(
+              (Array.isArray((about as any)?.serveSteps) && (about as any).serveSteps.length
+                ? (about as any).serveSteps
+                : [
+                    {
+                      phase: "01",
+                      title: "Discover",
+                      description:
+                        "Align on goals, constraints, and success metrics. We dive deep into understanding your vision and requirements.",
+                      icon: "target",
+                    },
+                    {
+                      phase: "02",
+                      title: "Design",
+                      description:
+                        "Prototype, test, refine with users and stakeholders. Creating user-centered designs that solve real problems.",
+                      icon: "globe",
+                    },
+                    {
+                      phase: "03",
+                      title: "Build",
+                      description:
+                        "Implement iteratively with quality gates and CI. Building robust, scalable solutions with modern technologies.",
+                      icon: "trending-up",
+                    },
+                    {
+                      phase: "04",
+                      title: "Evolve",
+                      description:
+                        "Measure outcomes, learn, and iterate. Continuous improvement based on data and user feedback.",
+                      icon: "zap",
+                    },
+                  ]) as any[]
+            ).map((step: any, idx: number) => {
+              const Icon = (getIconByName(step?.icon) as any) || Target;
+              const isLeft = idx % 2 === 0;
               return (
                 <motion.div
                   key={idx}
@@ -641,7 +644,7 @@ export default function About() {
                         </div>
                         <div>
                           <div className="text-xs font-bold text-primary/100 mb-1">
-                            PHASE {step.phase}
+                            PHASE {step?.phase || String(idx + 1).padStart(2, "0")}
                           </div>
                           <h3 className="text-xl font-bold text-foreground mb-2">
                             {step.title}

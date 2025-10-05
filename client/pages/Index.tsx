@@ -565,8 +565,18 @@ export default function Index() {
         ? hero.content
         : null;
 
+  const showDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
+
   return (
     <div>
+      {showDebug ? (
+        <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-black/30 mb-6">
+          <div className="text-sm text-primary/80">
+            <div className="font-semibold text-primary/90">DEBUG: Sections / Impact</div>
+            <pre className="mt-2 max-h-72 overflow-auto text-xs text-primary/80">{JSON.stringify({ sections, impact, impactItems, presence, stats }, null, 2)}</pre>
+          </div>
+        </Section>
+      ) : null}
       {isLoading ? <LoadingScreen /> : null}
 
       {hero ? (

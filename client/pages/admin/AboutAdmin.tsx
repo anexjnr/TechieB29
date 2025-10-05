@@ -73,7 +73,11 @@ export default function AboutAdmin() {
         uploaded = await uploadFile(toUpload);
       }
       const payload: any = { heading: title || 'Untitled', content, enabled };
-      if (uploaded?.id) payload.imageId = uploaded.id;
+      if (uploaded?.id) {
+        payload.imageId = uploaded.id;
+        // Clear any explicit imageUrl so server uses the uploaded asset
+        payload.imageUrl = null;
+      }
 
       if (editingId) {
         const res = await fetch(`/api/admin/about/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify(payload) });

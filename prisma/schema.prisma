@@ -130,4 +130,5 @@ model Asset {
   testimonials Testimonial[] @relation("TestimonialAvatar")
   sections     Section[]     @relation("SectionImage")
   services     Service[]     @relation("ServiceImage")
+  clientSections ClientSection[] @relation("ClientSectionImage")
 }

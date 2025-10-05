@@ -107,6 +107,9 @@ router.get("/about", async (_req, res) => {
         image,
         imageUrl: hasExplicitUrl ? explicitUrl : null,
         enabled: item.enabled,
+        // Optional structured content
+        awards: (item as any).awards || null,
+        leadership: (item as any).leadership || null,
       };
     });
 

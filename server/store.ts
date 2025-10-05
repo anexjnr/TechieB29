@@ -120,6 +120,51 @@ class MemoryDB {
           "We are a compact team focused on clarity, velocity, and measurable outcomes.",
         image:
           "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
+        awards: [
+          {
+            icon: "trophy",
+            title: "Tech Innovation Award",
+            subtitle: "TechCrunch • 2023",
+          },
+          {
+            icon: "star",
+            title: "Best UX Design",
+            subtitle: "Awwwards • 2022",
+          },
+          {
+            icon: "award",
+            title: "Startup of the Year",
+            subtitle: "Forbes • 2021",
+          },
+          {
+            icon: "sparkles",
+            title: "Excellence in AI",
+            subtitle: "AI Summit • 2023",
+          },
+        ],
+        leadership: [
+          {
+            name: "Sarah Johnson",
+            role: "CEO & Co-Founder",
+            bio: "Former VP at Google, leading our vision and strategy",
+            avatar:
+              "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
+          },
+          {
+            name: "Michael Chen",
+            role: "CTO & Co-Founder",
+            bio: "Ex-Tesla engineer, driving our technical innovation",
+            avatar:
+              "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+          },
+          {
+            name: "Emily Rodriguez",
+            role: "VP of Design",
+            bio: "Award-winning designer with 15+ years experience",
+            avatar:
+              "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+          },
+        ],
       });
     }
     if (this.services.length === 0) {

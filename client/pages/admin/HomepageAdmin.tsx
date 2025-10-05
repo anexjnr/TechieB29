@@ -38,6 +38,20 @@ export default function HomepageAdmin() {
     }
   };
 
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const uploadFile = async (f: File) => {
+    const fd = new FormData();
+    fd.append("file", f);
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      body: fd,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    return await (await import("@/lib/fetchUtils")).parseResponse(res);
+  };
+
   const startEdit = (s: any) => {
     const existingImageUrl =
       typeof s.imageUrl === "string" && s.imageUrl.trim().length
@@ -45,6 +59,11 @@ export default function HomepageAdmin() {
         : typeof s.image === "string" && s.image.trim().length
           ? s.image.trim()
           : "";
+    const preview = s.imageId
+      ? `/api/assets/${s.imageId}`
+      : existingImageUrl || null;
+    setFile(null);
+    setImagePreview(preview);
     setEditing({
       [s.id]: {
         heading: s.heading || "",
@@ -66,21 +85,44 @@ export default function HomepageAdmin() {
     try {
       const normalizedImageUrl =
         typeof payload.imageUrl === "string" ? payload.imageUrl.trim() : "";
+
+      let imageIdToSend: string | null = null;
+      if (file) {
+        const uploaded = await uploadFile(file);
+        if (uploaded && uploaded.id) {
+          imageIdToSend = uploaded.id;
+        }
+      }
+
+      const bodyPayload: any = {
+        heading: payload.heading,
+        content: payload.content,
+        order: payload.order === "" ? undefined : Number(payload.order),
+      };
+
+      if (imageIdToSend) {
+        bodyPayload.imageId = imageIdToSend;
+        bodyPayload.imageUrl = null;
+      } else if (normalizedImageUrl.length) {
+        bodyPayload.imageUrl = normalizedImageUrl;
+        bodyPayload.imageId = null;
+      } else {
+        bodyPayload.imageUrl = null;
+        bodyPayload.imageId = null;
+      }
+
       const res = await fetch(`/api/admin/sections/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({
-          heading: payload.heading,
-          content: payload.content,
-          order: payload.order === "" ? undefined : Number(payload.order),
-          imageUrl: normalizedImageUrl.length ? normalizedImageUrl : null,
-        }),
+        body: JSON.stringify(bodyPayload),
       });
       if (res.ok) {
         setEditing({});
+        setFile(null);
+        setImagePreview(null);
         fetchSections();
       }
     } catch (e) {
@@ -164,10 +206,21 @@ export default function HomepageAdmin() {
                         placeholder="Image URL"
                         className="w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary"
                       />
-                      {previewUrl ? (
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0] ?? null;
+                          setFile(f);
+                          if (f) setImagePreview(URL.createObjectURL(f));
+                          else setImagePreview(null);
+                        }}
+                        className="mt-2 text-sm text-primary/80"
+                      />
+                      {imagePreview ? (
                         <div className="mt-2 rounded-md border border-primary/20 bg-black/20 p-2">
                           <img
-                            src={previewUrl}
+                            src={imagePreview}
                             alt={`${s.key} preview`}
                             className="max-h-40 w-full object-contain"
                           />

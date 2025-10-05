@@ -484,18 +484,32 @@ export default function Index() {
     );
   }, [whoWeAre?.data]);
 
-  const whoWeAreImage = normalizeImage(whoWeAre?.image);
+  const whoWeAreImage = useMemo(() => {
+    const img = normalizeImage(whoWeAre?.image ?? (whoWeAre as any)?.imageUrl);
+    if (img) return img;
+    if (typeof whoWeAre?.imageId === "string" && whoWeAre.imageId) {
+      return `/api/assets/${whoWeAre.imageId}`;
+    }
+    return null;
+  }, [whoWeAre?.image, (whoWeAre as any)?.imageUrl, whoWeAre?.imageId]);
 
   const impactItems = useMemo(() => {
-    const items = impact?.data?.items;
-    if (!Array.isArray(items)) return [];
-    return items.filter((item: any) => item && typeof item === "object");
+    const raw = impact?.data;
+    if (!raw) return [];
+    if (Array.isArray(raw))
+      return raw.filter((item: any) => item && typeof item === "object");
+    if (typeof raw === "object" && Array.isArray((raw as any).items)) {
+      return (raw as any).items.filter(
+        (item: any) => item && typeof item === "object",
+      );
+    }
+    return [];
   }, [impact?.data]);
 
   const stats = useMemo(
     () =>
       impactItems.filter((item: any) => {
-        if (item?.type !== "stat") return false;
+        if (!(item?.type === "stat" || item?.type === "counter")) return false;
         if (typeof item?.label !== "string" || item.label.trim().length === 0) {
           return false;
         }
@@ -506,12 +520,16 @@ export default function Index() {
 
   const presence = useMemo(
     () =>
-      impactItems.find(
-        (item: any) =>
-          item?.type === "description" &&
-          (typeof item?.heading === "string" ||
-            typeof item?.title === "string"),
-      ),
+      impactItems.find((item: any) => {
+        if (!(item?.type === "description" || item?.type === "text"))
+          return false;
+        return (
+          (typeof item?.heading === "string" &&
+            item.heading.trim().length > 0) ||
+          typeof item?.title === "string" ||
+          typeof item?.label === "string"
+        );
+      }),
     [impactItems],
   );
 
@@ -554,8 +572,28 @@ export default function Index() {
         ? hero.content
         : null;
 
+  const showDebug =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("debug") === "1";
+
   return (
     <div>
+      {showDebug ? (
+        <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-black/30 mb-6">
+          <div className="text-sm text-primary/80">
+            <div className="font-semibold text-primary/90">
+              DEBUG: Sections / Impact
+            </div>
+            <pre className="mt-2 max-h-72 overflow-auto text-xs text-primary/80">
+              {JSON.stringify(
+                { sections, impact, impactItems, presence, stats },
+                null,
+                2,
+              )}
+            </pre>
+          </div>
+        </Section>
+      ) : null}
       {isLoading ? <LoadingScreen /> : null}
 
       {hero ? (
@@ -810,92 +848,7 @@ export default function Index() {
         </Section>
       ) : null}
 
-      {presence || stats.length ? (
-        <Section
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
-          delay={0.14}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
-            {presence ? (
-              <div className="group block rounded-lg">
-                <div className="flex items-center justify-center">
-                  {(() => {
-                    const PresenceIcon = getIconByName(presence?.icon) || Globe;
-                    return (
-                      <PresenceIcon className="h-12 w-12 text-primary/90" />
-                    );
-                  })()}
-                </div>
-                <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
-                  {typeof presence?.heading === "string" &&
-                  presence.heading.trim().length
-                    ? presence.heading
-                    : typeof presence?.title === "string"
-                      ? presence.title
-                      : ""}
-                </div>
-              </div>
-            ) : null}
-
-            {stats.map((item: any, idx: number) => {
-              const valueNumber = Number(item?.value);
-              if (!Number.isFinite(valueNumber)) return null;
-              const suffix =
-                typeof item?.suffix === "string" ? item.suffix : "";
-              const label = typeof item?.label === "string" ? item.label : "";
-              if (!label.trim().length) return null;
-              const href =
-                typeof item?.href === "string" && item.href.trim().length
-                  ? item.href.trim()
-                  : undefined;
-              const isExternal =
-                href &&
-                (href.startsWith("http://") || href.startsWith("https://"));
-              const content = (
-                <>
-                  <div className="text-4xl font-extrabold text-foreground">
-                    <AnimatedCounter
-                      target={valueNumber}
-                      suffix={suffix}
-                      duration={1200}
-                    />
-                  </div>
-                  <div className="mt-2 text-sm text-foreground/85">{label}</div>
-                </>
-              );
-              if (!href) {
-                return (
-                  <div
-                    key={`${label}-${idx}`}
-                    className="group block rounded-lg"
-                  >
-                    {content}
-                  </div>
-                );
-              }
-              return isExternal ? (
-                <a
-                  key={`${label}-${idx}`}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-lg"
-                >
-                  {content}
-                </a>
-              ) : (
-                <Link
-                  key={`${label}-${idx}`}
-                  to={href}
-                  className="group block rounded-lg"
-                >
-                  {content}
-                </Link>
-              );
-            })}
-          </div>
-        </Section>
-      ) : null}
+      {/* impact moved below */}
 
       {whatWeDoCompactItems.length ? (
         <Section
@@ -995,6 +948,96 @@ export default function Index() {
                 />
               </div>
             ) : null}
+          </div>
+        </Section>
+      ) : null}
+
+      {impactItems.length ? (
+        <Section
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
+          delay={0.14}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center items-center">
+            {presence ? (
+              <div className="group block rounded-lg">
+                <div className="flex items-center justify-center">
+                  {(() => {
+                    const PresenceIcon = getIconByName(presence?.icon) || Globe;
+                    return (
+                      <PresenceIcon className="h-12 w-12 text-primary/90" />
+                    );
+                  })()}
+                </div>
+                <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
+                  {typeof presence?.label === "string" &&
+                  presence.label.trim().length
+                    ? presence.label
+                    : typeof presence?.heading === "string" &&
+                        presence.heading.trim().length
+                      ? presence.heading
+                      : typeof presence?.title === "string"
+                        ? presence.title
+                        : ""}
+                </div>
+              </div>
+            ) : null}
+
+            {stats.map((item: any, idx: number) => {
+              const valueNumber = Number(item?.value);
+              if (!Number.isFinite(valueNumber)) return null;
+              const suffix =
+                typeof item?.suffix === "string" ? item.suffix : "";
+              const label = typeof item?.label === "string" ? item.label : "";
+              if (!label.trim().length) return null;
+              const href =
+                typeof item?.href === "string" && item.href.trim().length
+                  ? item.href.trim()
+                  : undefined;
+              const isExternal =
+                href &&
+                (href.startsWith("http://") || href.startsWith("https://"));
+              const content = (
+                <>
+                  <div className="text-4xl font-extrabold text-foreground">
+                    <AnimatedCounter
+                      target={valueNumber}
+                      suffix={suffix}
+                      duration={1200}
+                    />
+                  </div>
+                  <div className="mt-2 text-sm text-foreground/85">{label}</div>
+                </>
+              );
+              if (!href) {
+                return (
+                  <div
+                    key={`${label}-${idx}`}
+                    className="group block rounded-lg"
+                  >
+                    {content}
+                  </div>
+                );
+              }
+              return isExternal ? (
+                <a
+                  key={`${label}-${idx}`}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-lg"
+                >
+                  {content}
+                </a>
+              ) : (
+                <Link
+                  key={`${label}-${idx}`}
+                  to={href}
+                  className="group block rounded-lg"
+                >
+                  {content}
+                </Link>
+              );
+            })}
           </div>
         </Section>
       ) : null}

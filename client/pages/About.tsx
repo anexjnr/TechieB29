@@ -29,6 +29,7 @@ import {
 import Section from "../components/site/Section";
 import AnimatedTitle from "../components/site/AnimatedTitle";
 import TiltCard from "../components/site/TiltCard";
+import LoadingScreen from "../components/site/LoadingScreen";
 import { Link } from "react-router-dom";
 
 const BACKEND_URL =
@@ -46,11 +47,28 @@ const DEFAULT_ABOUT_PARAGRAPHS = [
   "We are a team of passionate professionals who believe in the power of technology to transform businesses. Our diverse backgrounds in engineering, design, and strategy enable us to deliver comprehensive solutions that drive real results.",
 ];
 
+import { getIconByName } from "../lib/iconMap";
+
+interface AwardItem {
+  icon?: string;
+  title: string;
+  subtitle?: string;
+}
+
+interface LeaderItem {
+  name: string;
+  role?: string;
+  bio?: string;
+  avatar?: string | { id: string } | null;
+}
+
 interface AboutData {
   heading: string;
   description?: string;
   content: string;
   image?: string | { id: string } | null;
+  awards?: AwardItem[] | null;
+  leadership?: LeaderItem[] | null;
 }
 
 interface AnimatedCounterProps {
@@ -119,23 +137,54 @@ export default function About() {
     content: DEFAULT_ABOUT_PARAGRAPHS.join("\n\n"),
     image: null,
   });
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
+    let mounted = true;
+
+    const fetchAbout = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/about`);
-        if (res.ok) {
-          const data: AboutData[] = await res.json();
-          if (Array.isArray(data) && data.length) setAbout(data[0]);
-        }
+        const res = await fetch(`${BACKEND_URL}/api/about`, {
+          cache: "no-store",
+        });
+        if (!res.ok) return null;
+        const data: AboutData[] = await res.json();
+        if (!Array.isArray(data) || data.length === 0) return null;
+        return data[0];
       } catch (e) {
-        console.error("API call failed, using fallback content:", e);
-      } finally {
-        setLoading(false);
+        console.error("API call failed for /api/about:", e);
+        return null;
       }
-    })();
+    };
+
+    const update = async () => {
+      setLoading(true);
+      const latest = await fetchAbout();
+      if (mounted && latest)
+        setAbout((prev) => {
+          try {
+            const prevJson = JSON.stringify(prev || {});
+            const latestJson = JSON.stringify(latest || {});
+            if (prevJson !== latestJson) return latest;
+          } catch (e) {
+            return latest;
+          }
+          return prev;
+        });
+      setLoading(false);
+    };
+
+    // Fetch once immediately for fastest render
+    update();
+
+    // Re-fetch on window focus to pick up changes
+    const onFocus = () => update();
+    window.addEventListener("focus", onFocus);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener("focus", onFocus);
+    };
   }, []);
 
   const contentParagraphs = useMemo(() => {
@@ -165,30 +214,37 @@ export default function About() {
     });
   }, [contentParagraphs, description]);
 
-  const renderImage = (): JSX.Element => {
-    const img = about?.image;
-    const fallbackImg =
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80";
+  const renderImage = (): JSX.Element | null => {
+    const img = (about as any)?.image ?? (about as any)?.imageUrl ?? null;
 
-    let imageSrc = fallbackImg;
+    // Only render if database provided an image. Do NOT use external fallback images.
+    if (!img) return null;
 
-    if (typeof img === "string") {
-      imageSrc = img;
-    } else if (img && typeof img === "object" && "id" in img) {
+    let imageSrc: string | null = null;
+    if (typeof img === "string") imageSrc = img;
+    else if (img && typeof img === "object" && "id" in img)
       imageSrc = `/api/assets/${img.id}`;
-    }
+
+    if (!imageSrc) return null;
+
+    const finalSrc = imageSrc.startsWith("/api/assets/")
+      ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}t=${Date.now()}`
+      : imageSrc;
 
     return (
       <img
-        src={imageSrc}
+        src={finalSrc}
         alt="Team"
         className="w-full h-64 object-cover rounded-2xl border border-primary/20"
         onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-          e.currentTarget.src = fallbackImg;
+          // hide image if it fails to load
+          (e.currentTarget as HTMLImageElement).style.display = "none";
         }}
       />
     );
   };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <div className="min-h-screen">
@@ -196,7 +252,7 @@ export default function About() {
       <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-6">
         <div className="text-center">
           <AnimatedTitle
-            text={loading ? "About Us" : about?.heading || "About Us"}
+            text={about?.heading || "About Us"}
             className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight text-foreground"
           />
         </div>
@@ -210,9 +266,7 @@ export default function About() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
           <div className="flex flex-col gap-6">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
-                Who We Are
-              </h2>
+              <h2 className="sr-only">{about?.heading || "Who We Are"}</h2>
               <p className="mt-4 text-lg text-foreground/85 max-w-2xl">
                 {description}
               </p>
@@ -225,7 +279,7 @@ export default function About() {
           </div>
 
           <div className="relative">
-            <div className="rounded-3xl glass-card border border-primary/20 p-6 overflow-hidden">
+            <div className="rounded-3xl glass-card border border-primary/20 p-6 overflow-hidden flex items-center justify-center">
               {renderImage()}
             </div>
           </div>
@@ -249,34 +303,59 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                award: "Tech Innovation Award",
-                year: "2023",
-                org: "TechCrunch",
-              },
-              { award: "Best UX Design", year: "2022", org: "Awwwards" },
-              { award: "Startup of the Year", year: "2021", org: "Forbes" },
-              { award: "Excellence in AI", year: "2023", org: "AI Summit" },
-            ].map((award, idx) => (
-              <motion.div
-                key={idx}
-                variants={{
-                  hidden: { opacity: 0, y: 12 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-                }}
-              >
-                <TiltCard className="text-center h-full">
-                  <Award className="h-10 w-10 text-primary/100 mx-auto mb-3" />
-                  <h4 className="font-semibold text-foreground mb-2">
-                    {award.award}
-                  </h4>
-                  <p className="text-sm text-foreground/80">
-                    {award.org} • {award.year}
-                  </p>
-                </TiltCard>
-              </motion.div>
-            ))}
+            {(about?.awards && about.awards.length
+              ? about.awards
+              : [
+                  {
+                    title: "Tech Innovation Award",
+                    subtitle: "TechCrunch • 2023",
+                    icon: "award",
+                  },
+                  {
+                    title: "Best UX Design",
+                    subtitle: "Awwwards • 2022",
+                    icon: "star",
+                  },
+                  {
+                    title: "Startup of the Year",
+                    subtitle: "Forbes • 2021",
+                    icon: "award",
+                  },
+                  {
+                    title: "Excellence in AI",
+                    subtitle: "AI Summit • 2023",
+                    icon: "sparkles",
+                  },
+                ]
+            ).map((award: any, idx: number) => {
+              const Icon =
+                getIconByName((award && award.icon) || "award") || Award;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.45 },
+                    },
+                  }}
+                >
+                  <TiltCard className="text-center h-full">
+                    <div className="mx-auto mb-3">
+                      <Icon className="h-10 w-10 text-primary/100" />
+                    </div>
+                    <h4 className="font-semibold text-foreground mb-2">
+                      {award.title}
+                    </h4>
+                    <p className="text-sm text-foreground/80">
+                      {award.subtitle}
+                    </p>
+                  </TiltCard>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -298,29 +377,32 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah Johnson",
-                role: "CEO & Co-Founder",
-                bio: "Former VP at Google, leading our vision and strategy",
-                image:
-                  "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
-              },
-              {
-                name: "Michael Chen",
-                role: "CTO & Co-Founder",
-                bio: "Ex-Tesla engineer, driving our technical innovation",
-                image:
-                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
-              },
-              {
-                name: "Emily Rodriguez",
-                role: "VP of Design",
-                bio: "Award-winning designer with 15+ years experience",
-                image:
-                  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
-              },
-            ].map((leader, idx) => (
+            {(about?.leadership && about.leadership.length
+              ? about.leadership
+              : [
+                  {
+                    name: "Sarah Johnson",
+                    role: "CEO & Co-Founder",
+                    bio: "Former VP at Google, leading our vision and strategy",
+                    avatar:
+                      "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
+                  },
+                  {
+                    name: "Michael Chen",
+                    role: "CTO & Co-Founder",
+                    bio: "Ex-Tesla engineer, driving our technical innovation",
+                    avatar:
+                      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+                  },
+                  {
+                    name: "Emily Rodriguez",
+                    role: "VP of Design",
+                    bio: "Award-winning designer with 15+ years experience",
+                    avatar:
+                      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+                  },
+                ]
+            ).map((leader: any, idx: number) => (
               <motion.div
                 key={idx}
                 variants={{
@@ -329,11 +411,37 @@ export default function About() {
                 }}
               >
                 <TiltCard className="text-center">
-                  <img
-                    src={leader.image}
-                    alt={leader.name}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
-                  />
+                  {(() => {
+                    const avatarUrl =
+                      typeof leader.avatar === "string"
+                        ? leader.avatar
+                        : leader.avatar && (leader.avatar as any).id
+                          ? `/api/assets/${(leader.avatar as any).id}`
+                          : null;
+                    const initials =
+                      (leader as any).avatarInitials ||
+                      (leader.name || "")
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase();
+                    if (avatarUrl) {
+                      return (
+                        <img
+                          src={avatarUrl}
+                          alt={leader.name}
+                          className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
+                        />
+                      );
+                    }
+                    return (
+                      <div className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center bg-gradient-to-br from-primary/80 to-primary/50 text-white font-bold text-lg border-2 border-primary/20">
+                        {initials}
+                      </div>
+                    );
+                  })()}
+
                   <h4 className="text-xl font-semibold text-foreground mb-1">
                     {leader.name}
                   </h4>

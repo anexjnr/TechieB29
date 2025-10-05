@@ -23,15 +23,19 @@ model AdminUser {
 }
 
 model About {
-  id         String  @id @default(cuid())
-  heading    String
-  content    String
-  imageUrl   String?
-  imageId    String?
-  image      Asset?  @relation("AboutImage", fields: [imageId], references: [id])
-  awards     Json?
-  leadership Json?
-  enabled    Boolean @default(true)
+  id               String  @id @default(cuid())
+  heading          String
+  content          String
+  imageUrl         String?
+  imageId          String?
+  image            Asset?  @relation("AboutImage", fields: [imageId], references: [id])
+  awards           Json?
+  leadership       Json?
+  // Purpose & Values section
+  valuesHeading    String?
+  valuesSubheading String?
+  valuesCards      Json?
+  enabled          Boolean @default(true)
 }
 
 model Service {

@@ -178,9 +178,15 @@ export default function About() {
       imageSrc = `/api/assets/${img.id}`;
     }
 
+    // Append a cache-busting query for local asset endpoints so admin uploads show immediately
+    const finalSrc =
+      imageSrc && imageSrc.startsWith("/api/assets/")
+        ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}t=${Date.now()}`
+        : imageSrc;
+
     return (
       <img
-        src={imageSrc}
+        src={finalSrc}
         alt="Team"
         className="w-full h-64 object-cover rounded-2xl border border-primary/20"
         onError={(e: React.SyntheticEvent<HTMLImageElement>) => {

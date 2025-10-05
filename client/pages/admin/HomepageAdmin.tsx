@@ -85,21 +85,44 @@ export default function HomepageAdmin() {
     try {
       const normalizedImageUrl =
         typeof payload.imageUrl === "string" ? payload.imageUrl.trim() : "";
+
+      let imageIdToSend: string | null = null;
+      if (file) {
+        const uploaded = await uploadFile(file);
+        if (uploaded && uploaded.id) {
+          imageIdToSend = uploaded.id;
+        }
+      }
+
+      const bodyPayload: any = {
+        heading: payload.heading,
+        content: payload.content,
+        order: payload.order === "" ? undefined : Number(payload.order),
+      };
+
+      if (imageIdToSend) {
+        bodyPayload.imageId = imageIdToSend;
+        bodyPayload.imageUrl = null;
+      } else if (normalizedImageUrl.length) {
+        bodyPayload.imageUrl = normalizedImageUrl;
+        bodyPayload.imageId = null;
+      } else {
+        bodyPayload.imageUrl = null;
+        bodyPayload.imageId = null;
+      }
+
       const res = await fetch(`/api/admin/sections/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({
-          heading: payload.heading,
-          content: payload.content,
-          order: payload.order === "" ? undefined : Number(payload.order),
-          imageUrl: normalizedImageUrl.length ? normalizedImageUrl : null,
-        }),
+        body: JSON.stringify(bodyPayload),
       });
       if (res.ok) {
         setEditing({});
+        setFile(null);
+        setImagePreview(null);
         fetchSections();
       }
     } catch (e) {

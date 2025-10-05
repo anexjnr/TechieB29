@@ -133,20 +133,24 @@ export async function seed() {
       await prisma.service.createMany({
         data: [
           {
-            title: "Strategy",
-            description: "From discovery to roadmap, aligning on outcomes.",
+            title: "Enterprise Architecture Services",
+            description: "Align technology with business objectives for scale, security, and agility.",
+            icon: "cpu",
           },
           {
-            title: "Design",
-            description: "Accessible, modern interfaces with purpose.",
+            title: "Cloud Enablement",
+            description: "Drive cloud adoption, optimization, and resilience.",
+            icon: "cloud",
           },
           {
-            title: "Engineering",
-            description: "Robust web apps, APIs, and infra.",
+            title: "AI Augmentation",
+            description: "Integrate intelligence into decision-making and operations.",
+            icon: "zap",
           },
           {
-            title: "Analytics",
-            description: "Ship, learn, iterate with data.",
+            title: "Cybersecurity & Vulnerability Assessments",
+            description: "Protect your enterprise with proactive risk management.",
+            icon: "shield",
           },
         ],
       });

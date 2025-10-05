@@ -188,8 +188,19 @@ router.get("/assets/:id", async (req, res) => {
   try {
     const asset = await prisma.asset.findUnique({ where: { id } });
     if (!asset) return serveAssetFallback(id, res);
+
+    const buffer = Buffer.from(asset.data as Buffer);
+    const etag = `"asset-${asset.id}-${buffer.length}"`;
+    if (req.headers["if-none-match"] === etag) {
+      res.status(304).end();
+      return;
+    }
+
     res.setHeader("Content-Type", asset.mime);
-    res.send(Buffer.from(asset.data as Buffer));
+    res.setHeader("Content-Length", buffer.length.toString());
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    res.setHeader("ETag", etag);
+    res.send(buffer);
   } catch (e) {
     console.warn("Prisma asset fetch failed, using fallback", e.message || e);
     serveAssetFallback(id, res);

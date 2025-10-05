@@ -86,6 +86,32 @@ router.get("/projects", async (_req, res) => {
   }
 });
 
+router.get("/clients", async (_req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=120");
+  try {
+    const items = await prisma.clientSection.findMany({ orderBy: { order: 'asc' } as any, include: { image: true } as any });
+    if (!items || items.length === 0) return res.json(memoryDb.clients || []);
+    const normalized = items.map((item: any) => {
+      const assetUrl = item?.image && item.image?.id ? `/api/assets/${item.image.id}` : null;
+      const explicitUrl = typeof item?.imageUrl === 'string' ? item.imageUrl.trim() : null;
+      const image = explicitUrl && explicitUrl.length ? explicitUrl : assetUrl;
+      return {
+        id: item.id,
+        heading: item.heading,
+        subheading: item.subheading,
+        details: item.details || null,
+        image,
+        enabled: item.enabled,
+        order: item.order,
+      };
+    });
+    res.json(normalized);
+  } catch (e) {
+    console.warn("Prisma clients failed, using memory store", e.message || e);
+    res.json(memoryDb.clients || []);
+  }
+});
+
 router.get("/about", async (_req, res) => {
   try {
     const items = await prisma.about.findMany({

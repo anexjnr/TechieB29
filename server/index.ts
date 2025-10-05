@@ -23,10 +23,16 @@ export function createServer() {
   prisma
     .$connect()
     .then(() => {
-      // lazy import to avoid top-level module cycles
-      import("./seed")
-        .then((m) => m.seed())
-        .catch((e) => console.warn("Seed failed", e));
+      const seedFlag = String(
+        process.env.RUN_SEED_ON_START ?? "",
+      ).toLowerCase();
+      const shouldSeed = seedFlag === "1" || seedFlag === "true";
+      if (shouldSeed) {
+        // lazy import to avoid top-level module cycles
+        import("./seed")
+          .then((m) => m.seed())
+          .catch((e) => console.warn("Seed failed", e));
+      }
     })
     .catch((e) => {
       console.warn("Prisma connect failed (if running without DB):", e.message);

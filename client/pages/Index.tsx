@@ -952,12 +952,13 @@ export default function Index() {
                   })()}
                 </div>
                 <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
-                  {typeof presence?.heading === "string" &&
-                  presence.heading.trim().length
-                    ? presence.heading
-                    : typeof presence?.title === "string"
-                      ? presence.title
-                      : ""}
+                  {typeof presence?.label === "string" && presence.label.trim().length
+                    ? presence.label
+                    : typeof presence?.heading === "string" && presence.heading.trim().length
+                      ? presence.heading
+                      : typeof presence?.title === "string"
+                        ? presence.title
+                        : ""}
                 </div>
               </div>
             ) : null}

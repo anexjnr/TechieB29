@@ -1,5 +1,6 @@
 import Section from "@/components/site/Section";
 import TiltCard from "@/components/site/TiltCard";
+import ClientsInfographic from "@/components/site/ClientsInfographic";
 import { Cpu, Palette, Target, BarChart3, Cloud, Zap, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 

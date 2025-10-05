@@ -29,6 +29,7 @@ import {
 import Section from "../components/site/Section";
 import AnimatedTitle from "../components/site/AnimatedTitle";
 import TiltCard from "../components/site/TiltCard";
+import LoadingScreen from "../components/site/LoadingScreen";
 import { Link } from "react-router-dom";
 
 const BACKEND_URL =

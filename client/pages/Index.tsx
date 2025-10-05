@@ -496,9 +496,12 @@ export default function Index() {
   const impactItems = useMemo(() => {
     const raw = impact?.data;
     if (!raw) return [];
-    if (Array.isArray(raw)) return raw.filter((item: any) => item && typeof item === "object");
+    if (Array.isArray(raw))
+      return raw.filter((item: any) => item && typeof item === "object");
     if (typeof raw === "object" && Array.isArray((raw as any).items)) {
-      return (raw as any).items.filter((item: any) => item && typeof item === "object");
+      return (raw as any).items.filter(
+        (item: any) => item && typeof item === "object",
+      );
     }
     return [];
   }, [impact?.data]);
@@ -518,10 +521,14 @@ export default function Index() {
   const presence = useMemo(
     () =>
       impactItems.find((item: any) => {
-        if (!(item?.type === "description" || item?.type === "text")) return false;
+        if (!(item?.type === "description" || item?.type === "text"))
+          return false;
         return (
-          typeof item?.heading === "string" && item.heading.trim().length > 0
-        ) || typeof item?.title === "string" || typeof item?.label === "string";
+          (typeof item?.heading === "string" &&
+            item.heading.trim().length > 0) ||
+          typeof item?.title === "string" ||
+          typeof item?.label === "string"
+        );
       }),
     [impactItems],
   );
@@ -565,15 +572,25 @@ export default function Index() {
         ? hero.content
         : null;
 
-  const showDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
+  const showDebug =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("debug") === "1";
 
   return (
     <div>
       {showDebug ? (
         <Section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-black/30 mb-6">
           <div className="text-sm text-primary/80">
-            <div className="font-semibold text-primary/90">DEBUG: Sections / Impact</div>
-            <pre className="mt-2 max-h-72 overflow-auto text-xs text-primary/80">{JSON.stringify({ sections, impact, impactItems, presence, stats }, null, 2)}</pre>
+            <div className="font-semibold text-primary/90">
+              DEBUG: Sections / Impact
+            </div>
+            <pre className="mt-2 max-h-72 overflow-auto text-xs text-primary/80">
+              {JSON.stringify(
+                { sections, impact, impactItems, presence, stats },
+                null,
+                2,
+              )}
+            </pre>
           </div>
         </Section>
       ) : null}
@@ -952,9 +969,11 @@ export default function Index() {
                   })()}
                 </div>
                 <div className="mt-2 text-sm text-foreground/85 whitespace-nowrap">
-                  {typeof presence?.label === "string" && presence.label.trim().length
+                  {typeof presence?.label === "string" &&
+                  presence.label.trim().length
                     ? presence.label
-                    : typeof presence?.heading === "string" && presence.heading.trim().length
+                    : typeof presence?.heading === "string" &&
+                        presence.heading.trim().length
                       ? presence.heading
                       : typeof presence?.title === "string"
                         ? presence.title

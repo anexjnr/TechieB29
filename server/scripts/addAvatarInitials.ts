@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 function initials(name: string) {
-  if (!name) return '';
+  if (!name) return "";
   const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
-  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
 async function run() {
@@ -18,15 +18,18 @@ async function run() {
       const updated = leadership.map((l: any) => {
         if (l.avatarId || l.avatar) return l;
         if (l.avatarInitials) return l;
-        const av = { ...l, avatarInitials: initials(l.name || '') };
+        const av = { ...l, avatarInitials: initials(l.name || "") };
         changed = true;
         return av;
       });
       if (changed) {
-        await prisma.about.update({ where: { id: item.id }, data: { leadership: updated } });
-        console.log('Updated about', item.id);
+        await prisma.about.update({
+          where: { id: item.id },
+          data: { leadership: updated },
+        });
+        console.log("Updated about", item.id);
       } else {
-        console.log('No change for', item.id);
+        console.log("No change for", item.id);
       }
     }
   } catch (e) {

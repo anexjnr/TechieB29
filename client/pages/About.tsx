@@ -144,7 +144,9 @@ export default function About() {
 
     const fetchAbout = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/about`, { cache: "no-store" });
+        const res = await fetch(`${BACKEND_URL}/api/about`, {
+          cache: "no-store",
+        });
         if (!res.ok) return null;
         const data: AboutData[] = await res.json();
         if (!Array.isArray(data) || data.length === 0) return null;
@@ -158,16 +160,17 @@ export default function About() {
     const update = async () => {
       setLoading(true);
       const latest = await fetchAbout();
-      if (mounted && latest) setAbout((prev) => {
-        try {
-          const prevJson = JSON.stringify(prev || {});
-          const latestJson = JSON.stringify(latest || {});
-          if (prevJson !== latestJson) return latest;
-        } catch (e) {
-          return latest;
-        }
-        return prev;
-      });
+      if (mounted && latest)
+        setAbout((prev) => {
+          try {
+            const prevJson = JSON.stringify(prev || {});
+            const latestJson = JSON.stringify(latest || {});
+            if (prevJson !== latestJson) return latest;
+          } catch (e) {
+            return latest;
+          }
+          return prev;
+        });
       setLoading(false);
     };
 
@@ -219,7 +222,8 @@ export default function About() {
 
     let imageSrc: string | null = null;
     if (typeof img === "string") imageSrc = img;
-    else if (img && typeof img === "object" && "id" in img) imageSrc = `/api/assets/${img.id}`;
+    else if (img && typeof img === "object" && "id" in img)
+      imageSrc = `/api/assets/${img.id}`;
 
     if (!imageSrc) return null;
 
@@ -262,7 +266,7 @@ export default function About() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
           <div className="flex flex-col gap-6">
             <div>
-              <h2 className="sr-only">{about?.heading || 'Who We Are'}</h2>
+              <h2 className="sr-only">{about?.heading || "Who We Are"}</h2>
               <p className="mt-4 text-lg text-foreground/85 max-w-2xl">
                 {description}
               </p>
@@ -299,19 +303,43 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(about?.awards && about.awards.length ? about.awards : [
-              { title: "Tech Innovation Award", subtitle: "TechCrunch • 2023", icon: "award" },
-              { title: "Best UX Design", subtitle: "Awwwards • 2022", icon: "star" },
-              { title: "Startup of the Year", subtitle: "Forbes • 2021", icon: "award" },
-              { title: "Excellence in AI", subtitle: "AI Summit • 2023", icon: "sparkles" },
-            ]).map((award: any, idx: number) => {
-              const Icon = getIconByName((award && award.icon) || "award") || Award;
+            {(about?.awards && about.awards.length
+              ? about.awards
+              : [
+                  {
+                    title: "Tech Innovation Award",
+                    subtitle: "TechCrunch • 2023",
+                    icon: "award",
+                  },
+                  {
+                    title: "Best UX Design",
+                    subtitle: "Awwwards • 2022",
+                    icon: "star",
+                  },
+                  {
+                    title: "Startup of the Year",
+                    subtitle: "Forbes • 2021",
+                    icon: "award",
+                  },
+                  {
+                    title: "Excellence in AI",
+                    subtitle: "AI Summit • 2023",
+                    icon: "sparkles",
+                  },
+                ]
+            ).map((award: any, idx: number) => {
+              const Icon =
+                getIconByName((award && award.icon) || "award") || Award;
               return (
                 <motion.div
                   key={idx}
                   variants={{
                     hidden: { opacity: 0, y: 12 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.45 },
+                    },
                   }}
                 >
                   <TiltCard className="text-center h-full">
@@ -321,7 +349,9 @@ export default function About() {
                     <h4 className="font-semibold text-foreground mb-2">
                       {award.title}
                     </h4>
-                    <p className="text-sm text-foreground/80">{award.subtitle}</p>
+                    <p className="text-sm text-foreground/80">
+                      {award.subtitle}
+                    </p>
                   </TiltCard>
                 </motion.div>
               );
@@ -347,11 +377,32 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(about?.leadership && about.leadership.length ? about.leadership : [
-              { name: "Sarah Johnson", role: "CEO & Co-Founder", bio: "Former VP at Google, leading our vision and strategy", avatar: "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80" },
-              { name: "Michael Chen", role: "CTO & Co-Founder", bio: "Ex-Tesla engineer, driving our technical innovation", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80" },
-              { name: "Emily Rodriguez", role: "VP of Design", bio: "Award-winning designer with 15+ years experience", avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80" },
-            ]).map((leader: any, idx: number) => (
+            {(about?.leadership && about.leadership.length
+              ? about.leadership
+              : [
+                  {
+                    name: "Sarah Johnson",
+                    role: "CEO & Co-Founder",
+                    bio: "Former VP at Google, leading our vision and strategy",
+                    avatar:
+                      "https://images.unsplash.com/photo-1494790108755-2616b66139e6?auto=format&fit=crop&w=300&q=80",
+                  },
+                  {
+                    name: "Michael Chen",
+                    role: "CTO & Co-Founder",
+                    bio: "Ex-Tesla engineer, driving our technical innovation",
+                    avatar:
+                      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+                  },
+                  {
+                    name: "Emily Rodriguez",
+                    role: "VP of Design",
+                    bio: "Award-winning designer with 15+ years experience",
+                    avatar:
+                      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+                  },
+                ]
+            ).map((leader: any, idx: number) => (
               <motion.div
                 key={idx}
                 variants={{
@@ -361,8 +412,20 @@ export default function About() {
               >
                 <TiltCard className="text-center">
                   {(() => {
-                    const avatarUrl = typeof leader.avatar === 'string' ? leader.avatar : (leader.avatar && (leader.avatar as any).id ? `/api/assets/${(leader.avatar as any).id}` : null);
-                    const initials = (leader as any).avatarInitials || (leader.name || '').split(' ').map((n: string)=>n[0]).join('').slice(0,2).toUpperCase();
+                    const avatarUrl =
+                      typeof leader.avatar === "string"
+                        ? leader.avatar
+                        : leader.avatar && (leader.avatar as any).id
+                          ? `/api/assets/${(leader.avatar as any).id}`
+                          : null;
+                    const initials =
+                      (leader as any).avatarInitials ||
+                      (leader.name || "")
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase();
                     if (avatarUrl) {
                       return (
                         <img
@@ -382,7 +445,9 @@ export default function About() {
                   <h4 className="text-xl font-semibold text-foreground mb-1">
                     {leader.name}
                   </h4>
-                  <p className="text-primary/100 font-medium mb-3">{leader.role}</p>
+                  <p className="text-primary/100 font-medium mb-3">
+                    {leader.role}
+                  </p>
                   <p className="text-sm text-foreground/80">{leader.bio}</p>
                 </TiltCard>
               </motion.div>

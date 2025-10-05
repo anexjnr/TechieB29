@@ -121,10 +121,26 @@ class MemoryDB {
         image:
           "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
         awards: [
-          { icon: "trophy", title: "Tech Innovation Award", subtitle: "TechCrunch • 2023" },
-          { icon: "star", title: "Best UX Design", subtitle: "Awwwards • 2022" },
-          { icon: "award", title: "Startup of the Year", subtitle: "Forbes • 2021" },
-          { icon: "sparkles", title: "Excellence in AI", subtitle: "AI Summit • 2023" },
+          {
+            icon: "trophy",
+            title: "Tech Innovation Award",
+            subtitle: "TechCrunch • 2023",
+          },
+          {
+            icon: "star",
+            title: "Best UX Design",
+            subtitle: "Awwwards • 2022",
+          },
+          {
+            icon: "award",
+            title: "Startup of the Year",
+            subtitle: "Forbes • 2021",
+          },
+          {
+            icon: "sparkles",
+            title: "Excellence in AI",
+            subtitle: "AI Summit • 2023",
+          },
         ],
         leadership: [
           {

@@ -17,7 +17,8 @@ export default function AdminLayout() {
 
   // Redirect to login if no token
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token && location.pathname !== "/admin/login") {
       navigate("/admin/login");
     }
@@ -33,12 +34,23 @@ export default function AdminLayout() {
         <div className="font-extrabold text-lg">Admin</div>
         <nav className="mt-6 flex flex-col gap-1">
           {links.map((l) => (
-            <NavLink key={l.to} to={l.to} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? "bg-primary/10 text-primary" : "text-primary/80 hover:bg-primary/10"}`}>
+            <NavLink
+              key={l.to}
+              to={l.to}
+              className={({ isActive }) =>
+                `rounded-md px-3 py-2 text-sm ${isActive ? "bg-primary/10 text-primary" : "text-primary/80 hover:bg-primary/10"}`
+              }
+            >
               {l.label}
             </NavLink>
           ))}
         </nav>
-        <button onClick={logout} className="mt-6 text-sm font-semibold text-red-300 hover:text-red-200">Logout</button>
+        <button
+          onClick={logout}
+          className="mt-6 text-sm font-semibold text-red-300 hover:text-red-200"
+        >
+          Logout
+        </button>
       </aside>
       <main className="p-6">
         <Outlet />

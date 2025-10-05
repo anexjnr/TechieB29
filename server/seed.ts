@@ -161,15 +161,46 @@ export async function seed() {
             "We are a compact team focused on clarity, velocity, and measurable outcomes.",
           imageId: asset.id,
           awards: [
-            { icon: "award", title: "Tech Innovation Award", subtitle: "TechCrunch • 2023" },
-            { icon: "star", title: "Best UX Design", subtitle: "Awwwards • 2022" },
-            { icon: "award", title: "Startup of the Year", subtitle: "Forbes • 2021" },
-            { icon: "sparkles", title: "Excellence in AI", subtitle: "AI Summit • 2023" },
+            {
+              icon: "award",
+              title: "Tech Innovation Award",
+              subtitle: "TechCrunch • 2023",
+            },
+            {
+              icon: "star",
+              title: "Best UX Design",
+              subtitle: "Awwwards • 2022",
+            },
+            {
+              icon: "award",
+              title: "Startup of the Year",
+              subtitle: "Forbes • 2021",
+            },
+            {
+              icon: "sparkles",
+              title: "Excellence in AI",
+              subtitle: "AI Summit • 2023",
+            },
           ],
           leadership: [
-            { name: "Sarah Johnson", role: "CEO & Co-Founder", bio: "Former VP at Google, leading our vision and strategy", avatarId: asset.id },
-            { name: "Michael Chen", role: "CTO & Co-Founder", bio: "Ex-Tesla engineer, driving our technical innovation", avatarId: asset.id },
-            { name: "Emily Rodriguez", role: "VP of Design", bio: "Award-winning designer with 15+ years experience", avatarId: asset.id },
+            {
+              name: "Sarah Johnson",
+              role: "CEO & Co-Founder",
+              bio: "Former VP at Google, leading our vision and strategy",
+              avatarId: asset.id,
+            },
+            {
+              name: "Michael Chen",
+              role: "CTO & Co-Founder",
+              bio: "Ex-Tesla engineer, driving our technical innovation",
+              avatarId: asset.id,
+            },
+            {
+              name: "Emily Rodriguez",
+              role: "VP of Design",
+              bio: "Award-winning designer with 15+ years experience",
+              avatarId: asset.id,
+            },
           ],
         },
       });

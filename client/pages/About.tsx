@@ -227,8 +227,18 @@ export default function About() {
 
     if (!imageSrc) return null;
 
-    const finalSrc = imageSrc.startsWith("/api/assets/")
-      ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}t=${Date.now()}`
+    let versionKey: string | null = null;
+    if (typeof img === "object" && img && "id" in img && typeof img.id === "string") {
+      versionKey = img.id;
+    } else if (typeof imageSrc === "string") {
+      const match = imageSrc.match(/\/api\/assets\/(.+?)(?:[/?].*)?$/);
+      if (match && match[1]) {
+        versionKey = match[1];
+      }
+    }
+
+    const finalSrc = versionKey
+      ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}v=${encodeURIComponent(versionKey)}`
       : imageSrc;
 
     return (

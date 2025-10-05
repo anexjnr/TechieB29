@@ -484,7 +484,14 @@ export default function Index() {
     );
   }, [whoWeAre?.data]);
 
-  const whoWeAreImage = normalizeImage(whoWeAre?.image);
+  const whoWeAreImage = useMemo(() => {
+    const img = normalizeImage(whoWeAre?.image ?? (whoWeAre as any)?.imageUrl);
+    if (img) return img;
+    if (typeof whoWeAre?.imageId === "string" && whoWeAre.imageId) {
+      return `/api/assets/${whoWeAre.imageId}`;
+    }
+    return null;
+  }, [whoWeAre?.image, (whoWeAre as any)?.imageUrl, whoWeAre?.imageId]);
 
   const impactItems = useMemo(() => {
     const items = impact?.data?.items;

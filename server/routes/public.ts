@@ -87,7 +87,10 @@ router.get("/projects", async (_req, res) => {
 
 router.get("/about", async (_req, res) => {
   try {
-    const items = await prisma.about.findMany();
+    const items = await prisma.about.findMany({
+      where: { enabled: true },
+      orderBy: { id: "desc" } as any,
+    });
     if (!items || items.length === 0) return res.json(memoryDb.about);
 
     const normalized = items.map((item) => {
@@ -110,6 +113,10 @@ router.get("/about", async (_req, res) => {
         // Optional structured content
         awards: (item as any).awards || null,
         leadership: (item as any).leadership || null,
+        // Purpose & Values section
+        valuesHeading: (item as any).valuesHeading || null,
+        valuesSubheading: (item as any).valuesSubheading || null,
+        valuesCards: (item as any).valuesCards || null,
       };
     });
 

@@ -202,8 +202,68 @@ export async function seed() {
               avatarId: asset.id,
             },
           ],
+          valuesHeading: "Our Purpose & Values",
+          valuesSubheading:
+            "The principles that guide everything we do and shape the way we work with our clients.",
+          valuesCards: [
+            {
+              icon: "sparkles",
+              title: "Innovation at Scale",
+              subtitle: "Driving impact with cutting-edge solutions",
+            },
+            {
+              icon: "users",
+              title: "Client-Centricity",
+              subtitle: "Building technology that aligns with business goals",
+            },
+            {
+              icon: "shield",
+              title: "Security & Trust",
+              subtitle: "Ensuring compliance, protection, and reliability",
+            },
+            {
+              icon: "trophy",
+              title: "Excellence in Delivery",
+              subtitle: "Consistently meeting global benchmarks",
+            },
+          ],
         },
       });
+    } else {
+      // Update first about entry with Purpose & Values if not present
+      const first = await prisma.about.findFirst({});
+      if (first) {
+        await prisma.about.update({
+          where: { id: first.id },
+          data: {
+            valuesHeading: "Our Purpose & Values",
+            valuesSubheading:
+              "The principles that guide everything we do and shape the way we work with our clients.",
+            valuesCards: [
+              {
+                icon: "sparkles",
+                title: "Innovation at Scale",
+                subtitle: "Driving impact with cutting-edge solutions",
+              },
+              {
+                icon: "users",
+                title: "Client-Centricity",
+                subtitle: "Building technology that aligns with business goals",
+              },
+              {
+                icon: "shield",
+                title: "Security & Trust",
+                subtitle: "Ensuring compliance, protection, and reliability",
+              },
+              {
+                icon: "trophy",
+                title: "Excellence in Delivery",
+                subtitle: "Consistently meeting global benchmarks",
+              },
+            ],
+          },
+        });
+      }
     }
 
     // Sections seed

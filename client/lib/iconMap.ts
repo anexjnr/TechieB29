@@ -12,6 +12,8 @@ import {
   Sparkles,
   Users,
   Clock,
+  Shield,
+  Trophy,
 } from "lucide-react";
 
 export const ICONS: Record<string, any> = {
@@ -28,6 +30,8 @@ export const ICONS: Record<string, any> = {
   sparkles: Sparkles,
   users: Users,
   clock: Clock,
+  shield: Shield,
+  trophy: Trophy,
 };
 
 export const ICON_NAMES = Object.keys(ICONS);

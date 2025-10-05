@@ -91,7 +91,15 @@ class MemoryDB {
   jobs: JobItem[] = [];
   serve: ServeStep[] = [];
   sections: SectionItem[] = [];
-  clients: { id: ID; heading: string; subheading?: string; details?: any[]; image?: string; enabled?: boolean; order?: number }[] = [];
+  clients: {
+    id: ID;
+    heading: string;
+    subheading?: string;
+    details?: any[];
+    image?: string;
+    enabled?: boolean;
+    order?: number;
+  }[] = [];
   policies: { id: ID; title: string; content?: string; createdAt?: string }[] =
     [];
   contact: {
@@ -251,12 +259,25 @@ class MemoryDB {
       this.clients.push({
         id: uid(),
         heading: "Clients & Reach",
-        subheading: "Trusted by forward-looking organizations across industries:",
+        subheading:
+          "Trusted by forward-looking organizations across industries:",
         details: [
           { industry: "Retail", count: "35+", region: "India" },
-          { industry: "Financial Services (NBFCs)", count: "5", region: "India & Dubai" },
-          { industry: "Engineering (MEP)", count: "2", region: "Dubai, Abu Dhabi & Qatar" },
-          { industry: "Data & Infrastructure", count: "5", region: "Middle East" },
+          {
+            industry: "Financial Services (NBFCs)",
+            count: "5",
+            region: "India & Dubai",
+          },
+          {
+            industry: "Engineering (MEP)",
+            count: "2",
+            region: "Dubai, Abu Dhabi & Qatar",
+          },
+          {
+            industry: "Data & Infrastructure",
+            count: "5",
+            region: "Middle East",
+          },
         ],
         enabled: true,
         order: 0,

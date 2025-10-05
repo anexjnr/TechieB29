@@ -579,7 +579,8 @@ export default function About() {
             className="space-y-12"
           >
             {(
-              (Array.isArray((about as any)?.serveSteps) && (about as any).serveSteps.length
+              (Array.isArray((about as any)?.serveSteps) &&
+              (about as any).serveSteps.length
                 ? (about as any).serveSteps
                 : [
                     {
@@ -644,7 +645,8 @@ export default function About() {
                         </div>
                         <div>
                           <div className="text-xs font-bold text-primary/100 mb-1">
-                            PHASE {step?.phase || String(idx + 1).padStart(2, "0")}
+                            PHASE{" "}
+                            {step?.phase || String(idx + 1).padStart(2, "0")}
                           </div>
                           <h3 className="text-xl font-bold text-foreground mb-2">
                             {step.title}

@@ -32,8 +32,12 @@ export default function ClientsInfographic() {
   return (
     <section className="mt-12">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-extrabold text-foreground">{data.heading}</h2>
-        {data.subheading && <p className="mt-3 text-foreground/85">{data.subheading}</p>}
+        <h2 className="text-3xl font-extrabold text-foreground">
+          {data.heading}
+        </h2>
+        {data.subheading && (
+          <p className="mt-3 text-foreground/85">{data.subheading}</p>
+        )}
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto items-start">
@@ -41,16 +45,23 @@ export default function ClientsInfographic() {
           const duration = 6 + (idx % 3) * 1.5; // vary duration per tile
           const delay = idx * 0.25; // stagger
           return (
-            <div key={idx} className="flex flex-col items-center text-center p-6 group">
+            <div
+              key={idx}
+              className="flex flex-col items-center text-center p-6 group"
+            >
               <div
                 className="flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card will-change-transform"
                 style={{
                   animation: `floaty ${duration}s ease-in-out ${delay}s infinite`,
                 }}
               >
-                <div className="text-2xl font-extrabold text-foreground">{it.count}</div>
+                <div className="text-2xl font-extrabold text-foreground">
+                  {it.count}
+                </div>
               </div>
-              <div className="mt-4 font-semibold text-foreground">{it.industry}</div>
+              <div className="mt-4 font-semibold text-foreground">
+                {it.industry}
+              </div>
               <div className="mt-1 text-sm text-foreground/80">{it.region}</div>
             </div>
           );

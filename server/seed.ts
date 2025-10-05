@@ -134,7 +134,8 @@ export async function seed() {
         data: [
           {
             title: "Enterprise Architecture Services",
-            description: "Align technology with business objectives for scale, security, and agility.",
+            description:
+              "Align technology with business objectives for scale, security, and agility.",
             icon: "cpu",
           },
           {
@@ -144,12 +145,14 @@ export async function seed() {
           },
           {
             title: "AI Augmentation",
-            description: "Integrate intelligence into decision-making and operations.",
+            description:
+              "Integrate intelligence into decision-making and operations.",
             icon: "zap",
           },
           {
             title: "Cybersecurity & Vulnerability Assessments",
-            description: "Protect your enterprise with proactive risk management.",
+            description:
+              "Protect your enterprise with proactive risk management.",
             icon: "shield",
           },
         ],

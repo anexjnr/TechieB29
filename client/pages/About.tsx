@@ -29,7 +29,6 @@ import {
 import Section from "../components/site/Section";
 import AnimatedTitle from "../components/site/AnimatedTitle";
 import TiltCard from "../components/site/TiltCard";
-import BackgroundOrnaments from "../components/site/BackgroundOrnaments";
 import { Link } from "react-router-dom";
 
 const BACKEND_URL =
@@ -205,27 +204,22 @@ export default function About() {
 
       {/* Who We Are Section */}
       <Section
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-2 pb-16 relative overflow-hidden"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-2 pb-16"
         delay={0.15}
       >
-        <BackgroundOrnaments />
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16 relative z-20">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start mb-16">
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
                 Who We Are
               </h2>
-              <div className="mt-4 max-w-2xl">
-                <div className="rounded-2xl glass-card p-6 border border-primary/20">
-                  <p className="text-lg sm:text-xl text-foreground/95 leading-relaxed">
-                    {description}
-                  </p>
-                </div>
-              </div>
+              <p className="mt-4 text-lg text-foreground/85 max-w-2xl">
+                {description}
+              </p>
             </div>
-            <div className="space-y-4 text-foreground/85 max-w-prose mt-4">
+            <div className="space-y-4 text-foreground/85 max-w-prose">
               {detailParagraphs.map((paragraph, idx) => (
-                <p key={idx} className="text-base sm:text-lg leading-relaxed">{paragraph}</p>
+                <p key={idx}>{paragraph}</p>
               ))}
             </div>
           </div>

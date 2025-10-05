@@ -58,6 +58,7 @@ export default function ClientsInfographic() {
         {items.map((it: any, idx: number) => {
           const duration = 6 + (idx % 3) * 1.5;
           const delay = idx * 0.25;
+          const anim = idx % 2 === 0 ? "sway" : "sway2";
           return (
             <div
               key={idx}
@@ -66,7 +67,7 @@ export default function ClientsInfographic() {
               <div
                 className="flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card will-change-transform"
                 style={{
-                  animation: `floaty ${duration}s ease-in-out ${delay}s infinite`,
+                  animation: `${anim} ${duration}s ease-in-out ${delay}s infinite`,
                 }}
               >
                 <div className="text-2xl font-extrabold text-foreground">

@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
+const Products = lazy(() => import("./pages/Products"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Insights = lazy(() => import("./pages/Insights"));
 const Careers = lazy(() => import("./pages/Careers"));
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Index /> },
       { path: "/about", element: <About /> },
+      { path: "/products", element: <Products /> },
       { path: "/services", element: <Services /> },
       { path: "/clients", element: <Clients /> },
       { path: "/insights", element: <Insights /> },

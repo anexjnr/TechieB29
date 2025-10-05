@@ -64,7 +64,7 @@ export default function Services() {
       </Section>
 
       <Section className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" delay={0.1}>
-        {items.map((c, i) => {
+        {(flowItems || []).map((c, i) => {
           const Icon = [Target, Palette, Cpu, BarChart3][i % 4] || Target;
           return (
             <TiltCard key={c.id || i} className="h-full">
@@ -76,27 +76,6 @@ export default function Services() {
             </TiltCard>
           );
         })}
-      </Section>
-
-      <Section className="mt-16" delay={0.15}>
-        <h2 className="text-2xl font-bold text-foreground">Project Details</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {(projectCards || [
-            { title: "Case Study 1", description: "Outcome‑focused delivery with crisp constraints.", image: "/placeholder.svg" },
-            { title: "Case Study 2", description: "Outcome‑focused delivery with crisp constraints.", image: "/placeholder.svg" },
-            { title: "Case Study 3", description: "Outcome‑focused delivery with crisp constraints.", image: "/placeholder.svg" },
-          ]).map((card, idx) => (
-            <TiltCard key={idx} className="h-full">
-              <div className="overflow-hidden rounded-2xl">
-                <img src={card.image || "/placeholder.svg"} alt="" className="h-40 w-full object-cover border-b border-primary/20" />
-              </div>
-              <div className="p-6">
-                <div className="font-semibold text-foreground">{card.title}</div>
-                <p className="mt-2 text-sm text-foreground/80">{card.description}</p>
-              </div>
-            </TiltCard>
-          ))}
-        </div>
       </Section>
     </div>
   );

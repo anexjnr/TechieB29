@@ -203,34 +203,35 @@ export default function About() {
     });
   }, [contentParagraphs, description]);
 
-  const renderImage = (): JSX.Element => {
-    const img = about?.image;
-    const fallbackImg =
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80";
+  const renderImage = (): JSX.Element | null => {
+    const img = (about as any)?.image ?? (about as any)?.imageUrl ?? null;
 
-    let imageSrc = fallbackImg;
+    // Only render if database provided an image. Do NOT use external fallback images.
+    if (!img) return null;
 
-    if (typeof img === "string") {
-      imageSrc = img;
-    } else if (img && typeof img === "object" && "id" in img) {
-      imageSrc = `/api/assets/${img.id}`;
-    }
+    let imageSrc: string | null = null;
+    if (typeof img === "string") imageSrc = img;
+    else if (img && typeof img === "object" && "id" in img) imageSrc = `/api/assets/${img.id}`;
 
-    // Append a cache-busting query for local asset endpoints so admin uploads show immediately
-    const finalSrc =
-      imageSrc && imageSrc.startsWith("/api/assets/")
-        ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}t=${Date.now()}`
-        : imageSrc;
+    if (!imageSrc) return null;
+
+    const finalSrc = imageSrc.startsWith("/api/assets/")
+      ? `${imageSrc}${imageSrc.includes("?") ? "&" : "?"}t=${Date.now()}`
+      : imageSrc;
 
     return (
-      <img
-        src={finalSrc}
-        alt="Team"
-        className="w-full h-64 object-cover rounded-2xl border border-primary/20"
-        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-          e.currentTarget.src = fallbackImg;
-        }}
-      />
+      <>
+        <img
+          src={finalSrc}
+          alt="Team"
+          className="w-full h-64 object-cover rounded-2xl border border-primary/20"
+          onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+            // hide image if it fails to load
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+          }}
+        />
+        <div className="mt-2 text-sm text-primary/70 break-all">Image source: {imageSrc}</div>
+      </>
     );
   };
 

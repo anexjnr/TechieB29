@@ -494,9 +494,13 @@ export default function Index() {
   }, [whoWeAre?.image, (whoWeAre as any)?.imageUrl, whoWeAre?.imageId]);
 
   const impactItems = useMemo(() => {
-    const items = impact?.data?.items;
-    if (!Array.isArray(items)) return [];
-    return items.filter((item: any) => item && typeof item === "object");
+    const raw = impact?.data;
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw.filter((item: any) => item && typeof item === "object");
+    if (typeof raw === "object" && Array.isArray((raw as any).items)) {
+      return (raw as any).items.filter((item: any) => item && typeof item === "object");
+    }
+    return [];
   }, [impact?.data]);
 
   const stats = useMemo(

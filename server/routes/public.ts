@@ -63,12 +63,13 @@ router.get("/testimonials", async (_req, res) => {
 
 router.get("/services", async (_req, res) => {
   try {
-    const items = await prisma.service.findMany();
-    if (!items || items.length === 0) return res.json(memoryDb.services);
+    const items = await prisma.service.findMany({ orderBy: { order: 'asc' } as any });
+    if (!items || items.length === 0)
+      return res.json(Array.isArray(memoryDb.services) ? [...memoryDb.services].sort((a: any, b: any) => (a.order || 0) - (b.order || 0)) : memoryDb.services);
     res.json(items);
   } catch (e) {
     console.warn("Prisma services failed, using memory store", e.message || e);
-    res.json(memoryDb.services);
+    res.json(Array.isArray(memoryDb.services) ? [...memoryDb.services].sort((a: any, b: any) => (a.order || 0) - (b.order || 0)) : memoryDb.services);
   }
 });
 

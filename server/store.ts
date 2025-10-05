@@ -137,32 +137,6 @@ class MemoryDB {
           "We are a compact team focused on clarity, velocity, and measurable outcomes.",
         image:
           "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
-        // Purpose & Values defaults (to ensure section renders without DB)
-        valuesHeading: "Our Purpose & Values",
-        valuesSubheading:
-          "The principles that guide everything we do and shape the way we work with our clients.",
-        valuesCards: [
-          {
-            icon: "sparkles",
-            title: "Innovation at Scale",
-            subtitle: "Driving impact with cutting-edge solutions",
-          },
-          {
-            icon: "users",
-            title: "Client-Centricity",
-            subtitle: "Building technology that aligns with business goals",
-          },
-          {
-            icon: "shield",
-            title: "Security & Trust",
-            subtitle: "Ensuring compliance, protection, and reliability",
-          },
-          {
-            icon: "trophy",
-            title: "Excellence in Delivery",
-            subtitle: "Consistently meeting global benchmarks",
-          },
-        ],
         // How We Serve defaults
         serveHeading: "How We Serve",
         serveSubheading:

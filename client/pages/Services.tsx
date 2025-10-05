@@ -5,34 +5,10 @@ import { Cpu, Palette, Target, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Services() {
-  const [items, setItems] = useState<any[]>([]);
-  const [projectCards, setProjectCards] = useState<any[] | null>(null);
+  const [flowItems, setFlowItems] = useState<any[] | null>(null);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const s = await fetch("/api/services").then((r) => r.json());
-        const arr = Array.isArray(s) ? s.filter((x: any) => x.enabled !== false) : [];
-        setItems(
-          arr.length
-            ? arr
-            : [
-                { id: "sv1", title: "Strategy", description: "From discovery to roadmap, aligning on outcomes." },
-                { id: "sv2", title: "Design", description: "Accessible, modern interfaces with purpose." },
-              ],
-        );
-      } catch (e) {
-        console.error(e);
-        setItems([
-          { id: "sv1", title: "Strategy", description: "From discovery to roadmap, aligning on outcomes." },
-          { id: "sv2", title: "Design", description: "Accessible, modern interfaces with purpose." },
-        ]);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    // load section with key 'flowchart' and use its data items for project cards
+    // load section with key 'flowchart' and use its data items for service tiles
     (async () => {
       try {
         const sections = await fetch("/api/sections").then((r) => r.json());
@@ -55,10 +31,10 @@ export default function Services() {
           }
         }
         if (arr.length === 0) {
-          setProjectCards(null);
+          setFlowItems(null);
         } else {
           const normalized = arr.map((it: any, idx: number) => {
-            const title = it.title || it.heading || it.label || `Case Study ${idx + 1}`;
+            const title = it.title || it.heading || it.label || `Item ${idx + 1}`;
             const description = it.description || it.subtitle || it.desc || "";
             const image =
               it.image && typeof it.image === "string"
@@ -66,13 +42,13 @@ export default function Services() {
                 : it.image && typeof it.image === "object" && it.image.id
                 ? `/api/assets/${it.image.id}`
                 : it.imageUrl || null;
-            return { title, description, image };
+            return { id: it.id ?? idx, title, description, image, icon: it.icon };
           });
-          setProjectCards(normalized);
+          setFlowItems(normalized);
         }
       } catch (e) {
         console.error("Failed loading flowchart section", e);
-        setProjectCards(null);
+        setFlowItems(null);
       }
     })();
   }, []);

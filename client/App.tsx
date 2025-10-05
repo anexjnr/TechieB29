@@ -12,7 +12,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const Insights = lazy(() => import("./pages/Insights"));
-const Careers = lazy(() => import("./pages/Careers"));
 const Contact = lazy(() => import("./pages/Contact"));
 const LegalTerms = lazy(() => import("./pages/LegalTerms"));
 const LegalPolicy = lazy(() => import("./pages/LegalPolicy"));
@@ -22,17 +21,12 @@ const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminLogin = lazy(() => import("./pages/admin/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const AboutAdmin = lazy(() => import("./pages/admin/AboutAdmin"));
-const ServicesAdmin = lazy(() => import("./pages/admin/ServicesAdmin"));
-const ProjectsAdmin = lazy(() => import("./pages/admin/ProjectsAdmin"));
-const NewsAdmin = lazy(() => import("./pages/admin/NewsAdmin"));
 const TestimonialsAdmin = lazy(() => import("./pages/admin/TestimonialsAdmin"));
-const CareersAdmin = lazy(() => import("./pages/admin/CareersAdmin"));
 const UsersAdmin = lazy(() => import("./pages/admin/UsersAdmin"));
 const HomepageAdmin = lazy(() => import("./pages/admin/HomepageAdmin"));
 const PoliciesAdmin = lazy(() => import("./pages/admin/PoliciesAdmin"));
 const ContactAdmin = lazy(() => import("./pages/admin/ContactAdmin"));
 const ApplicationsAdmin = lazy(() => import("./pages/admin/ApplicationsAdmin"));
-const AssetsAdmin = lazy(() => import("./pages/admin/AssetsAdmin"));
 
 const queryClient = new QueryClient();
 

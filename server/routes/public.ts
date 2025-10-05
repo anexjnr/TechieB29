@@ -100,6 +100,18 @@ router.get("/projects", async (_req, res) => {
   }
 });
 
+router.get("/products", async (_req, res) => {
+  try {
+    const items = await prisma.product.findMany({
+      orderBy: [{ order: "asc" as any }, { id: "desc" as any }],
+    } as any);
+    res.json(items);
+  } catch (e) {
+    console.warn("Prisma products failed", e.message || e);
+    res.json([]);
+  }
+});
+
 router.get("/clients", async (_req, res) => {
   res.setHeader(
     "Cache-Control",

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";

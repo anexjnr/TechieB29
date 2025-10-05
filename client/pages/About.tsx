@@ -299,34 +299,33 @@ export default function About() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                award: "Tech Innovation Award",
-                year: "2023",
-                org: "TechCrunch",
-              },
-              { award: "Best UX Design", year: "2022", org: "Awwwards" },
-              { award: "Startup of the Year", year: "2021", org: "Forbes" },
-              { award: "Excellence in AI", year: "2023", org: "AI Summit" },
-            ].map((award, idx) => (
-              <motion.div
-                key={idx}
-                variants={{
-                  hidden: { opacity: 0, y: 12 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
-                }}
-              >
-                <TiltCard className="text-center h-full">
-                  <Award className="h-10 w-10 text-primary/100 mx-auto mb-3" />
-                  <h4 className="font-semibold text-foreground mb-2">
-                    {award.award}
-                  </h4>
-                  <p className="text-sm text-foreground/80">
-                    {award.org} • {award.year}
-                  </p>
-                </TiltCard>
-              </motion.div>
-            ))}
+            {(about?.awards && about.awards.length ? about.awards : [
+              { title: "Tech Innovation Award", subtitle: "TechCrunch • 2023", icon: "award" },
+              { title: "Best UX Design", subtitle: "Awwwards • 2022", icon: "star" },
+              { title: "Startup of the Year", subtitle: "Forbes • 2021", icon: "award" },
+              { title: "Excellence in AI", subtitle: "AI Summit • 2023", icon: "sparkles" },
+            ]).map((award: any, idx: number) => {
+              const Icon = getIconByName((award && award.icon) || "award") || Award;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+                  }}
+                >
+                  <TiltCard className="text-center h-full">
+                    <div className="mx-auto mb-3">
+                      <Icon className="h-10 w-10 text-primary/100" />
+                    </div>
+                    <h4 className="font-semibold text-foreground mb-2">
+                      {award.title}
+                    </h4>
+                    <p className="text-sm text-foreground/80">{award.subtitle}</p>
+                  </TiltCard>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 

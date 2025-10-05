@@ -37,15 +37,24 @@ export default function ClientsInfographic() {
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto items-start">
-        {items.map((it: any, idx: number) => (
-          <div key={idx} className="flex flex-col items-center text-center p-6">
-            <div className="flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card">
-              <div className="text-2xl font-extrabold text-foreground">{it.count}</div>
+        {items.map((it: any, idx: number) => {
+          const duration = 6 + (idx % 3) * 1.5; // vary duration per tile
+          const delay = idx * 0.25; // stagger
+          return (
+            <div key={idx} className="flex flex-col items-center text-center p-6 group">
+              <div
+                className="flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card will-change-transform"
+                style={{
+                  animation: `floaty ${duration}s ease-in-out ${delay}s infinite`,
+                }}
+              >
+                <div className="text-2xl font-extrabold text-foreground">{it.count}</div>
+              </div>
+              <div className="mt-4 font-semibold text-foreground">{it.industry}</div>
+              <div className="mt-1 text-sm text-foreground/80">{it.region}</div>
             </div>
-            <div className="mt-4 font-semibold text-foreground">{it.industry}</div>
-            <div className="mt-1 text-sm text-foreground/80">{it.region}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

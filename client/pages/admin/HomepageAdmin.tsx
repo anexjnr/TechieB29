@@ -38,6 +38,20 @@ export default function HomepageAdmin() {
     }
   };
 
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const uploadFile = async (f: File) => {
+    const fd = new FormData();
+    fd.append("file", f);
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      body: fd,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    return await (await import("@/lib/fetchUtils")).parseResponse(res);
+  };
+
   const startEdit = (s: any) => {
     const existingImageUrl =
       typeof s.imageUrl === "string" && s.imageUrl.trim().length
@@ -45,6 +59,11 @@ export default function HomepageAdmin() {
         : typeof s.image === "string" && s.image.trim().length
           ? s.image.trim()
           : "";
+    const preview = s.imageId
+      ? `/api/assets/${s.imageId}`
+      : existingImageUrl || null;
+    setFile(null);
+    setImagePreview(preview);
     setEditing({
       [s.id]: {
         heading: s.heading || "",

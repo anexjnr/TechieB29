@@ -61,9 +61,9 @@ export default function Services() {
                 palette: Palette,
                 cpu: Cpu,
                 'bar-chart-3': BarChart3,
-                cloud: CloudIcon,
-                zap: BarChart3, // fallback mapping
-                shield: BarChart3,
+                cloud: Cloud,
+                zap: Zap,
+                shield: Shield,
               };
               return map[name] || map[name?.toLowerCase?.()] || [Target, Palette, Cpu, BarChart3][i % 4];
             };

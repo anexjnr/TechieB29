@@ -5,15 +5,9 @@ const links = [
   { to: "/admin", label: "Dashboard" },
   { to: "/admin/home", label: "Homepage" },
   { to: "/admin/about", label: "Who We Are" },
-  { to: "/admin/services", label: "What We Do" },
-  { to: "/admin/serve", label: "How We Serve" },
-  { to: "/admin/projects", label: "Projects" },
-  { to: "/admin/news", label: "News" },
   { to: "/admin/testimonials", label: "Testimonials" },
-  { to: "/admin/careers", label: "Careers" },
   { to: "/admin/contact", label: "Contact" },
   { to: "/admin/policies", label: "Policies" },
-  { to: "/admin/assets", label: "Assets" },
   { to: "/admin/users", label: "Users" },
 ];
 

@@ -183,10 +183,21 @@ export default function HomepageAdmin() {
                         placeholder="Image URL"
                         className="w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-primary"
                       />
-                      {previewUrl ? (
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0] ?? null;
+                          setFile(f);
+                          if (f) setImagePreview(URL.createObjectURL(f));
+                          else setImagePreview(null);
+                        }}
+                        className="mt-2 text-sm text-primary/80"
+                      />
+                      {imagePreview ? (
                         <div className="mt-2 rounded-md border border-primary/20 bg-black/20 p-2">
                           <img
-                            src={previewUrl}
+                            src={imagePreview}
                             alt={`${s.key} preview`}
                             className="max-h-40 w-full object-contain"
                           />

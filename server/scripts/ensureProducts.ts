@@ -81,7 +81,9 @@ const products = [
 async function run() {
   try {
     for (const [idx, p] of products.entries()) {
-      const existing = await prisma.product.findFirst({ where: { name: p.name } });
+      const existing = await prisma.product.findFirst({
+        where: { name: p.name },
+      });
       if (existing) {
         await prisma.product.update({ where: { id: existing.id }, data: p });
         console.log(`Updated product ${idx + 1}: ${p.name}`);

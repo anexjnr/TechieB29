@@ -49,7 +49,9 @@ export default function Products() {
     return (
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <Section>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground">Products</h1>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground">
+            Products
+          </h1>
           <p className="mt-4 text-foreground/85">Unable to load products.</p>
         </Section>
       </div>
@@ -59,13 +61,19 @@ export default function Products() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
       <Section>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground">Products</h1>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground">
+          Products
+        </h1>
         <p className="mt-4 max-w-prose text-foreground/85">
-          Our flagship platforms built for scale, compliance, and operational excellence.
+          Our flagship platforms built for scale, compliance, and operational
+          excellence.
         </p>
       </Section>
 
-      <Section className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6" delay={0.05}>
+      <Section
+        className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6"
+        delay={0.05}
+      >
         {(ordered.length ? ordered : []).map((p) => (
           <TiltCard key={p.id} className="h-full">
             <div className="flex items-start gap-5">
@@ -82,21 +90,28 @@ export default function Products() {
               </div>
 
               <div className="min-w-0">
-                <div className="text-2xl font-bold text-foreground">{p.name}</div>
+                <div className="text-2xl font-bold text-foreground">
+                  {p.name}
+                </div>
                 {p.tagline && (
-                  <div className="mt-1 text-primary/100 font-semibold">{p.tagline}</div>
+                  <div className="mt-1 text-primary/100 font-semibold">
+                    {p.tagline}
+                  </div>
                 )}
                 {p.description && (
-                  <p className="mt-3 text-sm text-foreground/85">{p.description}</p>
+                  <p className="mt-3 text-sm text-foreground/85">
+                    {p.description}
+                  </p>
                 )}
 
-                {Array.isArray(p.keyCapabilities) && p.keyCapabilities.length > 0 && (
-                  <ul className="mt-4 text-sm text-foreground/90 list-disc pl-5 space-y-1">
-                    {p.keyCapabilities.map((k, i) => (
-                      <li key={i}>{k}</li>
-                    ))}
-                  </ul>
-                )}
+                {Array.isArray(p.keyCapabilities) &&
+                  p.keyCapabilities.length > 0 && (
+                    <ul className="mt-4 text-sm text-foreground/90 list-disc pl-5 space-y-1">
+                      {p.keyCapabilities.map((k, i) => (
+                        <li key={i}>{k}</li>
+                      ))}
+                    </ul>
+                  )}
 
                 {p.technology && (
                   <div className="mt-4 text-xs text-foreground/80">

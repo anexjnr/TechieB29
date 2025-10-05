@@ -220,9 +220,6 @@ export default function About() {
     });
   }, [contentParagraphs, description]);
 
-
-
-
   const renderImage = (): JSX.Element | null => {
     const img = (about as any)?.image ?? (about as any)?.imageUrl ?? null;
 

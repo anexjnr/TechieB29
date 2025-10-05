@@ -13,7 +13,8 @@ export default function ClientsInfographic() {
         const arr = await res.json();
         if (canceled) return;
         if (Array.isArray(arr) && arr.length) {
-          const first = arr.find((x: any) => x && x.enabled !== false) || arr[0];
+          const first =
+            arr.find((x: any) => x && x.enabled !== false) || arr[0];
           setData(first || null);
         } else {
           setData(null);

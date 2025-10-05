@@ -360,11 +360,25 @@ export default function About() {
                 }}
               >
                 <TiltCard className="text-center">
-                  <img
-                    src={typeof leader.avatar === 'string' ? leader.avatar : (leader.avatar && leader.avatar.id ? `/api/assets/${leader.avatar.id}` : '')}
-                    alt={leader.name}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
-                  />
+                  {(() => {
+                    const avatarUrl = typeof leader.avatar === 'string' ? leader.avatar : (leader.avatar && (leader.avatar as any).id ? `/api/assets/${(leader.avatar as any).id}` : null);
+                    const initials = (leader as any).avatarInitials || (leader.name || '').split(' ').map((n: string)=>n[0]).join('').slice(0,2).toUpperCase();
+                    if (avatarUrl) {
+                      return (
+                        <img
+                          src={avatarUrl}
+                          alt={leader.name}
+                          className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-2 border-primary/20"
+                        />
+                      );
+                    }
+                    return (
+                      <div className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center bg-gradient-to-br from-primary/80 to-primary/50 text-white font-bold text-lg border-2 border-primary/20">
+                        {initials}
+                      </div>
+                    );
+                  })()}
+
                   <h4 className="text-xl font-semibold text-foreground mb-1">
                     {leader.name}
                   </h4>

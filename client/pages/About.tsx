@@ -122,20 +122,58 @@ export default function About() {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
+    let mounted = true;
+
+    const fetchAbout = async () => {
       try {
         const res = await fetch(`${BACKEND_URL}/api/about`);
-        if (res.ok) {
-          const data: AboutData[] = await res.json();
-          if (Array.isArray(data) && data.length) setAbout(data[0]);
-        }
+        if (!res.ok) return null;
+        const data: AboutData[] = await res.json();
+        if (!Array.isArray(data) || data.length === 0) return null;
+        return data[0];
       } catch (e) {
-        console.error("API call failed, using fallback content:", e);
-      } finally {
-        setLoading(false);
+        console.error("API call failed for /api/about:", e);
+        return null;
       }
-    })();
+    };
+
+    const update = async () => {
+      setLoading(true);
+      const latest = await fetchAbout();
+      if (mounted && latest) setAbout((prev) => {
+        // Only set if content differs to avoid unnecessary re-renders
+        try {
+          const prevJson = JSON.stringify(prev || {});
+          const latestJson = JSON.stringify(latest || {});
+          if (prevJson !== latestJson) return latest;
+        } catch (e) {
+          return latest;
+        }
+        return prev;
+      });
+      setLoading(false);
+    };
+
+    update();
+
+    // Retry fetch a few times to allow admin updates to propagate
+    const retryDelays = [1000, 3000, 6000];
+    const timers: number[] = [];
+    retryDelays.forEach((d) => {
+      const id = window.setTimeout(() => {
+        update();
+      }, d);
+      timers.push(id);
+    });
+
+    const onFocus = () => update();
+    window.addEventListener("focus", onFocus);
+
+    return () => {
+      mounted = false;
+      timers.forEach((t) => clearTimeout(t));
+      window.removeEventListener("focus", onFocus);
+    };
   }, []);
 
   const contentParagraphs = useMemo(() => {

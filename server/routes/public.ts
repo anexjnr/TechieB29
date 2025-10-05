@@ -87,7 +87,10 @@ router.get("/projects", async (_req, res) => {
 
 router.get("/about", async (_req, res) => {
   try {
-    const items = await prisma.about.findMany();
+    const items = await prisma.about.findMany({
+      where: { enabled: true },
+      orderBy: { id: "desc" } as any,
+    });
     if (!items || items.length === 0) return res.json(memoryDb.about);
 
     const normalized = items.map((item) => {

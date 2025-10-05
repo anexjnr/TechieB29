@@ -360,8 +360,8 @@ export default function About() {
                     },
                   }}
                 >
-                  <TiltCard className="text-center h-full">
-                    <div className="mx-auto mb-3">
+                  <TiltCard className="h-full flex flex-col items-center justify-center text-center py-6">
+                    <div className="mb-3 flex items-center justify-center">
                       <Icon className="h-10 w-10 text-primary/100" />
                     </div>
                     <h4 className="font-semibold text-foreground mb-2">

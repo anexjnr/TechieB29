@@ -88,15 +88,18 @@ export default function Services() {
       </Section>
 
       <Section className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" delay={0.1}>
-        {items.map((c, i) => (
-          <div key={i} className="rounded-2xl border border-primary/20 bg-transparent p-6 glass-card">
-            <div className="h-6 w-6 text-primary/100">
-              <Target />
-            </div>
-            <div className="mt-4 font-semibold text-foreground">{c.title}</div>
-            <p className="mt-2 text-sm text-foreground/90">{c.description}</p>
-          </div>
-        ))}
+        {items.map((c, i) => {
+          const Icon = [Target, Palette, Cpu, BarChart3][i % 4] || Target;
+          return (
+            <TiltCard key={c.id || i} className="h-full">
+              <div className="h-6 w-6 text-primary/100">
+                <Icon />
+              </div>
+              <div className="mt-4 font-semibold text-foreground">{c.title}</div>
+              <p className="mt-2 text-sm text-foreground/90">{c.description}</p>
+            </TiltCard>
+          );
+        })}
       </Section>
 
       <Section className="mt-16" delay={0.15}>

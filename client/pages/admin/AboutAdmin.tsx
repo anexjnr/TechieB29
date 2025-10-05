@@ -28,6 +28,37 @@ export default function AboutAdmin() {
     fetchItems();
   }, []);
 
+  const compressImage = async (file: File, maxWidth = 1200, quality = 0.8) => {
+    try {
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const i = new Image();
+        i.onload = () => resolve(i);
+        i.onerror = reject;
+        i.src = URL.createObjectURL(file);
+      });
+
+      const ratio = Math.min(1, maxWidth / img.width);
+      const w = Math.round(img.width * ratio);
+      const h = Math.round(img.height * ratio);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return file;
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const blob: Blob | null = await new Promise((res) =>
+        canvas.toBlob((b) => res(b), 'image/webp', quality),
+      );
+      if (!blob) return file;
+      const compressedFile = new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' });
+      return compressedFile;
+    } catch (e) {
+      console.warn('Image compression failed, uploading original', e);
+      return file;
+    }
+  };
+
   const uploadFile = async (f: File) => {
     const fd = new FormData(); fd.append('file', f);
     const res = await fetch('/api/admin/upload', { method: 'POST', body: fd, headers: token ? { Authorization: `Bearer ${token}` } : {} });

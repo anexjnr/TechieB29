@@ -110,6 +110,10 @@ router.get("/about", async (_req, res) => {
         // Optional structured content
         awards: (item as any).awards || null,
         leadership: (item as any).leadership || null,
+        // Purpose & Values section
+        valuesHeading: (item as any).valuesHeading || null,
+        valuesSubheading: (item as any).valuesSubheading || null,
+        valuesCards: (item as any).valuesCards || null,
       };
     });
 

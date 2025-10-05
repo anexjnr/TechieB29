@@ -91,6 +91,7 @@ class MemoryDB {
   jobs: JobItem[] = [];
   serve: ServeStep[] = [];
   sections: SectionItem[] = [];
+  clients: { id: ID; heading: string; subheading?: string; details?: any[]; image?: string; enabled?: boolean; order?: number }[] = [];
   policies: { id: ID; title: string; content?: string; createdAt?: string }[] =
     [];
   contact: {

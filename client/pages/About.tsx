@@ -125,43 +125,10 @@ export default function About() {
     (async () => {
       setLoading(true);
       try {
-        // fetch about table
         const res = await fetch(`${BACKEND_URL}/api/about`);
         if (res.ok) {
           const data: AboutData[] = await res.json();
-          if (Array.isArray(data) && data.length) setAbout((prev) => ({ ...prev, ...data[0] }));
-        }
-
-        // Also fetch sections and prefer 'who' / 'who-we-are' section if present
-        try {
-          const secRes = await fetch(`${BACKEND_URL}/api/sections`);
-          if (secRes.ok) {
-            const secs = await secRes.json();
-            if (Array.isArray(secs) && secs.length) {
-              const candidate = secs.find((s: any) => s.key === "who" || s.key === "who-we-are");
-              if (candidate) {
-                // candidate.image may be a URL already (public normalization) or imageId
-                const img = candidate.image ?? candidate.imageUrl ?? candidate.imageId
-                  ? typeof candidate.image === "string"
-                    ? candidate.image
-                    : candidate.imageId
-                      ? `/api/assets/${candidate.imageId}`
-                      : null
-                  : null;
-                setAbout((prev) => ({
-                  ...prev,
-                  heading: candidate.heading || prev.heading,
-                  content: candidate.content || prev.content,
-                  description:
-                    (candidate.subheading || candidate.content) || prev.description,
-                  image: img || prev.image,
-                }));
-              }
-            }
-          }
-        } catch (e) {
-          // ignore sections fetch failure
-          console.warn("Failed fetching sections for About override", e);
+          if (Array.isArray(data) && data.length) setAbout(data[0]);
         }
       } catch (e) {
         console.error("API call failed, using fallback content:", e);

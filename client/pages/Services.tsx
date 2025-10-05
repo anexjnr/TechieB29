@@ -27,10 +27,23 @@ export default function Services() {
           We provide specialized IT services that enhance performance, ensure scalability, and accelerate digital maturity:
         </p>
         <ul className="mt-4 max-w-prose text-foreground/85 list-disc pl-6 space-y-2">
-          <li>Enterprise Architecture Services – Align technology with business objectives for scale, security, and agility.</li>
-          <li>Cloud Enablement – Drive cloud adoption, optimization, and resilience.</li>
-          <li>AI Augmentation – Integrate intelligence into decision-making and operations.</li>
-          <li>Cybersecurity &amp; Vulnerability Assessments – Protect your enterprise with proactive risk management.</li>
+          {(() => {
+            const visible = Array.isArray(services)
+              ? services.filter((s) => s.enabled !== false)
+              : [];
+            const fallback = [
+              { title: 'Enterprise Architecture Services', description: 'Align technology with business objectives for scale, security, and agility.' },
+              { title: 'Cloud Enablement', description: 'Drive cloud adoption, optimization, and resilience.' },
+              { title: 'AI Augmentation', description: 'Integrate intelligence into decision-making and operations.' },
+              { title: 'Cybersecurity & Vulnerability Assessments', description: 'Protect your enterprise with proactive risk management.' },
+            ];
+            const toShow = visible.length ? visible : fallback;
+            return toShow.map((s: any) => (
+              <li key={s.id || s.title}>
+                <strong>{s.title}</strong> – {s.description}
+              </li>
+            ));
+          })()}
         </ul>
       </Section>
 

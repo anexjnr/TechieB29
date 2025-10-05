@@ -83,6 +83,18 @@ model Testimonial {
   enabled  Boolean @default(true)
 }
 
+model ClientSection {
+  id          String  @id @default(cuid())
+  heading     String
+  subheading  String?
+  details     Json?
+  imageUrl    String?
+  imageId     String?
+  image       Asset?  @relation("ClientSectionImage", fields: [imageId], references: [id])
+  order       Int?    @default(0)
+  enabled     Boolean @default(true)
+}
+
 model Job {
   id          String @id @default(cuid())
   title       String

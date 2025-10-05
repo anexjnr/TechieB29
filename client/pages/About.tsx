@@ -193,22 +193,6 @@ export default function About() {
     });
   }, [contentParagraphs, description]);
 
-  const LoadingIcon = ({ size = 40 }: { size?: number }) => (
-    <div className="flex items-center justify-center h-64">
-      <svg
-        className="animate-spin text-primary"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" opacity="0.2" />
-        <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      </svg>
-    </div>
-  );
-
   const renderImage = (): JSX.Element | null => {
     const img = (about as any)?.image ?? (about as any)?.imageUrl ?? null;
 

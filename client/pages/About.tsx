@@ -126,7 +126,7 @@ export default function About() {
 
     const fetchAbout = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/about`);
+        const res = await fetch(`${BACKEND_URL}/api/about`, { cache: "no-store" });
         if (!res.ok) return null;
         const data: AboutData[] = await res.json();
         if (!Array.isArray(data) || data.length === 0) return null;
@@ -141,7 +141,6 @@ export default function About() {
       setLoading(true);
       const latest = await fetchAbout();
       if (mounted && latest) setAbout((prev) => {
-        // Only set if content differs to avoid unnecessary re-renders
         try {
           const prevJson = JSON.stringify(prev || {});
           const latestJson = JSON.stringify(latest || {});
@@ -154,24 +153,15 @@ export default function About() {
       setLoading(false);
     };
 
+    // Fetch once immediately for fastest render
     update();
 
-    // Retry fetch a few times to allow admin updates to propagate
-    const retryDelays = [1000, 3000, 6000];
-    const timers: number[] = [];
-    retryDelays.forEach((d) => {
-      const id = window.setTimeout(() => {
-        update();
-      }, d);
-      timers.push(id);
-    });
-
+    // Re-fetch on window focus to pick up changes
     const onFocus = () => update();
     window.addEventListener("focus", onFocus);
 
     return () => {
       mounted = false;
-      timers.forEach((t) => clearTimeout(t));
       window.removeEventListener("focus", onFocus);
     };
   }, []);
@@ -203,6 +193,22 @@ export default function About() {
     });
   }, [contentParagraphs, description]);
 
+  const LoadingIcon = ({ size = 40 }: { size?: number }) => (
+    <div className="flex items-center justify-center h-64">
+      <svg
+        className="animate-spin text-primary"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" opacity="0.2" />
+        <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+
   const renderImage = (): JSX.Element | null => {
     const img = (about as any)?.image ?? (about as any)?.imageUrl ?? null;
 
@@ -220,18 +226,15 @@ export default function About() {
       : imageSrc;
 
     return (
-      <>
-        <img
-          src={finalSrc}
-          alt="Team"
-          className="w-full h-64 object-cover rounded-2xl border border-primary/20"
-          onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            // hide image if it fails to load
-            (e.currentTarget as HTMLImageElement).style.display = "none";
-          }}
-        />
-        <div className="mt-2 text-sm text-primary/70 break-all">Image source: {imageSrc}</div>
-      </>
+      <img
+        src={finalSrc}
+        alt="Team"
+        className="w-full h-64 object-cover rounded-2xl border border-primary/20"
+        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+          // hide image if it fails to load
+          (e.currentTarget as HTMLImageElement).style.display = "none";
+        }}
+      />
     );
   };
 
@@ -270,8 +273,9 @@ export default function About() {
           </div>
 
           <div className="relative">
-            <div className="rounded-3xl glass-card border border-primary/20 p-6 overflow-hidden">
-              {renderImage()}
+            <div className="rounded-3xl glass-card border border-primary/20 p-6 overflow-hidden flex items-center justify-center">
+              {loading && !(about as any)?.image && <LoadingIcon />}
+              {!loading && renderImage()}
             </div>
           </div>
         </div>

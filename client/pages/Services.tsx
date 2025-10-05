@@ -1,7 +1,6 @@
 import Section from "@/components/site/Section";
-import AnimatedTitle from "@/components/site/AnimatedTitle";
 import TiltCard from "@/components/site/TiltCard";
-import { Cpu, Palette, Target, BarChart3 } from "lucide-react";
+import { Cpu, Palette, Target, BarChart3, Cloud, Zap, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Services() {

@@ -1,6 +1,7 @@
 import Section from "@/components/site/Section";
 import AnimatedTitle from "@/components/site/AnimatedTitle";
 import InteractiveMap from "@/components/site/InteractiveMap";
+import ContactForm from "@/components/ContactForm";
 
 export default function Contact() {
   return (

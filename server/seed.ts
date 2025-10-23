@@ -114,7 +114,7 @@ export async function seed() {
             author: "Alex J.",
             title: "Chief Executive Officer",
             company: "Inn Solutions",
-            quote: "Working with AUIO was a game-changer.",
+            quote: "Working with TBT was a game-changer.",
             avatarId: asset.id,
           },
           {

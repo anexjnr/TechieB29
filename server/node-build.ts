@@ -13,13 +13,13 @@ const distPath = path.join(__dirname, "../spa");
 app.use(express.static(distPath));
 
 // Handle React Router - serve index.html for all non-API routes
-app.get("*", (req, res) => {
-  // Don't serve index.html for API routes
-  if (req.path.startsWith("/api/") || req.path.startsWith("/health")) {
-    return res.status(404).json({ error: "API endpoint not found" });
+// Use a middleware fallback instead of app.get("*") to avoid path-to-regexp parsing errors
+app.use((req, res, next) => {
+  // Only handle GET requests that are not API or health routes
+  if (req.method === "GET" && !req.path.startsWith("/api/") && !req.path.startsWith("/health")) {
+    return res.sendFile(path.join(distPath, "index.html"));
   }
-
-  res.sendFile(path.join(distPath, "index.html"));
+  next();
 });
 
 app.listen(port, () => {

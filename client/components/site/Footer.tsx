@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           {/* Brand */}
           <div className="md:col-span-4">
-            <div className="font-extrabold text-lg text-primary/100 tracking-tight">AUIO</div>
+            <div className="font-extrabold text-lg text-primary/100 tracking-tight">TBT</div>
             <p className="text-sm text-primary/90 mt-2 max-w-sm">
               Clean, minimal, bold systems for modern companies.
             </p>
@@ -19,7 +19,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  aria-label="AUIO on Twitter"
+                  aria-label="TBT on Twitter"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary/80 hover:text-primary/100 border border-primary/20 hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 >
                   <Twitter className="h-5 w-5" aria-hidden="true" />
@@ -28,7 +28,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  aria-label="AUIO on Instagram"
+                  aria-label="TBT on Instagram"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary/80 hover:text-primary/100 border border-primary/20 hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 >
                   <Instagram className="h-5 w-5" aria-hidden="true" />
@@ -37,7 +37,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  aria-label="AUIO on LinkedIn"
+                  aria-label="TBT on LinkedIn"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary/80 hover:text-primary/100 border border-primary/20 hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 >
                   <Linkedin className="h-5 w-5" aria-hidden="true" />
@@ -46,7 +46,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  aria-label="AUIO on GitHub"
+                  aria-label="TBT on GitHub"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary/80 hover:text-primary/100 border border-primary/20 hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 >
                   <Github className="h-5 w-5" aria-hidden="true" />
@@ -55,7 +55,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  aria-label="AUIO on YouTube"
+                  aria-label="TBT on YouTube"
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary/80 hover:text-primary/100 border border-primary/20 hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 >
                   <Youtube className="h-5 w-5" aria-hidden="true" />
@@ -144,7 +144,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 border-t border-primary/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary/70">
-          <div>© {new Date().getFullYear()} AUIO. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} TBT. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <Link to="/legal/terms" className="hover:text-primary/100">
               Terms

@@ -31,7 +31,8 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "nodemailer": "^6.9.4"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
@@ -68,7 +69,7 @@ export default function Header() {
             to="/"
             className="font-extrabold tracking-tight text-xl text-primary/100 px-3 py-2 rounded-md"
           >
-            AUIO
+            TBT
           </Link>
           <nav className="hidden md:flex items-center gap-8 ml-auto">
             {nav.map((n) => (

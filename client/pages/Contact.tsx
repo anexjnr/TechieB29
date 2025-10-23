@@ -19,37 +19,7 @@ export default function Contact() {
         className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8"
         delay={0.1}
       >
-        <form className="rounded-2xl border border-primary/20 bg-black/10 p-6 space-y-4">
-          <div>
-            <label className="text-sm font-semibold">Name</label>
-            <input
-              className="mt-1 w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40"
-              placeholder="Jane Doe"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-semibold">Email</label>
-            <input
-              type="email"
-              className="mt-1 w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40"
-              placeholder="jane@acme.com"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-semibold">Message</label>
-            <textarea
-              rows={5}
-              className="mt-1 w-full rounded-md bg-transparent border border-primary/30 px-3 py-2 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40"
-              placeholder="How can we help?"
-            />
-          </div>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md border border-primary/30 bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-primary/10"
-          >
-            Send
-          </button>
-        </form>
+        <ContactForm />
         <div className="rounded-2xl border border-primary/20 bg-black/10 p-6">
           <div className="font-semibold text-foreground">TBT HQ</div>
           <p className="mt-2 text-sm text-foreground/80">

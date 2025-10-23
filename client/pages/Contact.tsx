@@ -50,7 +50,7 @@ export default function Contact() {
           </button>
         </form>
         <div className="rounded-2xl border border-primary/20 bg-black/10 p-6">
-          <div className="font-semibold text-foreground">AUIO HQ</div>
+          <div className="font-semibold text-foreground">TBT HQ</div>
           <p className="mt-2 text-sm text-foreground/80">
             Remote‑first with offices in SF and Berlin.
           </p>

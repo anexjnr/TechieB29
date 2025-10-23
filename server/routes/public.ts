@@ -281,6 +281,73 @@ router.get("/assets/:id", async (req, res) => {
   }
 });
 
+// Contact form endpoint
+router.post("/contact", async (req, res) => {
+  try {
+    const schema = z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      message: z.string().min(1),
+    });
+    const parsed = schema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ ok: false, error: parsed.error.errors });
+    }
+
+    const { name, email, message } = parsed.data;
+    const wordCount = (message || "").trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount > 300) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "Message exceeds 300 word limit" });
+    }
+
+    // Attempt to send email if SMTP configured
+    const smtpHost = process.env.SMTP_HOST;
+    const receiver = process.env.CONTACT_RECEIVER || "axpauly@gmail.com";
+    const from = process.env.EMAIL_FROM || "noreply@localhost";
+
+    if (smtpHost) {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || 587),
+        secure:
+          process.env.SMTP_SECURE === "1" || process.env.SMTP_SECURE === "true",
+        auth:
+          process.env.SMTP_USER && process.env.SMTP_PASS
+            ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+            : undefined,
+      });
+
+      const mail = {
+        from: `${name} <${email}>`,
+        to: receiver,
+        subject: `Website contact from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+        html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message.replace(/\n/g, "<br />")}</p>`,
+      } as any;
+
+      await transporter.sendMail(mail);
+      return res.json({ ok: true });
+    }
+
+    // Fallback: store in memory DB and log (SMTP not configured)
+    console.warn("SMTP not configured, storing contact in memory DB");
+    const created = createItem(memoryDb.contact, {
+      name,
+      email,
+      message,
+      createdAt: new Date().toISOString(),
+    } as any);
+
+    console.log("Stored contact message (fallback):", created);
+    return res.json({ ok: true, fallback: true });
+  } catch (e: any) {
+    console.error("Contact endpoint error:", e);
+    return res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
 // Manual refresh endpoint (for admins/operators). Triggers fetch + upsert.
 router.get("/technews/refresh", async (_req, res) => {
   try {

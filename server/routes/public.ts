@@ -327,7 +327,8 @@ router.post("/contact", async (req, res) => {
         html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message.replace(/\n/g, "<br />")}</p>`,
       } as any;
 
-      await transporter.sendMail(mail);
+      const info = await transporter.sendMail(mail);
+      console.log("Contact email sent", { messageId: info?.messageId, response: info?.response });
       return res.json({ ok: true });
     }
 

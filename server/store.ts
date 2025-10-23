@@ -477,7 +477,7 @@ class MemoryDB {
           author: "Alex J.",
           title: "CEO",
           company: "Inn Solutions",
-          quote: "Working with AUIO was a game-changer.",
+          quote: "Working with TBT was a game-changer.",
           avatar:
             "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=400&q=80",
         },

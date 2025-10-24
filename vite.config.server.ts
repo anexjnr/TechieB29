@@ -34,8 +34,8 @@ export default defineConfig({
         "cors",
       ],
       output: {
-        format: "es",
-        entryFileNames: "[name].mjs",
+        format: "cjs",
+        entryFileNames: "[name].js",
       },
     },
     minify: false, // Keep readable for debugging

@@ -15,7 +15,11 @@ app.use(express.static(distPath));
 // Use a middleware fallback instead of app.get("*") to avoid path-to-regexp parsing errors
 app.use((req, res, next) => {
   // Only handle GET requests that are not API or health routes
-  if (req.method === "GET" && !req.path.startsWith("/api/") && !req.path.startsWith("/health")) {
+  if (
+    req.method === "GET" &&
+    !req.path.startsWith("/api/") &&
+    !req.path.startsWith("/health")
+  ) {
     return res.sendFile(path.join(distPath, "index.html"));
   }
   next();

@@ -585,7 +585,10 @@ router.put("/:section/:id", async (req, res) => {
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
   try {
-    const updated = await (model as any).update({ where: { id }, data: req.body || {} });
+    const updated = await (model as any).update({
+      where: { id },
+      data: req.body || {},
+    });
     res.json(updated);
   } catch (e) {
     console.warn("Prisma update failed, using memory store", e.message || e);

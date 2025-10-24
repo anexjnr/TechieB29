@@ -8,7 +8,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, "server/node-build.ts"),
       name: "server",
       fileName: "node-build",
-      formats: ["es"],
+      formats: ["cjs"],
     },
     outDir: "dist/server",
     target: "node22",

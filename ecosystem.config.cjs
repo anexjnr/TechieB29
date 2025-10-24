@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
   apps: [
     {
       name: "fusion-starter",
-      script: path.join(__dirname, 'dist', 'server', 'node-build.mjs'),
+      script: path.join(__dirname, "dist", "server", "node-build.mjs"),
       instances: "max",
       exec_mode: "cluster",
       env: {
@@ -15,9 +15,9 @@ module.exports = {
         NODE_ENV: "development",
         PORT: 3000,
       },
-      error_file: path.join(__dirname, 'logs', 'pm2-error.log'),
-      out_file: path.join(__dirname, 'logs', 'pm2-out.log'),
-      log_file: path.join(__dirname, 'logs', 'pm2-combined.log'),
+      error_file: path.join(__dirname, "logs", "pm2-error.log"),
+      out_file: path.join(__dirname, "logs", "pm2-out.log"),
+      log_file: path.join(__dirname, "logs", "pm2-combined.log"),
       time: true,
       watch: false,
       ignore_watch: ["node_modules", "logs", "dist/spa"],

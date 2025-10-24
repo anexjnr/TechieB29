@@ -60,5 +60,40 @@ export function createServer() {
 
   // serve asset via admin router already at /api/admin/assets/:id
 
+  // In production, serve the built SPA files (dist/spa)
+  const distSpaPath = path.join(__dirname, "../spa");
+  app.use(express.static(distSpaPath));
+
+  // SPA fallback: serve index.html for non-API routes
+  app.use((req, res, next) => {
+    if (req.method === "GET" && !req.path.startsWith("/api/") && !req.path.startsWith("/health")) {
+      return res.sendFile(path.join(distSpaPath, "index.html"));
+    }
+    next();
+  });
+
   return app;
+}
+
+// Production entry point
+if (require.main === module || process.env.NODE_ENV === "production") {
+  const port = process.env.PORT || 3000;
+  const app = createServer();
+
+  app.listen(port, () => {
+    console.log(`🚀 Server running on port ${port}`);
+    console.log(`📱 http://localhost:${port}`);
+    console.log(`🔧 API: http://localhost:${port}/api`);
+  });
+
+  // Graceful shutdown
+  process.on("SIGTERM", () => {
+    console.log("🛑 Received SIGTERM, shutting down gracefully");
+    process.exit(0);
+  });
+
+  process.on("SIGINT", () => {
+    console.log("🛑 Received SIGINT, shutting down gracefully");
+    process.exit(0);
+  });
 }

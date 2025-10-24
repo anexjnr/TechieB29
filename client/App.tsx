@@ -1,27 +1,20 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const Index = lazy(() => import("./pages/Index"));
-const Layout = lazy(() => import("./components/site/Layout"));
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
-    children: [
-      { path: "/", element: <Index /> },
-    ],
+    path: "/",
+    element: <div>Home Page</div>,
   },
   { path: "*", element: <div>Not found</div> },
 ]);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <RouterProvider router={router} />
   </QueryClientProvider>
 );
 

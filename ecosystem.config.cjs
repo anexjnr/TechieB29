@@ -20,7 +20,13 @@ module.exports = {
       script: scriptPath,
       instances: "max",
       exec_mode: "cluster",
+      interpreter: "node",
+      node_args: "--enable-source-maps",
       env: {
+        NODE_ENV: "production",
+        PORT: 3000,
+      },
+      env_production: {
         NODE_ENV: "production",
         PORT: 3000,
       },

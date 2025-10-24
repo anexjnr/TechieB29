@@ -62,7 +62,7 @@ export function createServer() {
   // serve asset via admin router already at /api/admin/assets/:id
 
   // Serve frontend SPA files from dist/spa in production
-  const distSpaPath = path.join(__dirname, "../spa");
+  const distSpaPath = path.join(process.cwd(), "dist", "spa");
 
   // Only serve static files if dist/spa exists (production build)
   if (fs.existsSync(distSpaPath)) {

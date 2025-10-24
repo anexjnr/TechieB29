@@ -1,14 +1,13 @@
 import "./global.css";
-
-import { Toaster } from "@/components/ui/toaster";
-import { lazy, Suspense } from "react";
-import Index from "./pages/Index";
-import Layout from "./components/site/Layout";
-import LoadingScreen from "./components/site/LoadingScreen";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import Layout from "./components/site/Layout";
+
+const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const Products = lazy(() => import("./pages/Products"));
@@ -19,7 +18,6 @@ const Contact = lazy(() => import("./pages/Contact"));
 const LegalTerms = lazy(() => import("./pages/LegalTerms"));
 const LegalPolicy = lazy(() => import("./pages/LegalPolicy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-// Layout eagerly loaded above
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminLogin = lazy(() => import("./pages/admin/Login"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -71,9 +69,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={<LoadingScreen />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -60,5 +60,27 @@ export function createServer() {
 
   // serve asset via admin router already at /api/admin/assets/:id
 
+  // Serve frontend SPA files from dist/spa in production
+  const distSpaPath = path.join(__dirname, "../spa");
+
+  try {
+    // Only serve static files if dist/spa exists (production build)
+    app.use(express.static(distSpaPath));
+
+    // SPA fallback: serve index.html for non-API routes
+    app.use((req, res, next) => {
+      if (
+        req.method === "GET" &&
+        !req.path.startsWith("/api/") &&
+        !req.path.startsWith("/health")
+      ) {
+        return res.sendFile(path.join(distSpaPath, "index.html"));
+      }
+      next();
+    });
+  } catch (e) {
+    // In development, dist/spa might not exist, which is fine
+  }
+
   return app;
 }

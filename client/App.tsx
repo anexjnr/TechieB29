@@ -32,7 +32,12 @@ const ApplicationsAdmin = lazy(() => import("./pages/admin/ApplicationsAdmin"));
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-  { path: "/", element: <div>Home Page - no Layout</div> },
+  {
+    element: <Layout />,
+    children: [
+      { path: "/", element: <div>Home Page with Layout</div> },
+    ],
+  },
   { path: "*", element: <div>Not found</div> },
 ]);
 

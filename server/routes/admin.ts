@@ -501,7 +501,7 @@ router.get("/:section", async (req, res) => {
   else orderBy = { id: "desc" };
 
   try {
-    const items = await model.findMany({
+    const items = await (model as any).findMany({
       orderBy: orderBy as any,
       include: Object.keys(include).length ? include : undefined,
     });

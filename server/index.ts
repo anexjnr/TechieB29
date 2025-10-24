@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import path from "path";
+import fs from "fs";
 import { adminLogin } from "./routes/auth";
 import adminRouter from "./routes/admin";
 import { db } from "./store";
@@ -63,8 +64,8 @@ export function createServer() {
   // Serve frontend SPA files from dist/spa in production
   const distSpaPath = path.join(__dirname, "../spa");
 
-  try {
-    // Only serve static files if dist/spa exists (production build)
+  // Only serve static files if dist/spa exists (production build)
+  if (fs.existsSync(distSpaPath)) {
     app.use(express.static(distSpaPath));
 
     // SPA fallback: serve index.html for non-API routes
@@ -78,8 +79,6 @@ export function createServer() {
       }
       next();
     });
-  } catch (e) {
-    // In development, dist/spa might not exist, which is fine
   }
 
   return app;

@@ -4,7 +4,7 @@ import { memoryDb, serveAssetFallback, createItem } from "../dbFallback";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 
-const router = Router();
+const router: Router = Router();
 
 router.get("/news", async (_req, res) => {
   res.setHeader(

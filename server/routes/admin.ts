@@ -540,7 +540,7 @@ router.post("/:section", async (req, res) => {
   if (!model) return res.status(404).json({ error: "Unknown section" });
   const payload = req.body || {};
   try {
-    const created = await model.create({ data: payload });
+    const created = await (model as any).create({ data: payload });
     res.status(201).json(created);
   } catch (e) {
     console.warn("Prisma create failed, using memory store", e.message || e);

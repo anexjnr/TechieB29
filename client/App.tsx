@@ -1,6 +1,6 @@
+import React, { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { lazy, Suspense } from "react";
 
 const Index = lazy(() => import("./pages/Index"));
 const Layout = lazy(() => import("./components/site/Layout"));

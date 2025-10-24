@@ -70,7 +70,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<div style={{ padding: '20px' }}>Loading...</div>}>
         <RouterProvider router={router} />
       </Suspense>
     </TooltipProvider>

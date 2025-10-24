@@ -4,7 +4,7 @@ import { memoryDb, serveAssetFallback, createItem } from "../dbFallback";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 
-const router = Router();
+const router: Router = Router();
 
 router.get("/news", async (_req, res) => {
   res.setHeader(
@@ -295,7 +295,10 @@ router.post("/contact", async (req, res) => {
     }
 
     const { name, email, message } = parsed.data;
-    const wordCount = (message || "").trim().split(/\s+/).filter(Boolean).length;
+    const wordCount = (message || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean).length;
     if (wordCount > 300) {
       return res
         .status(400)
@@ -328,7 +331,10 @@ router.post("/contact", async (req, res) => {
       } as any;
 
       const info = await transporter.sendMail(mail);
-      console.log("Contact email sent", { messageId: info?.messageId, response: info?.response });
+      console.log("Contact email sent", {
+        messageId: info?.messageId,
+        response: info?.response,
+      });
       return res.json({ ok: true });
     }
 

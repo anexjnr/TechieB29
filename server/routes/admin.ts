@@ -12,7 +12,7 @@ import {
   serveAssetFallback,
 } from "../dbFallback";
 
-const router = Router();
+const router: Router = Router();
 const upload = multer(); // memory storage
 
 router.use(authMiddleware);

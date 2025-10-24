@@ -9,7 +9,7 @@ import adminRouter from "./routes/admin";
 import { db } from "./store";
 import { prisma } from "./prisma";
 
-export function createServer() {
+export function createServer(): express.Express {
   const app = express();
 
   // Middleware

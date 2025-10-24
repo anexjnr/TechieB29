@@ -143,7 +143,7 @@ router.get("/stats", async (_req, res) => {
 
 // Upload to DB as Asset and return a URL to fetch the asset
 router.post("/upload", upload.single("file"), async (req, res) => {
-  const f = req.file as Express.Multer.File | undefined;
+  const f = (req as any).file as any | undefined;
   if (!f) return res.status(400).json({ error: "No file" });
   try {
     const created = await prisma.asset.create({
@@ -334,7 +334,7 @@ router.get("/applications", async (_req, res) => {
 });
 
 router.post("/applications", upload.single("resume"), async (req, res) => {
-  const f = req.file as Express.Multer.File | undefined;
+  const f = (req as any).file as any | undefined;
   const { name, email, position } = req.body || {};
   if (!name || !email)
     return res.status(400).json({ error: "Name and email required" });

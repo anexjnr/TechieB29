@@ -538,8 +538,8 @@ router.post("/:section", async (req, res) => {
   const section = String(req.params.section);
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
+  const payload = req.body || {};
   try {
-    const payload = req.body || {};
     const created = await model.create({ data: payload });
     res.status(201).json(created);
   } catch (e) {

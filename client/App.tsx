@@ -35,10 +35,33 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: "/", element: <div>Home Page with Layout</div> },
+      { path: "/", element: <Index /> },
+      { path: "/about", element: <About /> },
+      { path: "/products", element: <Products /> },
+      { path: "/services", element: <Services /> },
+      { path: "/clients", element: <Clients /> },
+      { path: "/insights", element: <Insights /> },
+      { path: "/careers", element: <Careers /> },
+      { path: "/contact", element: <Contact /> },
+      { path: "/legal/terms", element: <LegalTerms /> },
+      { path: "/legal/policy", element: <LegalPolicy /> },
     ],
   },
-  { path: "*", element: <div>Not found</div> },
+  { path: "/admin/login", element: <AdminLogin /> },
+  {
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin", element: <AdminDashboard /> },
+      { path: "/admin/about", element: <AboutAdmin /> },
+      { path: "/admin/testimonials", element: <TestimonialsAdmin /> },
+      { path: "/admin/home", element: <HomepageAdmin /> },
+      { path: "/admin/contact", element: <ContactAdmin /> },
+      { path: "/admin/policies", element: <PoliciesAdmin /> },
+      { path: "/admin/applications", element: <ApplicationsAdmin /> },
+      { path: "/admin/users", element: <UsersAdmin /> },
+    ],
+  },
+  { path: "*", element: <NotFound /> },
 ]);
 
 const App = () => (

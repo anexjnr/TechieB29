@@ -143,7 +143,7 @@ router.get("/stats", async (_req, res) => {
 
 // Upload to DB as Asset and return a URL to fetch the asset
 router.post("/upload", upload.single("file"), async (req, res) => {
-  const f = req.file as Express.Multer.File | undefined;
+  const f = (req as any).file as any | undefined;
   if (!f) return res.status(400).json({ error: "No file" });
   try {
     const created = await prisma.asset.create({
@@ -334,7 +334,7 @@ router.get("/applications", async (_req, res) => {
 });
 
 router.post("/applications", upload.single("resume"), async (req, res) => {
-  const f = req.file as Express.Multer.File | undefined;
+  const f = (req as any).file as any | undefined;
   const { name, email, position } = req.body || {};
   if (!name || !email)
     return res.status(400).json({ error: "Name and email required" });
@@ -501,7 +501,7 @@ router.get("/:section", async (req, res) => {
   else orderBy = { id: "desc" };
 
   try {
-    const items = await model.findMany({
+    const items = await (model as any).findMany({
       orderBy: orderBy as any,
       include: Object.keys(include).length ? include : undefined,
     });
@@ -538,9 +538,9 @@ router.post("/:section", async (req, res) => {
   const section = String(req.params.section);
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
+  const payload = req.body || {};
   try {
-    const payload = req.body || {};
-    const created = await model.create({ data: payload });
+    const created = await (model as any).create({ data: payload });
     res.status(201).json(created);
   } catch (e) {
     console.warn("Prisma create failed, using memory store", e.message || e);
@@ -585,7 +585,10 @@ router.put("/:section/:id", async (req, res) => {
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
   try {
-    const updated = await model.update({ where: { id }, data: req.body || {} });
+    const updated = await (model as any).update({
+      where: { id },
+      data: req.body || {},
+    });
     res.json(updated);
   } catch (e) {
     console.warn("Prisma update failed, using memory store", e.message || e);
@@ -654,7 +657,7 @@ router.delete("/:section/:id", async (req, res) => {
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
   try {
-    await model.delete({ where: { id } });
+    await (model as any).delete({ where: { id } });
     res.json({ ok: true });
   } catch (e) {
     console.warn("Prisma delete failed, using memory store", e.message || e);

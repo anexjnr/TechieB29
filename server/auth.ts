@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import type { Request, Response, NextFunction } from "express";
 
@@ -13,8 +12,9 @@ export const requireRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     // @ts-ignore
     const user = req.user as JwtPayload | undefined;
-    if (!user) return res.status(401).json({ error: 'Unauthorized' });
-    if (!roles.includes((user.role || '').toUpperCase())) return res.status(403).json({ error: 'Forbidden' });
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    if (!roles.includes((user.role || "").toUpperCase()))
+      return res.status(403).json({ error: "Forbidden" });
     next();
   };
 };

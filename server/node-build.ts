@@ -6,8 +6,7 @@ const app = createServer();
 const port = process.env.PORT || 3000;
 
 // In production, serve the built SPA files
-const __dirname = import.meta.dirname;
-const distPath = path.join(__dirname, "../spa");
+const distPath = path.join(process.cwd(), "dist", "spa");
 
 // Serve static files
 app.use(express.static(distPath));
@@ -16,7 +15,11 @@ app.use(express.static(distPath));
 // Use a middleware fallback instead of app.get("*") to avoid path-to-regexp parsing errors
 app.use((req, res, next) => {
   // Only handle GET requests that are not API or health routes
-  if (req.method === "GET" && !req.path.startsWith("/api/") && !req.path.startsWith("/health")) {
+  if (
+    req.method === "GET" &&
+    !req.path.startsWith("/api/") &&
+    !req.path.startsWith("/health")
+  ) {
     return res.sendFile(path.join(distPath, "index.html"));
   }
   next();

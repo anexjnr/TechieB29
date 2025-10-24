@@ -2,7 +2,6 @@ import type { RequestHandler } from "express";
 import { comparePassword, signToken, hashPassword } from "../auth";
 import { prisma } from "../prisma";
 import { memoryDb, createItem } from '../dbFallback';
-import type { RequestHandler } from 'express';
 
 export const adminLogin: RequestHandler = async (req, res) => {
   const { email, password } = req.body as { email?: string; password?: string };

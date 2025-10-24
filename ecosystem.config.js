@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "fusion-starter",
-      script: "./dist/server/main.js",
+      script: "./dist/server/node-build.mjs",
       instances: "max",
       exec_mode: "cluster",
       env: {

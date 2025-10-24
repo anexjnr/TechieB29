@@ -7,7 +7,6 @@
     "moduleResolution": "node",
     "outDir": "./dist/server",
     "rootDir": "./server",
-    "emit": true,
     "noEmit": false,
     "declaration": true,
     "declarationMap": true,
@@ -26,7 +25,8 @@
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["./shared/*"]
-    }
+    },
+    "allowImportingTsExtensions": false
   },
   "include": ["server/**/*", "shared/**/*"],
   "exclude": ["node_modules", "dist", "client/**/*"]

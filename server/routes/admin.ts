@@ -654,7 +654,7 @@ router.delete("/:section/:id", async (req, res) => {
   const model = modelFor(section);
   if (!model) return res.status(404).json({ error: "Unknown section" });
   try {
-    await model.delete({ where: { id } });
+    await (model as any).delete({ where: { id } });
     res.json({ ok: true });
   } catch (e) {
     console.warn("Prisma delete failed, using memory store", e.message || e);

@@ -3,7 +3,7 @@ const { PrismaClient } = pkg;
 
 declare global {
   // eslint-disable-next-line no-var
-  var __prisma: PrismaClient | undefined;
+  var __prisma: PrismaClientType | undefined;
 }
 
 export const prisma = global.__prisma ?? new PrismaClient();

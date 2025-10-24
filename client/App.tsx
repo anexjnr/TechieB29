@@ -69,9 +69,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Suspense fallback={<div style={{ padding: '20px' }}>Loading...</div>}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <RouterProvider router={router} />
     </TooltipProvider>
   </QueryClientProvider>
 );

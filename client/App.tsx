@@ -69,7 +69,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <RouterProvider router={router} />
+      <Suspense fallback={<div aria-live="polite">Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </TooltipProvider>
   </QueryClientProvider>
 );

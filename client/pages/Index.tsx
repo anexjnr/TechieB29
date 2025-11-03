@@ -819,7 +819,7 @@ export default function Index() {
                       ? whoWeAre.heading
                       : ""
                   }
-                  className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
+                  className="relative w-full max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent mx-auto"
                   style={{
                     filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
                     zIndex: 20,

@@ -21,10 +21,10 @@ export default function FlowGrid({
 }) {
   const gridCols =
     columns === 4
-      ? "md:grid-cols-4"
+      ? "sm:grid-cols-2 md:grid-cols-4"
       : columns === 3
-        ? "md:grid-cols-3"
-        : "md:grid-cols-2";
+        ? "sm:grid-cols-2 md:grid-cols-3"
+        : "sm:grid-cols-1 md:grid-cols-2";
   const list = typeof limit === "number" ? items.slice(0, limit) : items;
   return (
     <div className={cn("grid grid-cols-1", gridCols, "gap-6", className)}>

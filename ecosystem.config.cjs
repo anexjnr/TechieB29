@@ -8,6 +8,7 @@ const candidates = [
   path.join(__dirname, "dist", "server", "node-build.mjs"),
   path.join(__dirname, "dist", "server", "main.js"),
 ];
+
 let scriptPath = candidates.find((p) => fs.existsSync(p));
 if (!scriptPath) {
   // keep the original path so PM2 error is clear

@@ -24,15 +24,15 @@ module.exports = {
       node_args: "--enable-source-maps",
       env: {
         NODE_ENV: "production",
-        PORT: 3000,
+        PORT: 4000,
       },
       env_production: {
         NODE_ENV: "production",
-        PORT: 3000,
+        PORT: 4000,
       },
       env_development: {
         NODE_ENV: "development",
-        PORT: 3000,
+        PORT: 4000,
       },
       error_file: path.join(__dirname, "logs", "pm2-error.log"),
       out_file: path.join(__dirname, "logs", "pm2-out.log"),

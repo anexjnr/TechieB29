@@ -350,6 +350,17 @@ router.post("/contact", async (req, res) => {
         );
       } catch (e: any) {
         console.warn("Failed to persist contact inquiry to DB:", e?.message || e);
+        try {
+          const created = createItem(memoryDb.contact, {
+            name,
+            email,
+            message,
+            createdAt: new Date().toISOString(),
+          } as any);
+          console.log("Stored contact message in memory fallback:", created);
+        } catch (err: any) {
+          console.warn("Failed to store contact inquiry in memory fallback:", err?.message || err);
+        }
       }
 
       // Optionally send a confirmation email back to the user

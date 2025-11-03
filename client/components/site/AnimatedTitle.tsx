@@ -31,7 +31,7 @@ export default function AnimatedTitle({
 
   return (
     <motion.h1
-      className={cn("tracking-tight", className)}
+      className={cn("tracking-tight break-words", className)}
       variants={container}
       initial="hidden"
       whileInView="visible"

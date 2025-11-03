@@ -343,27 +343,33 @@ router.post("/contact", async (req, res) => {
       // Persist to DB table contact_inquiry when possible, including email send status
       try {
         await prisma.$executeRawUnsafe(
-          'INSERT INTO contact_inquiry (name,email,message,email_sent,email_response,sent_at) VALUES ($1,$2,$3,$4,$5, now())',
+          "INSERT INTO contact_inquiry (name,email,message,email_sent,email_response,sent_at) VALUES ($1,$2,$3,$4,$5, now())",
           name,
           email,
           message,
           true,
-          String(info?.response || info?.message || ''),
+          String(info?.response || info?.message || ""),
         );
       } catch (e: any) {
-        console.warn("Failed to persist contact inquiry to DB:", e?.message || e);
+        console.warn(
+          "Failed to persist contact inquiry to DB:",
+          e?.message || e,
+        );
         try {
           const created = createItem(memoryDb.contact, {
             name,
             email,
             message,
             emailSent: true,
-            emailResponse: String(info?.response || info?.message || ''),
+            emailResponse: String(info?.response || info?.message || ""),
             createdAt: new Date().toISOString(),
           } as any);
           console.log("Stored contact message in memory fallback:", created);
         } catch (err: any) {
-          console.warn("Failed to store contact inquiry in memory fallback:", err?.message || err);
+          console.warn(
+            "Failed to store contact inquiry in memory fallback:",
+            err?.message || err,
+          );
         }
       }
 
@@ -375,7 +381,8 @@ router.post("/contact", async (req, res) => {
           const ackMail = {
             from: from,
             to: email,
-            subject: process.env.CONFIRMATION_SUBJECT || "Thanks for contacting us",
+            subject:
+              process.env.CONFIRMATION_SUBJECT || "Thanks for contacting us",
             text:
               process.env.CONFIRMATION_TEXT ||
               `Thanks ${name},\n\nWe received your message and will get back to you shortly.`,

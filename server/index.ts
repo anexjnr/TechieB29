@@ -49,9 +49,12 @@ export function createServer(): express.Express {
             created_at timestamptz NOT NULL DEFAULT now()
           )
         `);
-        console.log('Ensured contact_inquiry table exists');
+        console.log("Ensured contact_inquiry table exists");
       } catch (e: any) {
-        console.warn('Could not ensure contact_inquiry table exists:', e?.message || e);
+        console.warn(
+          "Could not ensure contact_inquiry table exists:",
+          e?.message || e,
+        );
       }
     })
     .catch((e) => {

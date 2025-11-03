@@ -3,15 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // <-- added for migrations
-}
-
-enum Role {
-  ADMIN
-  EDITOR
-  HR
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model AdminUser {
@@ -26,77 +20,75 @@ model About {
   id               String  @id @default(cuid())
   heading          String
   content          String
-  imageUrl         String?
   imageId          String?
-  image            Asset?  @relation("AboutImage", fields: [imageId], references: [id])
+  enabled          Boolean @default(true)
+  imageUrl         String?
   awards           Json?
   leadership       Json?
-  // Purpose & Values section
+  valuesCards      Json?
   valuesHeading    String?
   valuesSubheading String?
-  valuesCards      Json?
-  // How We Serve timeline
   serveHeading     String?
-  serveSubheading  String?
   serveSteps       Json?
-  enabled          Boolean @default(true)
+  serveSubheading  String?
+  image            Asset?  @relation("AboutImage", fields: [imageId], references: [id])
 }
 
 model Service {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
   icon        String?
   imageId     String?
-  image       Asset? @relation("ServiceImage", fields: [imageId], references: [id])
   order       Int?
   enabled     Boolean @default(true)
+  image       Asset?  @relation("ServiceImage", fields: [imageId], references: [id])
 }
 
 model Project {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
   imageId     String?
-  image       Asset? @relation("ProjectImage", fields: [imageId], references: [id])
   enabled     Boolean @default(true)
+  image       Asset?  @relation("ProjectImage", fields: [imageId], references: [id])
 }
 
 model TechNews {
-  id           String   @id @default(cuid())
-  title        String
-  excerpt      String?
-  url          String   @unique
-  imageUrl     String?
-  publishedAt  DateTime
-  updatedAt    DateTime @default(now())
+  id          String   @id @default(cuid())
+  title       String
+  url         String   @unique
+  imageUrl    String?
+  publishedAt DateTime
+  updatedAt   DateTime @default(now())
+  excerpt     String?
 }
 
 model Testimonial {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   author   String
-  title    String?
-  company  String?
   quote    String
   avatarId String?
-  avatar   Asset? @relation("TestimonialAvatar", fields: [avatarId], references: [id])
   enabled  Boolean @default(true)
+  company  String?
+  title    String?
+  avatar   Asset?  @relation("TestimonialAvatar", fields: [avatarId], references: [id])
 }
 
 model ClientSection {
-  id          String  @id @default(cuid())
-  heading     String
-  subheading  String?
-  details     Json?
-  imageUrl    String?
-  imageId     String?
-  image       Asset?  @relation("ClientSectionImage", fields: [imageId], references: [id])
-  order       Int?    @default(0)
-  enabled     Boolean @default(true)
+  id         String  @id @default(cuid())
+  heading    String
+  subheading String?
+  details    Json?
+  imageUrl   String?
+  imageId    String?
+  order      Int?    @default(0)
+  enabled    Boolean @default(true)
+  image      Asset?  @relation("ClientSectionImage", fields: [imageId], references: [id])
 }
 
 model Job {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   location    String?
   type        String?
@@ -105,43 +97,48 @@ model Job {
 }
 
 model Section {
-  id         String   @id @default(cuid())
-  key        String   @unique
+  id         String  @id @default(cuid())
+  key        String  @unique
   heading    String?
-  subheading String?
   content    String?
-  data       Json?
-  imageUrl   String?
   imageId    String?
-  image      Asset?   @relation("SectionImage", fields: [imageId], references: [id])
-  enabled    Boolean  @default(true)
+  enabled    Boolean @default(true)
   order      Int?
+  data       Json?
+  subheading String?
+  imageUrl   String?
+  image      Asset?  @relation("SectionImage", fields: [imageId], references: [id])
 }
 
 model Product {
-  id                   String  @id @default(cuid())
-  name                 String
-  tagline              String?
-  description          String?
-  keyCapabilities      Json?
-  technology           String?
-  clientsCountDisplay  String?
-  clientsRegion        String?
-  order                Int?
-  enabled              Boolean @default(true)
+  id                  String  @id @default(cuid())
+  name                String
+  tagline             String?
+  description         String?
+  keyCapabilities     Json?
+  technology          String?
+  clientsCountDisplay String?
+  clientsRegion       String?
+  order               Int?
+  enabled             Boolean @default(true)
 }
 
 model Asset {
-  id        String   @id @default(cuid())
-  filename  String
-  mime      String
-  data      Bytes
-  createdAt DateTime @default(now())
-
-  abouts       About[]       @relation("AboutImage")
-  projects     Project[]     @relation("ProjectImage")
-  testimonials Testimonial[] @relation("TestimonialAvatar")
-  sections     Section[]     @relation("SectionImage")
-  services     Service[]     @relation("ServiceImage")
+  id             String          @id @default(cuid())
+  filename       String
+  mime           String
+  data           Bytes
+  createdAt      DateTime        @default(now())
+  abouts         About[]         @relation("AboutImage")
   clientSections ClientSection[] @relation("ClientSectionImage")
+  projects       Project[]       @relation("ProjectImage")
+  sections       Section[]       @relation("SectionImage")
+  services       Service[]       @relation("ServiceImage")
+  testimonials   Testimonial[]   @relation("TestimonialAvatar")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  HR
 }

@@ -66,12 +66,12 @@ export default function ClientsInfographic() {
               className="flex flex-col items-center text-center p-6 group"
             >
               <div
-                className="flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card will-change-transform"
+                className="flex items-center justify-center h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 glass-card will-change-transform"
                 style={{
                   animation: `${anim} ${duration}s ease-in-out ${delay}s infinite`,
                 }}
               >
-                <div className="text-2xl font-extrabold text-foreground">
+                <div className="text-xl sm:text-2xl font-extrabold text-foreground">
                   {it.count}
                 </div>
               </div>

@@ -96,7 +96,7 @@ export default function Insights() {
                 <img
                   src={n.image}
                   alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
+                  className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
                   loading="eager"
                   decoding="sync"
                   onError={(e) => {
@@ -109,7 +109,7 @@ export default function Insights() {
                 <img
                   src={`/api/assets/${n.image.id}`}
                   alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
+                  className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
                   loading="eager"
                   decoding="sync"
                   onError={(e) => {
@@ -122,14 +122,14 @@ export default function Insights() {
                 <img
                   src="/placeholder.svg"
                   alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
+                  className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
                 />
               )
             ) : (
               <img
                 src="/placeholder.svg"
                 alt=""
-                className="h-40 w-full object-cover border-b border-primary/10"
+                className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
               />
             )}
             <div className="p-6">

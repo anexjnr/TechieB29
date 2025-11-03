@@ -84,7 +84,9 @@ export default function ContactForm() {
           aria-invalid={errors.email ? "true" : "false"}
         />
         {errors.email && (
-          <div className="text-sm text-red-400 mt-1">{errors.email.message}</div>
+          <div className="text-sm text-red-400 mt-1">
+            {errors.email.message}
+          </div>
         )}
       </div>
 
@@ -112,7 +114,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex items-center rounded-md border border-primary/30 bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-primary/10"
+        className="inline-flex justify-center w-full sm:w-auto items-center rounded-md border border-primary/30 bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-primary/10"
       >
         {isSubmitting ? "Sending..." : "Send"}
       </button>

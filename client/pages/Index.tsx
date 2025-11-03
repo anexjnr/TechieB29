@@ -163,12 +163,19 @@ async function fetchJsonSoft<T = any>(
   timeoutMs = 0,
 ): Promise<T | null> {
   const safeFetch = async (): Promise<Response | null> => {
+    if (typeof fetch !== "function") return null;
     try {
       return await fetch(url, {
         credentials: "same-origin",
         cache: "no-store",
       });
-    } catch {
+    } catch (err) {
+      // Some third-party wrappers (FullStory, etc.) may rethrow; ensure we swallow errors
+      console.warn(
+        "safeFetch failed for",
+        url,
+        err && (err as any).message ? (err as any).message : err,
+      );
       return null;
     }
   };
@@ -192,7 +199,8 @@ async function fetchJsonSoft<T = any>(
     } catch {
       return null;
     }
-  } catch {
+  } catch (err) {
+    console.warn("fetchJsonSoft top-level error", err);
     return null;
   }
 }
@@ -303,16 +311,24 @@ export default function Index() {
 
     const load = async () => {
       try {
-        const [sectionsResp, newsResp, testimonialsResp] = await Promise.all([
-          fetchJsonSoft<any[]>("/api/sections", 1500),
-          fetchJsonSoft<any[]>("/api/news", 1500),
-          fetchJsonSoft<any[]>("/api/testimonials", 1500),
-        ]);
-        if (canceled) return;
+        try {
+          const [sectionsResp, newsResp, testimonialsResp] = await Promise.all([
+            fetchJsonSoft<any[]>("/api/sections", 1500),
+            fetchJsonSoft<any[]>("/api/news", 1500),
+            fetchJsonSoft<any[]>("/api/testimonials", 1500),
+          ]);
+          if (canceled) return;
 
-        setSections(normalizeSections(sectionsResp));
-        setNewsItems(normalizeNews(newsResp));
-        setTestimonials(normalizeTestimonials(testimonialsResp));
+          setSections(normalizeSections(sectionsResp));
+          setNewsItems(normalizeNews(newsResp));
+          setTestimonials(normalizeTestimonials(testimonialsResp));
+        } catch (err) {
+          // Swallow fetch errors to avoid unhandled rejections (e.g., 3rd-party wrappers)
+          console.warn(
+            "Index.load: data fetch failed",
+            err && (err as any).message ? (err as any).message : err,
+          );
+        }
       } finally {
         if (!canceled) setIsLoading(false);
       }
@@ -612,15 +628,15 @@ export default function Index() {
                   {heroSubheading}
                 </p>
               ) : null}
-              <div className="mt-8 flex items-center gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
                 {renderCta(
                   heroPrimaryCta,
-                  "inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg",
+                  "inline-flex justify-center w-full sm:w-auto items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg",
                   true,
                 )}
                 {renderCta(
                   heroSecondaryCta,
-                  "text-sm font-semibold text-foreground/90 hover:text-foreground",
+                  "w-full sm:w-auto text-center text-sm font-semibold text-foreground/90 hover:text-foreground",
                 )}
               </div>
             </div>
@@ -819,7 +835,7 @@ export default function Index() {
                       ? whoWeAre.heading
                       : ""
                   }
-                  className="relative w-auto max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent"
+                  className="relative w-full max-h-64 md:max-h-80 lg:max-h-[420px] object-contain bg-transparent mx-auto"
                   style={{
                     filter: "drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
                     zIndex: 20,
@@ -1062,7 +1078,7 @@ export default function Index() {
                 hidden: {},
                 visible: { transition: { staggerChildren: 0.08 } },
               }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
               {testimonials.slice(0, 4).map((testimonial) => {
                 const roleLabel = [testimonial.title, testimonial.company]

@@ -256,7 +256,7 @@ export default function About() {
       <img
         src={finalSrc}
         alt="Team"
-        className="w-full h-64 object-cover rounded-2xl border border-primary/20"
+        className="w-full h-48 sm:h-64 md:h-80 lg:h-[420px] object-cover rounded-2xl border border-primary/20 img-responsive"
         onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
           // hide image if it fails to load
           (e.currentTarget as HTMLImageElement).style.display = "none";

@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Github, Twitter, Instagram, Linkedin, Youtube, Mail } from "lucide-react";
+import {
+  Github,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  Mail,
+} from "lucide-react";
 
 export default function Footer() {
   return (
@@ -9,7 +16,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           {/* Brand */}
           <div className="md:col-span-4">
-            <div className="font-extrabold text-lg text-primary/100 tracking-tight">TBT</div>
+            <div className="font-extrabold text-lg text-primary/100 tracking-tight">
+              TBT
+            </div>
             <p className="text-sm text-primary/90 mt-2 max-w-sm">
               Clean, minimal, bold systems for modern companies.
             </p>
@@ -68,13 +77,22 @@ export default function Footer() {
           <nav className="md:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-primary/100">Company</span>
-              <Link to="/about" className="text-primary/80 hover:text-primary/100">
+              <Link
+                to="/about"
+                className="text-primary/80 hover:text-primary/100"
+              >
                 About
               </Link>
-              <Link to="/careers" className="text-primary/80 hover:text-primary/100">
+              <Link
+                to="/careers"
+                className="text-primary/80 hover:text-primary/100"
+              >
                 Careers
               </Link>
-              <Link to="/contact" className="text-primary/80 hover:text-primary/100">
+              <Link
+                to="/contact"
+                className="text-primary/80 hover:text-primary/100"
+              >
                 Contact
               </Link>
             </div>
@@ -94,10 +112,16 @@ export default function Footer() {
 
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-primary/100">Legal</span>
-              <Link to="/legal/terms" className="text-primary/80 hover:text-primary/100">
+              <Link
+                to="/legal/terms"
+                className="text-primary/80 hover:text-primary/100"
+              >
                 Terms & Conditions
               </Link>
-              <Link to="/legal/policy" className="text-primary/80 hover:text-primary/100">
+              <Link
+                to="/legal/policy"
+                className="text-primary/80 hover:text-primary/100"
+              >
                 Public Policy
               </Link>
               <a href="#" className="text-primary/80 hover:text-primary/100">
@@ -108,12 +132,14 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="md:col-span-3">
-            <span className="font-semibold text-primary/100">Stay in the loop</span>
+            <span className="font-semibold text-primary/100">
+              Stay in the loop
+            </span>
             <p className="text-xs text-primary/80 mt-2">
               Monthly product updates and case studies. No spam.
             </p>
             <form
-              className="mt-4 flex w-full max-w-md gap-2"
+              className="mt-4 flex flex-col sm:flex-row w-full max-w-md gap-2"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="relative flex-1">
@@ -131,7 +157,7 @@ export default function Footer() {
               </div>
               <button
                 type="submit"
-                className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary/100 hover:bg-primary/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary/100 hover:bg-primary/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 w-full sm:w-auto"
               >
                 Subscribe
               </button>

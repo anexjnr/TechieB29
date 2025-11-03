@@ -44,9 +44,17 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve",
     async configureServer(server) {
-      const mod = await import("./server/index.ts");
-      const app = mod.createServer();
-      server.middlewares.use(app);
+      try {
+        const mod = await import("./server/index.ts");
+        if (mod && typeof (mod as any).createServer === "function") {
+          const app = (mod as any).createServer();
+          server.middlewares.use(app);
+        } else {
+          console.warn('[express-plugin] server module loaded but did not export createServer');
+        }
+      } catch (err: any) {
+        console.warn('[express-plugin] Could not load server module (skipping).', err && err.message ? err.message : err);
+      }
     },
   };
 }

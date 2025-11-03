@@ -122,6 +122,32 @@
   .hover\:text-primary:hover {
     color: hsl(var(--foreground)) !important;
   }
+
+  /* Site-wide container utility */
+  .site-container {
+    max-width: 1120px; /* close to 7xl but slightly narrower */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Responsive image helper */
+  .img-responsive {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Fluid typographic helpers */
+  .fluid-h1 {
+    font-size: clamp(1.75rem, 2.8vw + 0.5rem, 3.75rem);
+    line-height: 1.05;
+  }
+  .fluid-lead {
+    font-size: clamp(1rem, 1.6vw + 0.2rem, 1.25rem);
+  }
 }
 
 @layer base {

@@ -1,5 +1,5 @@
 import "./global.css";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -69,7 +69,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <RouterProvider router={router} />
+      <Suspense fallback={<div aria-live="polite">Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </TooltipProvider>
   </QueryClientProvider>
 );

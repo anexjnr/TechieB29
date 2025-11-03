@@ -66,7 +66,7 @@ export default function Header() {
         <div className="flex h-16 items-center gap-4">
           <Link
             to="/"
-            className="font-extrabold tracking-tight text-xl text-primary/100 px-3 py-2 rounded-md"
+            className="font-extrabold tracking-tight text-xl sm:text-lg text-primary/100 px-3 py-2 rounded-md"
           >
             TBT
           </Link>
@@ -86,6 +86,8 @@ export default function Header() {
           <div className="md:hidden ml-auto">
             <button
               aria-label="Menu"
+              aria-controls="mobile-menu"
+              aria-expanded={open}
               onClick={() => setOpen(!open)}
               className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-primary/30 text-primary hover:bg-primary/10"
             >
@@ -96,15 +98,18 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden bg-gradient-to-b from-black/80 to-transparent border-0">
-          <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
+        <div
+          id="mobile-menu"
+          className="md:hidden absolute left-0 right-0 top-full bg-gradient-to-b from-black/90 to-transparent border-t border-primary/10"
+        >
+          <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2">
             {nav.map((n) => (
               <NavLink
                 key={n.to + n.label}
                 to={n.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `py-2 text-sm font-semibold ${isActive ? "text-primary" : "text-primary/80"}`
+                  `py-3 px-2 text-sm font-semibold rounded-md ${isActive ? "text-primary" : "text-primary/80 hover:text-primary"}`
                 }
               >
                 {n.label}

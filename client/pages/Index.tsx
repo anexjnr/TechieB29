@@ -307,16 +307,21 @@ export default function Index() {
 
     const load = async () => {
       try {
-        const [sectionsResp, newsResp, testimonialsResp] = await Promise.all([
-          fetchJsonSoft<any[]>("/api/sections", 1500),
-          fetchJsonSoft<any[]>("/api/news", 1500),
-          fetchJsonSoft<any[]>("/api/testimonials", 1500),
-        ]);
-        if (canceled) return;
+        try {
+          const [sectionsResp, newsResp, testimonialsResp] = await Promise.all([
+            fetchJsonSoft<any[]>("/api/sections", 1500),
+            fetchJsonSoft<any[]>("/api/news", 1500),
+            fetchJsonSoft<any[]>("/api/testimonials", 1500),
+          ]);
+          if (canceled) return;
 
-        setSections(normalizeSections(sectionsResp));
-        setNewsItems(normalizeNews(newsResp));
-        setTestimonials(normalizeTestimonials(testimonialsResp));
+          setSections(normalizeSections(sectionsResp));
+          setNewsItems(normalizeNews(newsResp));
+          setTestimonials(normalizeTestimonials(testimonialsResp));
+        } catch (err) {
+          // Swallow fetch errors to avoid unhandled rejections (e.g., 3rd-party wrappers)
+          console.warn("Index.load: data fetch failed", err && (err as any).message ? (err as any).message : err);
+        }
       } finally {
         if (!canceled) setIsLoading(false);
       }

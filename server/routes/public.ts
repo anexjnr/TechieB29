@@ -343,13 +343,12 @@ router.post("/contact", async (req, res) => {
       // Persist to DB table contact_inquiry when possible, including email send status
       try {
         await prisma.$executeRawUnsafe(
-          'INSERT INTO contact_inquiry (name,email,message,email_sent,email_response,sent_at) VALUES ($1,$2,$3,$4,$5,$6)',
+          'INSERT INTO contact_inquiry (name,email,message,email_sent,email_response,sent_at) VALUES ($1,$2,$3,$4,$5, now())',
           name,
           email,
           message,
           true,
           String(info?.response || info?.message || ''),
-          new Date().toISOString(),
         );
       } catch (e: any) {
         console.warn("Failed to persist contact inquiry to DB:", e?.message || e);

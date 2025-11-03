@@ -4,7 +4,10 @@ import { Toaster as Sonner } from "sonner";
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
+  // useTheme may be undefined if next-themes ThemeProvider isn't mounted (app is an SPA without provider),
+  // so guard access to avoid runtime errors.
+  const themeHook = (typeof useTheme === "function" && useTheme()) || { theme: "system" };
+  const theme = themeHook?.theme ?? "system";
 
   return (
     <Sonner

@@ -122,14 +122,14 @@ export default function Insights() {
                 <img
                   src="/placeholder.svg"
                   alt=""
-                  className="h-40 w-full object-cover border-b border-primary/10"
-                />
+                  className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
+              />
               )
             ) : (
               <img
                 src="/placeholder.svg"
                 alt=""
-                className="h-40 w-full object-cover border-b border-primary/10"
+                className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
               />
             )}
             <div className="p-6">

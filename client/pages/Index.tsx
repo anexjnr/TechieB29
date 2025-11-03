@@ -612,15 +612,15 @@ export default function Index() {
                   {heroSubheading}
                 </p>
               ) : null}
-              <div className="mt-8 flex items-center gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
                 {renderCta(
                   heroPrimaryCta,
-                  "inline-flex items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg",
+                  "inline-flex justify-center w-full sm:w-auto items-center rounded-full glass-card px-6 py-3 text-sm font-semibold text-foreground shadow-lg",
                   true,
                 )}
                 {renderCta(
                   heroSecondaryCta,
-                  "text-sm font-semibold text-foreground/90 hover:text-foreground",
+                  "w-full sm:w-auto text-center text-sm font-semibold text-foreground/90 hover:text-foreground",
                 )}
               </div>
             </div>

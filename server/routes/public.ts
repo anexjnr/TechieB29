@@ -322,9 +322,13 @@ router.post("/contact", async (req, res) => {
             : undefined,
       });
 
+      // Use a fixed from address (trusted by SMTP provider) and set replyTo to the user's email.
+      // Do NOT CC by default for privacy. We'll also persist the inquiry to the DB and optionally send
+      // an acknowledgement email back to the user if SEND_CONFIRMATION is enabled.
       const mail = {
-        from: `${name} <${email}>`,
+        from: from,
         to: receiver,
+        replyTo: email || undefined,
         subject: `Website contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
         html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message.replace(/\n/g, "<br />")}</p>`,
@@ -335,6 +339,64 @@ router.post("/contact", async (req, res) => {
         messageId: info?.messageId,
         response: info?.response,
       });
+
+      // Persist to DB table contact_inquiry when possible, including email send status
+      try {
+        await prisma.$executeRawUnsafe(
+          "INSERT INTO contact_inquiry (name,email,message,email_sent,email_response,sent_at) VALUES ($1,$2,$3,$4,$5, now())",
+          name,
+          email,
+          message,
+          true,
+          String(info?.response || info?.message || ""),
+        );
+      } catch (e: any) {
+        console.warn(
+          "Failed to persist contact inquiry to DB:",
+          e?.message || e,
+        );
+        try {
+          const created = createItem(memoryDb.contact, {
+            name,
+            email,
+            message,
+            emailSent: true,
+            emailResponse: String(info?.response || info?.message || ""),
+            createdAt: new Date().toISOString(),
+          } as any);
+          console.log("Stored contact message in memory fallback:", created);
+        } catch (err: any) {
+          console.warn(
+            "Failed to store contact inquiry in memory fallback:",
+            err?.message || err,
+          );
+        }
+      }
+
+      // Optionally send a confirmation email back to the user
+      try {
+        const sendConfirmation =
+          (process.env.SEND_CONFIRMATION || "false").toLowerCase() === "true";
+        if (sendConfirmation && email) {
+          const ackMail = {
+            from: from,
+            to: email,
+            subject:
+              process.env.CONFIRMATION_SUBJECT || "Thanks for contacting us",
+            text:
+              process.env.CONFIRMATION_TEXT ||
+              `Thanks ${name},\n\nWe received your message and will get back to you shortly.`,
+            html:
+              process.env.CONFIRMATION_HTML ||
+              `<p>Hi ${name},</p><p>Thanks for reaching out — we received your message and will get back to you shortly.</p>`,
+          } as any;
+          await transporter.sendMail(ackMail);
+          console.log("Sent confirmation email to user", { to: email });
+        }
+      } catch (e: any) {
+        console.warn("Failed to send confirmation email:", e?.message || e);
+      }
+
       return res.json({ ok: true });
     }
 
@@ -344,6 +406,8 @@ router.post("/contact", async (req, res) => {
       name,
       email,
       message,
+      emailSent: false,
+      emailResponse: null,
       createdAt: new Date().toISOString(),
     } as any);
 

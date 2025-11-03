@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    hmr: {
+      overlay: false,
+    },
     fs: {
       allow: [
         path.resolve(__dirname, "client"), // ✅ allowed
@@ -21,10 +24,12 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id) return null;
-          if (id.includes('node_modules')) {
-            const parts = id.split('node_modules/')[1].split('/');
-            const pkg = parts[0].startsWith('@') ? parts.slice(0, 2).join('/') : parts[0];
-            return `vendor.${pkg.replace('@', '').replace('/', '_')}`;
+          if (id.includes("node_modules")) {
+            const parts = id.split("node_modules/")[1].split("/");
+            const pkg = parts[0].startsWith("@")
+              ? parts.slice(0, 2).join("/")
+              : parts[0];
+            return `vendor.${pkg.replace("@", "").replace("/", "_")}`;
           }
         },
       },
@@ -50,10 +55,15 @@ function expressPlugin(): Plugin {
           const app = (mod as any).createServer();
           server.middlewares.use(app);
         } else {
-          console.warn('[express-plugin] server module loaded but did not export createServer');
+          console.warn(
+            "[express-plugin] server module loaded but did not export createServer",
+          );
         }
       } catch (err: any) {
-        console.warn('[express-plugin] Could not load server module (skipping).', err && err.message ? err.message : err);
+        console.warn(
+          "[express-plugin] Could not load server module (skipping).",
+          err && err.message ? err.message : err,
+        );
       }
     },
   };

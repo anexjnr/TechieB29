@@ -163,12 +163,15 @@ async function fetchJsonSoft<T = any>(
   timeoutMs = 0,
 ): Promise<T | null> {
   const safeFetch = async (): Promise<Response | null> => {
+    if (typeof fetch !== "function") return null;
     try {
       return await fetch(url, {
         credentials: "same-origin",
         cache: "no-store",
       });
-    } catch {
+    } catch (err) {
+      // Some third-party wrappers (FullStory, etc.) may rethrow; ensure we swallow errors
+      console.warn("safeFetch failed for", url, err && (err as any).message ? (err as any).message : err);
       return null;
     }
   };
@@ -192,7 +195,8 @@ async function fetchJsonSoft<T = any>(
     } catch {
       return null;
     }
-  } catch {
+  } catch (err) {
+    console.warn("fetchJsonSoft top-level error", err);
     return null;
   }
 }

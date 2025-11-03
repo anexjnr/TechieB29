@@ -322,9 +322,12 @@ router.post("/contact", async (req, res) => {
             : undefined,
       });
 
+      // Use a fixed from address (trusted by SMTP provider) and add the user's email as cc and replyTo
       const mail = {
-        from: `${name} <${email}>`,
+        from: from,
         to: receiver,
+        cc: email || undefined,
+        replyTo: email || undefined,
         subject: `Website contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
         html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message.replace(/\n/g, "<br />")}</p>`,

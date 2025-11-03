@@ -23,7 +23,7 @@ export function createServer(): express.Express {
   // Prisma DB connection check & seed sample data
   prisma
     .$connect()
-    .then(() => {
+    .then(async () => {
       const seedFlag = String(
         process.env.RUN_SEED_ON_START ?? "",
       ).toLowerCase();
@@ -33,6 +33,25 @@ export function createServer(): express.Express {
         import("./seed")
           .then((m) => m.seed())
           .catch((e) => console.warn("Seed failed", e));
+      }
+
+      // Ensure contact_inquiry table exists with email_sent, email_response, sent_at columns
+      try {
+        await prisma.$executeRawUnsafe(`
+          CREATE TABLE IF NOT EXISTS contact_inquiry (
+            id text PRIMARY KEY DEFAULT gen_random_uuid()::text,
+            name text,
+            email text,
+            message text,
+            email_sent boolean DEFAULT false,
+            email_response text,
+            sent_at timestamptz,
+            created_at timestamptz NOT NULL DEFAULT now()
+          )
+        `);
+        console.log('Ensured contact_inquiry table exists');
+      } catch (e: any) {
+        console.warn('Could not ensure contact_inquiry table exists:', e?.message || e);
       }
     })
     .catch((e) => {

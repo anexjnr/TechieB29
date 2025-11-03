@@ -108,6 +108,9 @@ CREATE TABLE IF NOT EXISTS contact_inquiry (
   name text,
   email text,
   message text,
+  email_sent boolean DEFAULT false,
+  email_response text,
+  sent_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 

@@ -113,7 +113,7 @@ export default function Footer() {
               Monthly product updates and case studies. No spam.
             </p>
             <form
-              className="mt-4 flex w-full max-w-md gap-2"
+              className="mt-4 flex flex-col sm:flex-row w-full max-w-md gap-2"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="relative flex-1">
@@ -131,7 +131,7 @@ export default function Footer() {
               </div>
               <button
                 type="submit"
-                className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary/100 hover:bg-primary/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary/100 hover:bg-primary/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 w-full sm:w-auto"
               >
                 Subscribe
               </button>

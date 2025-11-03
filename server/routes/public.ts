@@ -400,6 +400,8 @@ router.post("/contact", async (req, res) => {
       name,
       email,
       message,
+      emailSent: false,
+      emailResponse: null,
       createdAt: new Date().toISOString(),
     } as any);
 

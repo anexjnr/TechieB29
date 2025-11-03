@@ -1062,7 +1062,7 @@ export default function Index() {
                 hidden: {},
                 visible: { transition: { staggerChildren: 0.08 } },
               }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
               {testimonials.slice(0, 4).map((testimonial) => {
                 const roleLabel = [testimonial.title, testimonial.company]

@@ -339,6 +339,42 @@ router.post("/contact", async (req, res) => {
         messageId: info?.messageId,
         response: info?.response,
       });
+
+      // Persist to DB table contact_inquiry when possible
+      try {
+        await prisma.$executeRawUnsafe(
+          'INSERT INTO contact_inquiry (name,email,message) VALUES ($1,$2,$3)',
+          name,
+          email,
+          message,
+        );
+      } catch (e: any) {
+        console.warn("Failed to persist contact inquiry to DB:", e?.message || e);
+      }
+
+      // Optionally send a confirmation email back to the user
+      try {
+        const sendConfirmation =
+          (process.env.SEND_CONFIRMATION || "false").toLowerCase() === "true";
+        if (sendConfirmation && email) {
+          const ackMail = {
+            from: from,
+            to: email,
+            subject: process.env.CONFIRMATION_SUBJECT || "Thanks for contacting us",
+            text:
+              process.env.CONFIRMATION_TEXT ||
+              `Thanks ${name},\n\nWe received your message and will get back to you shortly.`,
+            html:
+              process.env.CONFIRMATION_HTML ||
+              `<p>Hi ${name},</p><p>Thanks for reaching out — we received your message and will get back to you shortly.</p>`,
+          } as any;
+          await transporter.sendMail(ackMail);
+          console.log("Sent confirmation email to user", { to: email });
+        }
+      } catch (e: any) {
+        console.warn("Failed to send confirmation email:", e?.message || e);
+      }
+
       return res.json({ ok: true });
     }
 

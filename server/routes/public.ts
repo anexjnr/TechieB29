@@ -322,11 +322,12 @@ router.post("/contact", async (req, res) => {
             : undefined,
       });
 
-      // Use a fixed from address (trusted by SMTP provider) and add the user's email as cc and replyTo
+      // Use a fixed from address (trusted by SMTP provider) and set replyTo to the user's email.
+      // Do NOT CC by default for privacy. We'll also persist the inquiry to the DB and optionally send
+      // an acknowledgement email back to the user if SEND_CONFIRMATION is enabled.
       const mail = {
         from: from,
         to: receiver,
-        cc: email || undefined,
         replyTo: email || undefined,
         subject: `Website contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,

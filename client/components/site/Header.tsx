@@ -107,7 +107,7 @@ export default function Header() {
               <NavLink
                 key={n.to + n.label}
                 to={n.to}
-                onClick={() => setOpen(false)}
+                onClick={() => startTransition(() => setOpen(false))}
                 className={({ isActive }) =>
                   `py-3 px-2 text-sm font-semibold rounded-md ${isActive ? "text-primary" : "text-primary/80 hover:text-primary"}`
                 }

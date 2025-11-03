@@ -84,7 +84,9 @@ export default function ContactForm() {
           aria-invalid={errors.email ? "true" : "false"}
         />
         {errors.email && (
-          <div className="text-sm text-red-400 mt-1">{errors.email.message}</div>
+          <div className="text-sm text-red-400 mt-1">
+            {errors.email.message}
+          </div>
         )}
       </div>
 

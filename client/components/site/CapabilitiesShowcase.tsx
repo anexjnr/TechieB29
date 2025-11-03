@@ -28,7 +28,7 @@ export default function CapabilitiesShowcase({
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.5, ease: ([0.22, 1, 0.36, 1] as unknown) as any },
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as unknown as any },
     },
   };
 

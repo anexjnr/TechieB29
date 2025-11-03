@@ -123,7 +123,7 @@ export default function Insights() {
                   src="/placeholder.svg"
                   alt=""
                   className="w-full h-40 md:h-56 lg:h-64 object-cover border-b border-primary/10 img-responsive"
-              />
+                />
               )
             ) : (
               <img

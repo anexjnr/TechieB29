@@ -98,7 +98,10 @@ export default function Header() {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="md:hidden absolute left-0 right-0 top-full bg-gradient-to-b from-black/90 to-transparent border-t border-primary/10">
+        <div
+          id="mobile-menu"
+          className="md:hidden absolute left-0 right-0 top-full bg-gradient-to-b from-black/90 to-transparent border-t border-primary/10"
+        >
           <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2">
             {nav.map((n) => (
               <NavLink

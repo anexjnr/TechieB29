@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config();
 
 // Prefer mjs build, fall back to .js or main.js if present
 const candidates = [
@@ -7,11 +8,14 @@ const candidates = [
   path.join(__dirname, "dist", "server", "node-build.mjs"),
   path.join(__dirname, "dist", "server", "main.js"),
 ];
+
 let scriptPath = candidates.find((p) => fs.existsSync(p));
 if (!scriptPath) {
   // keep the original path so PM2 error is clear
   scriptPath = path.join(__dirname, "dist", "server", "node-build.js");
 }
+
+const PORT = Number(process.env.PORT) || 4000;
 
 module.exports = {
   apps: [
@@ -24,15 +28,15 @@ module.exports = {
       node_args: "--enable-source-maps",
       env: {
         NODE_ENV: "production",
-        PORT: 4000,
+        PORT: PORT,
       },
       env_production: {
         NODE_ENV: "production",
-        PORT: 4000,
+        PORT: PORT,
       },
       env_development: {
         NODE_ENV: "development",
-        PORT: 4000,
+        PORT: PORT,
       },
       error_file: path.join(__dirname, "logs", "pm2-error.log"),
       out_file: path.join(__dirname, "logs", "pm2-out.log"),

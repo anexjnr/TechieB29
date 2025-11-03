@@ -5,7 +5,7 @@
     "module": "ES2020",
     "lib": ["ES2020"],
     "moduleResolution": "node",
-    "outDir": "./dist/server",
+    "outDir": "./dist",
     "rootDir": ".",
     "noEmit": false,
     "declaration": true,

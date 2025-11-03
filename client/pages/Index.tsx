@@ -171,7 +171,11 @@ async function fetchJsonSoft<T = any>(
       });
     } catch (err) {
       // Some third-party wrappers (FullStory, etc.) may rethrow; ensure we swallow errors
-      console.warn("safeFetch failed for", url, err && (err as any).message ? (err as any).message : err);
+      console.warn(
+        "safeFetch failed for",
+        url,
+        err && (err as any).message ? (err as any).message : err,
+      );
       return null;
     }
   };
@@ -320,7 +324,10 @@ export default function Index() {
           setTestimonials(normalizeTestimonials(testimonialsResp));
         } catch (err) {
           // Swallow fetch errors to avoid unhandled rejections (e.g., 3rd-party wrappers)
-          console.warn("Index.load: data fetch failed", err && (err as any).message ? (err as any).message : err);
+          console.warn(
+            "Index.load: data fetch failed",
+            err && (err as any).message ? (err as any).message : err,
+          );
         }
       } finally {
         if (!canceled) setIsLoading(false);

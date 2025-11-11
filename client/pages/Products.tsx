@@ -70,9 +70,109 @@ export default function Products() {
         </p>
       </Section>
 
+      {/* ScaNova Section */}
+      <Section className="mt-10" delay={0.05}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* Left: Image */}
+          <div className="order-2 lg:order-1">
+            <TiltCard>
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2Fc787008d41374f06b8049baaa19bb0f7%2Fa95ef8b276434e55b2646c997d8de9ea?format=webp&width=800"
+                alt="ScaNova AI Platform"
+                className="w-full h-auto rounded-lg"
+              />
+            </TiltCard>
+          </div>
+
+          {/* Right: Content */}
+          <div className="order-1 lg:order-2">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">
+              ScaNova
+            </h2>
+            <p className="mt-2 text-lg text-primary/100 font-semibold">
+              AI-Driven Contextual Intelligence Platform
+            </p>
+            <p className="mt-4 text-foreground/85">
+              ScaNova is a flagship AI platform powered by our proprietary
+              pretrained model MYRA. It seamlessly extracts, understands, and
+              integrates content into real-world business contexts—enabling
+              organizations to transform raw data into actionable intelligence.
+            </p>
+
+            {/* Current Capabilities */}
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Current Capabilities
+              </h3>
+              <p className="mt-2 text-sm text-foreground/85">
+                ScaNova currently delivers contextual data extraction from
+                invoices and structured documents, powered by an advanced
+                combination of AI and OCR.
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                <li className="flex items-start gap-3">
+                  <span className="text-primary flex-shrink-0">•</span>
+                  <span>
+                    <strong>API Integration:</strong> Enables smooth integration
+                    with existing enterprise applications.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary flex-shrink-0">•</span>
+                  <span>
+                    <strong>Custom Solutions:</strong> Tailored configurations
+                    for industry-specific workflows.
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Current Platforms */}
+            <div className="mt-6 pt-6 border-t border-primary/20">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                Current Platforms
+              </h3>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+                  <div className="text-sm font-semibold text-foreground">
+                    RetailFlow ERP
+                  </div>
+                </div>
+                <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+                  <div className="text-sm font-semibold text-foreground">
+                    FinanceFlow
+                  </div>
+                </div>
+                <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+                  <div className="text-sm font-semibold text-foreground">
+                    MepFlow
+                  </div>
+                </div>
+                <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2">
+                  <div className="text-sm font-semibold text-foreground">
+                    DataBridge
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Product Tiles Section */}
+      <Section className="mt-16" delay={0.1}>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
+          Integrated Business Solutions
+        </h2>
+        <p className="mt-3 max-w-prose text-foreground/85">
+          Enterprise platforms purpose-built for specific industries and
+          workflows.
+        </p>
+      </Section>
+
       <Section
-        className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6"
-        delay={0.05}
+        className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6"
+        delay={0.15}
       >
         {(ordered.length ? ordered : []).map((p) => (
           <TiltCard key={p.id} className="h-full">
